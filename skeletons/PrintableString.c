@@ -41,7 +41,7 @@ static int asn_DEF_PrintableString_c2v(unsigned int code) {
 		return _PrintableString_code2value[code];
 	return -1;
 }
-static const asn_per_constraints_t asn_DEF_PrintableString_constraints = {
+static asn_per_constraints_t asn_DEF_PrintableString_constraints = {
 	{ APC_CONSTRAINED, 4, 4, 0x20, 0x39 },	/* Value */
 	{ APC_SEMI_CONSTRAINED, -1, -1, 0, 0 },	/* Size */
 	asn_DEF_PrintableString_v2c,
@@ -57,8 +57,17 @@ asn_TYPE_descriptor_t asn_DEF_PrintableString = {
 	OCTET_STRING_encode_der,
 	OCTET_STRING_decode_xer_utf8,
 	OCTET_STRING_encode_xer_utf8,
-	OCTET_STRING_decode_uper,
-	OCTET_STRING_encode_uper,
+#ifdef  ASN_DISABLE_PER_SUPPORT
+	0,
+	0,
+	0,
+	0,
+#else
+	OCTET_STRING_decode_uper,	/* Unaligned PER decoder */
+	OCTET_STRING_encode_uper,	/* Unaligned PER encoder */
+	OCTET_STRING_decode_aper,	/* Aligned PER decoder */
+	OCTET_STRING_encode_aper,	/* Aligned PER encoder */
+#endif /* ASN_DISABLE_PER_SUPPORT */
 	0, /* Use generic outmost tag fetcher */
 	asn_DEF_PrintableString_tags,
 	sizeof(asn_DEF_PrintableString_tags)

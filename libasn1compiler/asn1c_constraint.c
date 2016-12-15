@@ -35,6 +35,7 @@ asn1c_emit_constraint_checking_code(arg_t *arg) {
 	int alphabet_table_compiled;
 	int produce_st = 0;
 	int ulong_optimize = 0;
+	int ret = 0;
 
 	ct = expr->combined_constraints;
 	if(ct == NULL)
@@ -106,10 +107,10 @@ asn1c_emit_constraint_checking_code(arg_t *arg) {
 				if(native_long_sign(r_value) >= 0) {
 					ulong_optimize = ulong_optimization(etype, r_size, r_value);
 					if(!ulong_optimize) {
-						OUT("unsigned long value;\n");
+						OUT("unsigned long long value;\n");
 					}
 				} else {
-					OUT("long value;\n");
+					OUT("long long value;\n");
 				}
 				break;
 			case ASN_BASIC_REAL:
@@ -158,7 +159,7 @@ asn1c_emit_constraint_checking_code(arg_t *arg) {
 		OUT("\n");
 		OUT("/* Constraint check succeeded */\n");
 		OUT("return 0;\n");
-		return 0;
+		goto end;
 	}
 
 	/*
@@ -197,7 +198,8 @@ asn1c_emit_constraint_checking_code(arg_t *arg) {
 			INDENTED(OUT("/* Nothing is here. See below */\n"));
 			OUT("}\n");
 			OUT("\n");
-			return 1;
+			ret = 1;
+			goto end;
 		}
 	INDENT(-1);
 	OUT(") {\n");
@@ -222,7 +224,11 @@ asn1c_emit_constraint_checking_code(arg_t *arg) {
 		INDENT(-1);
 	OUT("}\n");
 
-	return 0;
+end:
+	if (r_value) asn1constraint_range_free(r_value);
+	if (r_size) asn1constraint_range_free(r_size);
+
+	return ret;
 }
 
 static int
@@ -524,20 +530,15 @@ emit_range_comparison_code(arg_t *arg, asn1cnst_range_t *range, const char *varn
 		}
 
 		if(ignore_left) {
-			OUT("%s <= ", varname);
-			OINT(r->right.value);
+			OUT("%s <= %lldLL", varname, r->right.value);
 		} else if(ignore_right) {
-			OUT("%s >= ", varname);
-			OINT(r->left.value);
+			OUT("%s >= %lldLL", varname, r->left.value);
 		} else if(r->left.value == r->right.value) {
-			OUT("%s == ", varname);
-			OINT(r->right.value);
+			OUT("%s == %lldLL", varname, r->right.value);
 		} else {
-			OUT("%s >= ", varname);
-			OINT(r->left.value);
+			OUT("%s >= %lldLL", varname, r->left.value);
 			OUT(" && ");
-			OUT("%s <= ", varname);
-			OINT(r->right.value);
+			OUT("%s <= %lldLL", varname, r->right.value);
 		}
 		if(r != range) OUT(")");
 		generated_something = 1;
@@ -608,9 +609,9 @@ emit_value_determination_code(arg_t *arg, asn1p_expr_type_e etype, asn1cnst_rang
 	case ASN_BASIC_INTEGER:
 	case ASN_BASIC_ENUMERATED:
 		if(asn1c_type_fits_long(arg, arg->expr) == FL_FITS_UNSIGN) {
-			OUT("value = *(const unsigned long *)sptr;\n");
+			OUT("value = *(const unsigned long long *)sptr;\n");
 		} else if(asn1c_type_fits_long(arg, arg->expr) != FL_NOTFIT) {
-			OUT("value = *(const long *)sptr;\n");
+			OUT("value = *(const long long *)sptr;\n");
 		} else {
 			/*
 			 * In some cases we can explore our knowledge of

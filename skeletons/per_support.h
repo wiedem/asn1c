@@ -24,8 +24,8 @@ typedef const struct asn_per_constraint_s {
 	} flags;
 	int  range_bits;		/* Full number of bits in the range */
 	int  effective_bits;		/* Effective bits */
-	long lower_bound;		/* "lb" value */
-	long upper_bound;		/* "ub" value */
+	long long lower_bound;		/* "lb" value */
+	long long upper_bound;		/* "ub" value */
 } asn_per_constraint_t;
 typedef const struct asn_per_constraints_s {
 	struct asn_per_constraint_s value;
@@ -45,6 +45,9 @@ typedef struct asn_per_data_s {
   int (*refill)(struct asn_per_data_s *);
   void *refill_key;
 } asn_per_data_t;
+
+
+int aper_get_align_bits(asn_per_data_t *pd);
 
 /*
  * Extract a small number of bits (<= 31) from the specified PER data pointer.
@@ -70,19 +73,25 @@ int per_get_many_bits(asn_per_data_t *pd, uint8_t *dst, int right_align,
 ssize_t uper_get_length(asn_per_data_t *pd,
 			int effective_bound_bits,
 			int *repeat);
+ssize_t aper_get_length(asn_per_data_t *pd,
+ 			int effective_bound_bits,
+ 			int *repeat);
 
 /*
  * Get the normally small length "n".
  */
 ssize_t uper_get_nslength(asn_per_data_t *pd);
+ssize_t aper_get_nslength(asn_per_data_t *pd);
 
 /*
  * Get the normally small non-negative whole number.
  */
 ssize_t uper_get_nsnnwn(asn_per_data_t *pd);
+ssize_t aper_get_nsnnwn(asn_per_data_t *pd);
 
 /* X.691-2008/11, #11.5.6 */
-int uper_get_constrained_whole_number(asn_per_data_t *pd, unsigned long *v, int nbits);
+int uper_get_constrained_whole_number(asn_per_data_t *pd, unsigned long long *v, int nbits);
+int aper_get_constrained_whole_number(asn_per_data_t *pd, unsigned long *v, int nbits);
 
 /* Non-thread-safe debugging function, don't use it */
 char *per_data_string(asn_per_data_t *pd);
@@ -100,6 +109,8 @@ typedef struct asn_per_outp_s {
 	size_t flushed_bytes;	/* Bytes already flushed through (outper) */
 } asn_per_outp_t;
 
+int aper_insert_align_bits(asn_per_outp_t *po);
+
 /* Output a small number of bits (<= 31) */
 int per_put_few_bits(asn_per_outp_t *per_data, uint32_t bits, int obits);
 
@@ -107,8 +118,10 @@ int per_put_few_bits(asn_per_outp_t *per_data, uint32_t bits, int obits);
 int per_put_many_bits(asn_per_outp_t *po, const uint8_t *src, int put_nbits);
 
 /* X.691-2008/11, #11.5 */
-int uper_put_constrained_whole_number_s(asn_per_outp_t *po, long v, int nbits);
-int uper_put_constrained_whole_number_u(asn_per_outp_t *po, unsigned long v, int nbits);
+int uper_put_constrained_whole_number_s(asn_per_outp_t *po, long long v, int nbits);
+int uper_put_constrained_whole_number_u(asn_per_outp_t *po, unsigned long long v, int nbits);
+int aper_put_constrained_whole_number_s(asn_per_outp_t *po, long v, int nbits);
+int aper_put_constrained_whole_number_u(asn_per_outp_t *po, unsigned long v, int nbits);
 
 /*
  * Put the length "n" to the Unaligned PER stream.
@@ -116,17 +129,20 @@ int uper_put_constrained_whole_number_u(asn_per_outp_t *po, unsigned long v, int
  * in the next units saving iteration.
  */
 ssize_t uper_put_length(asn_per_outp_t *po, size_t whole_length);
+ssize_t aper_put_length(asn_per_outp_t *po, size_t whole_length);
 
 /*
  * Put the normally small length "n" to the Unaligned PER stream.
  * Returns 0 or -1.
  */
 int uper_put_nslength(asn_per_outp_t *po, size_t length);
+int aper_put_nslength(asn_per_outp_t *po, size_t length);
 
 /*
  * Put the normally small non-negative whole number.
  */
 int uper_put_nsnnwn(asn_per_outp_t *po, int n);
+int aper_put_nsnnwn(asn_per_outp_t *po, int n);
 
 #ifdef __cplusplus
 }

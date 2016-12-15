@@ -479,6 +479,8 @@ asn1c_lang_C_type_SEQUENCE_def(arg_t *arg) {
 
 	REDIR(OT_TYPE_DECLS);
 
+	if(tag2el) free(tag2el);
+
 	return 0;
 } /* _SEQUENCE_def() */
 
@@ -694,6 +696,9 @@ asn1c_lang_C_type_SET_def(arg_t *arg) {
 
 	REDIR(OT_TYPE_DECLS);
 
+	if (tag2el) free(tag2el);
+	if (tag2el_cxer) free(tag2el_cxer);
+
 	return 0;
 } /* _SET_def() */
 
@@ -808,6 +813,8 @@ asn1c_lang_C_type_SEx_OF_def(arg_t *arg, int seq_of) {
 		arg->embed++;
 		emit_member_table(arg, v);
 		arg->embed--;
+		free(v->Identifier);
+		v->Identifier = (char *)NULL;
 	INDENT(-1);
 	OUT("};\n");
 
@@ -1028,6 +1035,8 @@ asn1c_lang_C_type_CHOICE_def(arg_t *arg) {
 
 	REDIR(OT_TYPE_DECLS);
 
+	if (tag2el) free(tag2el);
+
 	return 0;
 } /* _CHOICE_def() */
 
@@ -1240,8 +1249,12 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 	OUT("td->der_encoder    = asn_DEF_%s.der_encoder;\n",    type_name);
 	OUT("td->xer_decoder    = asn_DEF_%s.xer_decoder;\n",    type_name);
 	OUT("td->xer_encoder    = asn_DEF_%s.xer_encoder;\n",    type_name);
-	OUT("td->uper_decoder   = asn_DEF_%s.uper_decoder;\n",   type_name);
-	OUT("td->uper_encoder   = asn_DEF_%s.uper_encoder;\n",   type_name);
+	if(arg->flags & A1C_GEN_PER) {
+	  OUT("td->uper_decoder   = asn_DEF_%s.uper_decoder;\n",   type_name);
+	  OUT("td->uper_encoder   = asn_DEF_%s.uper_encoder;\n",   type_name);
+	  OUT("td->aper_decoder   = asn_DEF_%s.aper_decoder;\n",   type_name);
+	  OUT("td->aper_encoder   = asn_DEF_%s.aper_encoder;\n",   type_name);
+	}
 	if(!terminal && !tags_count) {
 	  OUT("/* The next four lines are here because of -fknown-extern-type */\n");
 	  OUT("td->tags           = asn_DEF_%s.tags;\n",         type_name);
@@ -1250,9 +1263,11 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 	  OUT("td->all_tags_count = asn_DEF_%s.all_tags_count;\n",type_name);
 	  OUT("/* End of these lines */\n");
 	}
-	OUT("if(!td->per_constraints)\n");
+	if(arg->flags & A1C_GEN_PER) {
+	  OUT("if(!td->per_constraints)\n");
 		OUT("\ttd->per_constraints = asn_DEF_%s.per_constraints;\n",
 			type_name);
+	}
 	OUT("td->elements       = asn_DEF_%s.elements;\n",       type_name);
 	OUT("td->elements_count = asn_DEF_%s.elements_count;\n", type_name);
 	if(etd_spec != ETD_NO_SPECIFICS) {
@@ -1363,34 +1378,85 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 	OUT("\n");
 
   if(arg->flags & A1C_GEN_PER) {
+	/* === Unaligned PER decode === */
 	p = MKID(expr);
 
-	if(HIDE_INNER_DEFS) OUT("static ");
+	if(HIDE_INNER_DEFS) {
+		OUT("static ");
+	}
 	OUT("asn_dec_rval_t\n");
 	OUT("%s", p);
-	if(HIDE_INNER_DEFS) OUT("_%d", expr->_type_unique_index);
+	if(HIDE_INNER_DEFS) {
+		OUT("_%d", expr->_type_unique_index);
+	}
 	OUT("_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,\n");
 	INDENTED(
-	OUT("\tasn_per_constraints_t *constraints, void **structure, asn_per_data_t *per_data) {\n");
-	OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
-		p, expr->_type_unique_index);
-	OUT("return td->uper_decoder(opt_codec_ctx, td, constraints, structure, per_data);\n");
+		OUT("\tasn_per_constraints_t *constraints, void **structure, asn_per_data_t *per_data) {\n");
+		OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
+			p, expr->_type_unique_index);
+		OUT("return td->uper_decoder(opt_codec_ctx, td, constraints, structure, per_data);\n");
 	);
 	OUT("}\n");
 	OUT("\n");
 
+	/* === Unaligned PER encode === */
 	p = MKID(expr);
-	if(HIDE_INNER_DEFS) OUT("static ");
+	if(HIDE_INNER_DEFS) {
+		OUT("static ");
+	}
 	OUT("asn_enc_rval_t\n");
 	OUT("%s", p);
-	if(HIDE_INNER_DEFS) OUT("_%d", expr->_type_unique_index);
+	if(HIDE_INNER_DEFS) {
+		OUT("_%d", expr->_type_unique_index);
+	}
 	OUT("_encode_uper(asn_TYPE_descriptor_t *td,\n");
 	INDENTED(
-	OUT("\tasn_per_constraints_t *constraints,\n");
-	OUT("\tvoid *structure, asn_per_outp_t *per_out) {\n");
-	OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
-		p, expr->_type_unique_index);
-	OUT("return td->uper_encoder(td, constraints, structure, per_out);\n");
+		OUT("\tasn_per_constraints_t *constraints,\n");
+		OUT("\tvoid *structure, asn_per_outp_t *per_out) {\n");
+		OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
+			p, expr->_type_unique_index);
+		OUT("return td->uper_encoder(td, constraints, structure, per_out);\n");
+	);
+	OUT("}\n");
+	OUT("\n");
+
+	/* === Aligned PER decode === */
+	p = MKID(expr);
+	if(HIDE_INNER_DEFS) {
+		OUT("static ");
+	}
+	OUT("asn_dec_rval_t\n");
+	OUT("%s", p);
+	if(HIDE_INNER_DEFS) {
+		OUT("_%d", expr->_type_unique_index);
+	}
+	OUT("_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,\n");
+	INDENTED(
+		OUT("\tasn_per_constraints_t *constraints, void **structure, asn_per_data_t *per_data) {\n");
+		OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
+			p, expr->_type_unique_index);
+		OUT("return td->aper_decoder(opt_codec_ctx, td, constraints, structure, per_data);\n");
+	);
+	OUT("}\n");
+	OUT("\n");
+
+	/* === Aligned PER encode === */
+	p = MKID(expr);
+	if(HIDE_INNER_DEFS) {
+		OUT("static ");
+	}
+	OUT("asn_enc_rval_t\n");
+	OUT("%s", p);
+	if(HIDE_INNER_DEFS) {
+		OUT("_%d", expr->_type_unique_index);
+	}
+	OUT("_encode_aper(asn_TYPE_descriptor_t *td,\n");
+	INDENTED(
+		OUT("\tasn_per_constraints_t *constraints,\n");
+		OUT("\tvoid *structure, asn_per_outp_t *per_out) {\n");
+		OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
+			p, expr->_type_unique_index);
+		OUT("return td->aper_encoder(td, constraints, structure, per_out);\n");
 	);
 	OUT("}\n");
 	OUT("\n");
@@ -1413,8 +1479,10 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 		OUT("xer_type_decoder_f %s_decode_xer;\n", p);
 		OUT("xer_type_encoder_f %s_encode_xer;\n", p);
 		if(arg->flags & A1C_GEN_PER) {
-		OUT("per_type_decoder_f %s_decode_uper;\n", p);
-		OUT("per_type_encoder_f %s_encode_uper;\n", p);
+			OUT("per_type_decoder_f %s_decode_uper;\n", p);
+			OUT("per_type_encoder_f %s_encode_uper;\n", p);
+			OUT("per_type_decoder_f %s_decode_aper;\n", p);
+			OUT("per_type_encoder_f %s_encode_aper;\n", p);
 		}
 	}
 
@@ -2313,9 +2381,7 @@ emit_member_table(arg_t *arg, asn1p_expr_t *expr) {
 		|| expr->expr_type == ASN_BASIC_ENUMERATED
 		|| (0 /* -- prohibited by X.693:8.3.4 */
 			&& expr->expr_type == ASN_BASIC_INTEGER
-			&& expr_elements_count(arg, expr))
-		|| (expr->expr_type == ASN_BASIC_INTEGER
-			&& asn1c_type_fits_long(arg, expr) == FL_FITS_UNSIGN);
+			&& expr_elements_count(arg, expr));
 	if(C99_MODE) OUT(".type = ");
 	OUT("&asn_DEF_");
 	if(complex_contents) {
@@ -2456,9 +2522,12 @@ emit_type_DEF(arg_t *arg, asn1p_expr_t *expr, enum tvm_compat tv_mode, int tags_
 		if(arg->flags & A1C_GEN_PER) {
 			FUNCREF(decode_uper);
 			FUNCREF(encode_uper);
+			FUNCREF(decode_aper);
+			FUNCREF(encode_aper);
 		} else {
 			OUT("0, 0,\t/* No PER support, "
 				"use \"-gen-PER\" to enable */\n");
+			OUT("0, 0,\t/* No APER */\n");
 		}
 
 		if(!terminal || terminal->expr_type == ASN_CONSTR_CHOICE) {
