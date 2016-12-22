@@ -933,19 +933,19 @@ INTEGER_encode_aper(asn_TYPE_descriptor_t *td,
 	if(ct) {
 		int inext = 0;
 		if(specs && specs->field_unsigned) {
-			unsigned long uval;
+			unsigned long long uval;
 			if(asn_INTEGER2ulong(st, &uval))
 				ASN__ENCODE_FAILED;
 			/* Check proper range */
 			if(ct->flags & APC_SEMI_CONSTRAINED) {
-				if(uval < (unsigned long)ct->lower_bound)
+				if(uval < (unsigned long long)ct->lower_bound)
 					inext = 1;
 			} else if(ct->range_bits >= 0) {
-				if(uval < (unsigned long)ct->lower_bound
-				|| uval > (unsigned long)ct->upper_bound)
+				if(uval < (unsigned long long)ct->lower_bound
+				|| uval > (unsigned long long)ct->upper_bound)
 					inext = 1;
 			}
-			ASN_DEBUG("Value %lu (%02x/%d) lb %lu ub %lu %s",
+			ASN_DEBUG("Value %llu (%02x/%d) lb %llu ub %llu %s",
 				uval, st->buf[0], st->size,
 				ct->lower_bound, ct->upper_bound,
 				inext ? "ext" : "fix");
@@ -962,7 +962,7 @@ INTEGER_encode_aper(asn_TYPE_descriptor_t *td,
 				|| value > ct->upper_bound)
 					inext = 1;
 			}
-			ASN_DEBUG("Value %ld (%02x/%d) lb %ld ub %ld %s",
+			ASN_DEBUG("Value %lld (%02x/%d) lb %lld ub %lld %s",
 				value, st->buf[0], st->size,
 				ct->lower_bound, ct->upper_bound,
 				inext ? "ext" : "fix");
@@ -979,12 +979,13 @@ INTEGER_encode_aper(asn_TYPE_descriptor_t *td,
 
 	/* X.691-11/2008, #13.2.2, test if constrained whole number */
 	if(ct && ct->range_bits >= 0) {
+		/* #11.5.6 -> #11.3 */
+		ASN_DEBUG("Encoding integer %lld (%llu) with range %d bits",
+			  value, value - ct->lower_bound, ct->range_bits);
+
 		if((size_t)ct->range_bits > 8 * sizeof(unsigned long))
 			ASN__ENCODE_FAILED;
 
-		/* #11.5.7 */
-		ASN_DEBUG("Encoding integer %ld (%lu) with range %d bits",
-			value, value - ct->lower_bound, ct->range_bits);
 		/* v = "n" - "lb" */
 		v = value - ct->lower_bound;
 
@@ -1056,7 +1057,7 @@ INTEGER_encode_aper(asn_TYPE_descriptor_t *td,
 	}
 
 	if(ct && ct->lower_bound) {
-		ASN_DEBUG("Adjust lower bound to %ld", ct->lower_bound);
+		ASN_DEBUG("Adjust lower bound to %lld", ct->lower_bound);
 		/* TODO: adjust lower bound */
 		ASN__ENCODE_FAILED;
 	}

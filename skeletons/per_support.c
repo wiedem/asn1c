@@ -438,7 +438,7 @@ int aper_get_constrained_whole_number(asn_per_data_t *pd, unsigned long *out_val
 	if(aper_get_constrained_whole_number(pd, &lhalf, nbits - 31))
 		return -1;
 
-	*out_value = ((unsigned long)half << (nbits - 31)) | lhalf;
+	*out_value = ((unsigned long long)half << (nbits - 31)) | lhalf;
 	return 0;
 }
 
