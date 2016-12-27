@@ -148,7 +148,7 @@ check_xer(int tofail, char *xmldata, long long orig_value) {
 	long long value;
 	int ret;
 
-	printf("[%s] vs %ld: ", xmldata, orig_value);
+	printf("[%s] vs %lld: ", xmldata, orig_value);
 
 	rc = xer_decode(0, &asn_DEF_INTEGER, (void *)&st,
 		xmldata, strlen(xmldata));

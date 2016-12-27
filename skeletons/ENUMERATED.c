@@ -51,7 +51,7 @@ ENUMERATED_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td
 	asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
 	asn_dec_rval_t rval;
 	ENUMERATED_t *st = (ENUMERATED_t *)*sptr;
-	long value;
+	long long value;
 	void *vptr = &value;
 
 	if(!st) {
@@ -85,7 +85,7 @@ ENUMERATED_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td
 	asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
 	asn_dec_rval_t rval;
 	ENUMERATED_t *st = (ENUMERATED_t *)*sptr;
-	long value;
+	long long value;
 	void *vptr = &value;
 
 	if(!st) {
@@ -105,7 +105,7 @@ asn_enc_rval_t
 ENUMERATED_encode_aper(asn_TYPE_descriptor_t *td,
 	asn_per_constraints_t *constraints, void *sptr, asn_per_outp_t *po) {
 	ENUMERATED_t *st = (ENUMERATED_t *)sptr;
-	long value;
+	long long value;
 
 	if(asn_INTEGER2long(st, &value))
 		ASN__ENCODE_FAILED;

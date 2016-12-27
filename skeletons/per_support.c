@@ -416,9 +416,9 @@ int uper_get_constrained_whole_number(asn_per_data_t *pd, unsigned long long *ou
 	return 0;
 }
 
-int aper_get_constrained_whole_number(asn_per_data_t *pd, unsigned long *out_value, int nbits) {
-	unsigned long lhalf;    /* Lower half of the number*/
-	long half;
+int aper_get_constrained_whole_number(asn_per_data_t *pd, unsigned long long *out_value, int nbits) {
+	unsigned long long lhalf;    /* Lower half of the number*/
+	long long half;
 
 	ASN_DEBUG("aper_get_constrained_whole_number");
 
@@ -458,16 +458,16 @@ int uper_put_constrained_whole_number_s(asn_per_outp_t *po, long long v, int nbi
 	return uper_put_constrained_whole_number_u(po, v, nbits);
 }
 
-int aper_put_constrained_whole_number_s(asn_per_outp_t *po, long v, int nbits) {
+int aper_put_constrained_whole_number_s(asn_per_outp_t *po, long long v, int nbits) {
  	/*
  	 * Assume signed number can be safely coerced into
  	 * unsigned of the same range.
  	 * The following testing code will likely be optimized out
  	 * by compiler if it is true.
  	 */
- 	unsigned long uvalue1 = ULONG_MAX;
- 	         long svalue  = uvalue1;
- 	unsigned long uvalue2 = svalue;
+ 	unsigned long long uvalue1 = ULONG_MAX;
+ 	         long long svalue  = uvalue1;
+ 	unsigned long long uvalue2 = svalue;
  	assert(uvalue1 == uvalue2);
  	ASN_DEBUG("aper_put_constrained_whole_number_s");
  	return aper_put_constrained_whole_number_u(po, v, nbits);
@@ -484,7 +484,7 @@ int uper_put_constrained_whole_number_u(asn_per_outp_t *po, unsigned long long v
 	}
 }
 
-int aper_put_constrained_whole_number_u(asn_per_outp_t *po, unsigned long v, int nbits) {
+int aper_put_constrained_whole_number_u(asn_per_outp_t *po, unsigned long long v, int nbits) {
 	ASN_DEBUG("aper_put_constrained_whole_number_u");
 	if(nbits <= 31) {
 		return per_put_few_bits(po, v, nbits);

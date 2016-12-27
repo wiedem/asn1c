@@ -809,8 +809,8 @@ INTEGER_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 	/* APER specific */
 	/* X.691-2015/08, #13.2.2, constrained whole number => 11.5 */
 	if(ct && ct->flags != APC_UNCONSTRAINED && ct->range_bits >= 0) {
-		long value = 0;
-		unsigned long uvalue = 0;
+		long long value = 0;
+		unsigned long long uvalue = 0;
 		/* #11.5.7 */
 		ASN_DEBUG("Integer with range %d bits", ct->range_bits);
 		if((size_t)ct->range_bits > 8 * sizeof(long)) {
@@ -901,7 +901,7 @@ INTEGER_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 		/*
 		 * TODO: replace by in-place arithmetics.
 		 */
-		long value = 0;
+		long long value = 0;
 		if(asn_INTEGER2long(st, &value))
 			ASN__DECODE_FAILED;
 		if(asn_long2INTEGER(st, value + ct->lower_bound))
@@ -920,8 +920,8 @@ INTEGER_encode_aper(asn_TYPE_descriptor_t *td,
 	const uint8_t *buf;
 	const uint8_t *end;
 	asn_per_constraint_t *ct;
-	long value = 0;
-	unsigned long v = 0;
+	long long value = 0;
+	unsigned long long v = 0;
 
 	if(!st || st->size == 0) ASN__ENCODE_FAILED;
 
