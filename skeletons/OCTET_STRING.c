@@ -14,7 +14,7 @@
 static const ber_tlv_tag_t asn_DEF_OCTET_STRING_tags[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (4 << 2))
 };
-static asn_OCTET_STRING_specifics_t asn_DEF_OCTET_STRING_specs = {
+static const asn_OCTET_STRING_specifics_t asn_SPC_OCTET_STRING_specs = {
 	sizeof(OCTET_STRING_t),
 	offsetof(OCTET_STRING_t, _asn_ctx),
 	ASN_OSUBV_STR
@@ -54,7 +54,7 @@ asn_TYPE_descriptor_t asn_DEF_OCTET_STRING = {
 	  / sizeof(asn_DEF_OCTET_STRING_tags[0]),
 	0,	/* No PER visible constraints */
 	0, 0,	/* No members */
-	&asn_DEF_OCTET_STRING_specs
+	&asn_SPC_OCTET_STRING_specs
 };
 
 #undef	_CH_PHASE
@@ -179,7 +179,7 @@ OCTET_STRING_decode_ber(asn_codec_ctx_t *opt_codec_ctx,
 	void **sptr, const void *buf_ptr, size_t size, int tag_mode) {
 	asn_OCTET_STRING_specifics_t *specs = td->specifics
 				? (asn_OCTET_STRING_specifics_t *)td->specifics
-				: &asn_DEF_OCTET_STRING_specs;
+				: &asn_SPC_OCTET_STRING_specs;
 	BIT_STRING_t *st = (BIT_STRING_t *)*sptr;
 	asn_dec_rval_t rval;
 	asn_struct_ctx_t *ctx;
@@ -519,7 +519,7 @@ OCTET_STRING_encode_der(asn_TYPE_descriptor_t *td, void *sptr,
 	asn_enc_rval_t er;
 	asn_OCTET_STRING_specifics_t *specs = td->specifics
 				? (asn_OCTET_STRING_specifics_t *)td->specifics
-				: &asn_DEF_OCTET_STRING_specs;
+				: &asn_SPC_OCTET_STRING_specs;
 	BIT_STRING_t *st = (BIT_STRING_t *)sptr;
 	enum asn_OS_Subvariant type_variant = specs->subvariant;
 	int fix_last_byte = 0;
@@ -1112,7 +1112,7 @@ OCTET_STRING__decode_xer(asn_codec_ctx_t *opt_codec_ctx,
 	OCTET_STRING_t *st = (OCTET_STRING_t *)*sptr;
 	asn_OCTET_STRING_specifics_t *specs = td->specifics
 				? (asn_OCTET_STRING_specifics_t *)td->specifics
-				: &asn_DEF_OCTET_STRING_specs;
+				: &asn_SPC_OCTET_STRING_specs;
 	const char *xml_tag = opt_mname ? opt_mname : td->xml_tag;
 	asn_struct_ctx_t *ctx;		/* Per-structure parser context */
 	asn_dec_rval_t rval;		/* Return value from the decoder */
@@ -1329,7 +1329,7 @@ OCTET_STRING_decode_uper(asn_codec_ctx_t *opt_codec_ctx,
 
 	asn_OCTET_STRING_specifics_t *specs = td->specifics
 		? (asn_OCTET_STRING_specifics_t *)td->specifics
-		: &asn_DEF_OCTET_STRING_specs;
+		: &asn_SPC_OCTET_STRING_specs;
 	asn_per_constraints_t *pc = constraints ? constraints
 				: td->per_constraints;
 	asn_per_constraint_t *cval;
@@ -1500,7 +1500,7 @@ OCTET_STRING_encode_uper(asn_TYPE_descriptor_t *td,
 
 	asn_OCTET_STRING_specifics_t *specs = td->specifics
 		? (asn_OCTET_STRING_specifics_t *)td->specifics
-		: &asn_DEF_OCTET_STRING_specs;
+		: &asn_SPC_OCTET_STRING_specs;
 	asn_per_constraints_t *pc = constraints ? constraints
 				: td->per_constraints;
 	asn_per_constraint_t *cval;
@@ -1661,7 +1661,7 @@ OCTET_STRING_decode_aper(asn_codec_ctx_t *opt_codec_ctx,
 
 	asn_OCTET_STRING_specifics_t *specs = td->specifics
 		? (asn_OCTET_STRING_specifics_t *)td->specifics
-		: &asn_DEF_OCTET_STRING_specs;
+		: &asn_SPC_OCTET_STRING_specs;
 	asn_per_constraints_t *pc = constraints ? constraints
 				: td->per_constraints;
 	asn_per_constraint_t *cval;
@@ -1849,7 +1849,7 @@ OCTET_STRING_encode_aper(asn_TYPE_descriptor_t *td,
 
 	asn_OCTET_STRING_specifics_t *specs = td->specifics
 		? (asn_OCTET_STRING_specifics_t *)td->specifics
-		: &asn_DEF_OCTET_STRING_specs;
+		: &asn_SPC_OCTET_STRING_specs;
 	asn_per_constraints_t *pc = constraints ? constraints
 				: td->per_constraints;
 	asn_per_constraint_t *cval;
@@ -2085,7 +2085,7 @@ OCTET_STRING_free(asn_TYPE_descriptor_t *td, void *sptr, int contents_only) {
 
 	specs = td->specifics
 		    ? (asn_OCTET_STRING_specifics_t *)td->specifics
-		    : &asn_DEF_OCTET_STRING_specs;
+		    : &asn_SPC_OCTET_STRING_specs;
 	ctx = (asn_struct_ctx_t *)((char *)st + specs->ctx_offset);
 
 	ASN_DEBUG("Freeing %s as OCTET STRING", td->name);
@@ -2157,7 +2157,7 @@ OCTET_STRING_t *
 OCTET_STRING_new_fromBuf(asn_TYPE_descriptor_t *td, const char *str, int len) {
 	asn_OCTET_STRING_specifics_t *specs = td->specifics
 				? (asn_OCTET_STRING_specifics_t *)td->specifics
-				: &asn_DEF_OCTET_STRING_specs;
+				: &asn_SPC_OCTET_STRING_specs;
 	OCTET_STRING_t *st;
 
 	st = (OCTET_STRING_t *)CALLOC(1, specs->struct_size);
