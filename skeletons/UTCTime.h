@@ -23,7 +23,12 @@ xer_type_encoder_f UTCTime_encode_xer;
  * Some handy helpers. *
  ***********************/
 
+#ifdef __APPLE__
+#include "/usr/include/time.h"
+#else
 struct tm;	/* <time.h> */
+#endif /* __APPLE__ */
+
 
 /* See asn_GT2time() in GeneralizedTime.h */
 time_t asn_UT2time(const UTCTime_t *, struct tm *_optional_tm4fill, int as_gmt);

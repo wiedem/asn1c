@@ -24,7 +24,11 @@ xer_type_encoder_f GeneralizedTime_encode_xer;
  * Some handy helpers. *
  ***********************/
 
-struct tm;	/* <time.h> */
+#ifdef __APPLE__
+#include "/usr/include/time.h"
+#else
+struct tm;      /* <time.h> */
+#endif /* __APPLE__ */
 
 /*
  * Convert a GeneralizedTime structure into time_t

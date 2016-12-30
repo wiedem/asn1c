@@ -7,7 +7,7 @@
 #include <GeneralizedTime.h>
 #include <errno.h>
 
-#ifdef	__CYGWIN__
+#if defined(__CYGWIN__) || defined(__APPLE__)
 #include "/usr/include/time.h"
 #else
 #include <time.h>
