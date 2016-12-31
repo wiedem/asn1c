@@ -223,7 +223,7 @@ NativeInteger_encode_xer(asn_TYPE_descriptor_t *td, void *sptr,
 	asn_INTEGER_specifics_t *specs=(asn_INTEGER_specifics_t *)td->specifics;
 	char scratch[32];	/* Enough for 64-bit int */
 	asn_enc_rval_t er;
-	const long *native = (const long *)sptr;
+	const long long *native = (const long long *)sptr;
 
 	(void)ilevel;
 	(void)flags;
@@ -232,7 +232,7 @@ NativeInteger_encode_xer(asn_TYPE_descriptor_t *td, void *sptr,
 
 	er.encoded = snprintf(scratch, sizeof(scratch),
 			(specs && specs->field_unsigned)
-			? "%lu" : "%ld", *native);
+			? "%llu" : "%lld", *native);
 	if(er.encoded <= 0 || (size_t)er.encoded >= sizeof(scratch)
 		|| cb(scratch, er.encoded, app_key) < 0)
 		ASN__ENCODE_FAILED;
@@ -331,7 +331,7 @@ NativeInteger_decode_aper(asn_codec_ctx_t *opt_codec_ctx,
 			: asn_INTEGER2long(&tmpint, native)) {
 			rval.code = RC_FAIL;
 		} else {
-			ASN_DEBUG("NativeInteger %s got value %ld",
+			ASN_DEBUG("NativeInteger %s got value %lld",
 				td->name, *native);
 		}
 	}
@@ -354,7 +354,7 @@ NativeInteger_encode_aper(asn_TYPE_descriptor_t *td,
 
 	native = *(long long *)sptr;
 
-	ASN_DEBUG("Encoding NativeInteger %s %ld (APER)", td->name, native);
+	ASN_DEBUG("Encoding NativeInteger %s %lld (APER)", td->name, native);
 
 	memset(&tmpint, 0, sizeof(tmpint));
 	if((specs&&specs->field_unsigned)
