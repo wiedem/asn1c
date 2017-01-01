@@ -2238,7 +2238,7 @@ try_inline_default(arg_t *arg, asn1p_expr_t *expr, int out) {
 			OUT("return (*st == %" PRIdASN ");\n",
 				expr->marker.default_value->value.v_integer);
 		} else {
-			OUT("long value;\n");
+			OUT("long long value;\n");
 			OUT("if(asn_INTEGER2long(st, &value))\n");
 			OUT("\treturn -1;\n");
 			OUT("return (value == %" PRIdASN ");\n",

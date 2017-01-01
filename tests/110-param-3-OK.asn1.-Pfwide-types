@@ -128,7 +128,7 @@ static int asn_DFL_2_set_5(int set_value, void **sptr) {
 		return asn_long2INTEGER(st, 5);
 	} else {
 		/* Test default value 5 */
-		long value;
+		long long value;
 		if(asn_INTEGER2long(st, &value))
 			return -1;
 		return (value == 5);
@@ -199,7 +199,7 @@ static int asn_DFL_7_set_5(int set_value, void **sptr) {
 		return asn_long2INTEGER(st, 5);
 	} else {
 		/* Test default value 5 */
-		long value;
+		long long value;
 		if(asn_INTEGER2long(st, &value))
 			return -1;
 		return (value == 5);

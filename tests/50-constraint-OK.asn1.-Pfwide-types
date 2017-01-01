@@ -3669,7 +3669,7 @@ static int asn_DFL_2_set_3(int set_value, void **sptr) {
 		return asn_long2INTEGER(st, 3);
 	} else {
 		/* Test default value 3 */
-		long value;
+		long long value;
 		if(asn_INTEGER2long(st, &value))
 			return -1;
 		return (value == 3);

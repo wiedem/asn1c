@@ -560,7 +560,7 @@ static int asn_DFL_3_set_7(int set_value, void **sptr) {
 		return asn_long2INTEGER(st, 7);
 	} else {
 		/* Test default value 7 */
-		long value;
+		long long value;
 		if(asn_INTEGER2long(st, &value))
 			return -1;
 		return (value == 7);
