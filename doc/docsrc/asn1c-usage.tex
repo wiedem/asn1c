@@ -26,6 +26,9 @@
 
 \setstretch{1.1}
 
+% Set asn1c version, as standalone build does not get it
+\def\asnver{0.9.28u}
+
 % Courier 10 Pitch
 %\def\courierFont{Courier10 BT WGL4}
 \def\courierFont{Courier New}
@@ -85,7 +88,7 @@
 	linkcolor={clrlink},
 	citecolor={clrlink},
 	urlcolor={clrurl},
-	pdfauthor={Lev Walkin},
+	pdfauthor={Lev Walkin and Uri Blumenthal},
 	pdftitle={Using the Open Source ASN.1 Compiler},
 	pdfkeywords={ASN.1,asn1c,compiler},
 	bookmarksopen,bookmarksopenlevel=1,
@@ -102,7 +105,8 @@
 \title{Using the Open Source ASN.1 Compiler\\
 \vspace*{0.4cm}
 \Large Documentation for asn1c version \asnver{}}
-\author{Lev Walkin <\href{mailto:vlm@lionet.info?Subject=asn1c}{vlm@lionet.info}>}
+\author{Lev Walkin <\href{mailto:vlm@lionet.info?Subject=asn1c}{vlm@lionet.info}> 
+	and Uri Blumenthal <\href{mailto:uri@mit.edu}{uri@mit.edu}>}
 
 \pagestyle{fancy}
 \fancyhead[L]{\leftmark}
@@ -487,7 +491,7 @@ As you see, the DER encoder does not write into some sort of buffer
 or something. It just invokes the custom function (possible, multiple
 times) which would save the data into appropriate storage. The optional
 argument \emph{app\_key} is opaque for the DER encoder code and just
-used by \emph{\_write\_stream()} as the pointer to the appropriate
+used by \emph{write\_stream()} as the pointer to the appropriate
 output stream to be used.
 
 If the custom write function is not given (passed as 0), then the
@@ -510,7 +514,7 @@ Markup Language, a text-based format for information exchange. The
 encoder routine API comes in two flavors: stdio-based and callback-based.
 With the callback-based encoder, the encoding process is very similar
 to the DER one, described in Section~\ref{sub:Encoding-DER}. The
-following example uses the definition of write\_stream() from up there.
+following example uses the definition of \emph{write\_stream()} from up there.
 \begin{codesample}
 /*
  * This procedure generates the XML document
@@ -567,6 +571,20 @@ please read the Section~\ref{sub:Decoding-BER} to know more.
 Look into xer\_decoder.h for the precise definition of xer\_decode()
 and related types.
 
+\subsection{\label{sub:Encoding-PER}Encoding PER}
+The PER stands for Packet Encoding Rules, defined in ITU standard \url{http://www.itu.int/ITU-T/studygroups/com17/languages/X.691-0207.pdf}. 
+The encoder routine API comes in three flavors: stdio-based, callback-based,
+and using buffer (either pre-allocated, or new -- aka allocated by the encoder itself).
+With the callback-based encoder, the encoding process is very similar
+to the DER one, described in Section~\ref{sub:Encoding-DER}. With the stdio-based
+encoder, the encoding process is similar to the XER one, 
+described in Section~\ref{sub:Encoding-XER}.The
+buffer-based example is 
+provided here.
+\begin{codesample}
+\end{codesample}	
+
+\subsection{\label{sub:Decoding-PER}Decoding PER}
 
 \subsection{\label{sub:Validating-the-target}Validating the target structure}
 
