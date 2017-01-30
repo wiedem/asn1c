@@ -71,3 +71,7 @@ doc/docsrc/*.xdv
 #code coverage
 *.gcno
 *.gcda
+
+#project maintenance
+/bull-build.sh
+
