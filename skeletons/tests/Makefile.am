@@ -1,5 +1,3 @@
-@CODE_COVERAGE_RULES@
-
 check_PROGRAMS = \
 	check-ber_tlv_tag	\
 	check-length		\

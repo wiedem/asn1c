@@ -1,4 +1,3 @@
-@CODE_COVERAGE_RULES@
 
 SUBDIRS = . tests
 
