@@ -292,6 +292,7 @@ all: MegacoMessage.c $(TARGET)
 
 $(TARGET): ${OBJS}
 	$(CC) $(CFLAGS) -o $(TARGET) ${OBJS} $(LDFLAGS) $(LIBS)
+	tar xzf ber.tgz
 
 .SUFFIXES:
 .SUFFIXES: .c .o
@@ -388,3 +389,4 @@ distclean: clean
 	rm -f $(ASN_MODULE_HEADERS)
 	rm -f $(ASN_CONVERTER_SOURCES) $(ASN_CONVERTER_HEADERS)
 	rm -f Makefile.am.sample
+	rm -f *.bin
