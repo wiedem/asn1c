@@ -263,10 +263,8 @@ asn1p_expr_free(asn1p_expr_t *expr) {
 			asn1p_paramlist_free(expr->lhs_params);
 		if(expr->value)
 			asn1p_value_free(expr->value);
-#if !defined(__APPLE__) /* somehow the following ...free() causes crash */
 		if(expr->marker.default_value)
 			asn1p_value_free(expr->marker.default_value);
-#endif /* ! __APPLE__ */
 		if(expr->with_syntax)
 			asn1p_wsyntx_free(expr->with_syntax);
 
