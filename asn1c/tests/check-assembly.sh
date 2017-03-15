@@ -68,7 +68,7 @@ check-executable: compiled-module *.c*
 # Compile the corresponding .asn1 spec.
 compiled-module: ${asn_module} ${abs_top_builddir}/asn1c/asn1c
 	${abs_top_builddir}/asn1c/asn1c		\\
-		-S /tmp/do/not/copy/skeletons	\\
+		-S ${abs_top_srcdir}/skeletons	\\
 		-Wdebug-compiler		\\
 		${AFLAGS} ${asn_module}
 	rm -f converter-sample.c
