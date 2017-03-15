@@ -7,5 +7,5 @@
 
 2. MEDIUM:
 
-2.1 Support for EXTERNAL, EMBEDDED-PDV and CHARACTER STRING types.
+2.1 Support for EMBEDDED-PDV and CHARACTER STRING types.
 	Requires something from 1.2 (Information Object Classes).
