@@ -12,9 +12,7 @@ static const ber_tlv_tag_t asn_DEF_T61String_tags[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (20 << 2)),	/* [UNIVERSAL 20] IMPLICIT ...*/
 	(ASN_TAG_CLASS_UNIVERSAL | (4 << 2))	/* ... OCTET STRING */
 };
-asn_TYPE_descriptor_t asn_DEF_T61String = {
-	"T61String",
-	"T61String",
+asn_TYPE_operation_t asn_OP_T61String = {
 	OCTET_STRING_free,
 	OCTET_STRING_print,         /* non-ascii string */
 	asn_generic_unknown_constraint,
@@ -22,7 +20,7 @@ asn_TYPE_descriptor_t asn_DEF_T61String = {
 	OCTET_STRING_encode_der,
 	OCTET_STRING_decode_xer_hex,
 	OCTET_STRING_encode_xer,
-#ifdef  ASN_DISABLE_PER_SUPPORT
+#ifdef ASN_DISABLE_PER_SUPPORT
 	0,
 	0,
 	0,
@@ -33,7 +31,13 @@ asn_TYPE_descriptor_t asn_DEF_T61String = {
 	OCTET_STRING_decode_aper,	/* Aligned PER decoder */
 	OCTET_STRING_encode_aper,	/* Aligned PER encoder */
 #endif /* ASN_DISABLE_PER_SUPPORT */
-	0, /* Use generic outmost tag fetcher */
+	0	/* Use generic outmost tag fetcher */
+};
+asn_TYPE_descriptor_t asn_DEF_T61String = {
+	"T61String",
+	"T61String",
+	&asn_OP_T61String,
+	asn_generic_unknown_constraint,
 	asn_DEF_T61String_tags,
 	sizeof(asn_DEF_T61String_tags)
 	  / sizeof(asn_DEF_T61String_tags[0]) - 1,

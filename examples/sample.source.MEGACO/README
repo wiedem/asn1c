@@ -6,25 +6,10 @@ The MEGACO (Media Gateway Control Protocol) PDU decoder.
 Invoking `make` will compile the ASN.1 specifications from the rfc3525.txt
 in the above directory.
 
-BUILD
-=====
-
-Just do 
-
-	make
-
-and then
-
-	tar xzf ber.tgz
-
-The above command unpacks 20+ BER-encoded MEGACO messages (files named msg01.bin, ... , msg27.bin).
-You can test the code by dumping them using megaco-dump, as shown below.
-
 megaco-dump USAGE
 =================
 
 	./megaco-dump MegacoMessage.ber	# Print as XML (BASIC-XER)
-
 
 The full list of recognized command line options may be obtained with
 

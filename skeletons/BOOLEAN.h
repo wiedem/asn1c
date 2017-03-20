@@ -19,6 +19,7 @@ extern "C" {
 typedef int BOOLEAN_t;
 
 extern asn_TYPE_descriptor_t asn_DEF_BOOLEAN;
+extern asn_TYPE_operation_t asn_OP_BOOLEAN;
 
 asn_struct_free_f BOOLEAN_free;
 asn_struct_print_f BOOLEAN_print;
@@ -30,6 +31,8 @@ per_type_decoder_f BOOLEAN_decode_uper;
 per_type_encoder_f BOOLEAN_encode_uper;
 per_type_decoder_f BOOLEAN_decode_aper;
 per_type_encoder_f BOOLEAN_encode_aper;
+
+#define BOOLEAN_constraint  asn_generic_no_constraint
 
 #ifdef __cplusplus
 }
