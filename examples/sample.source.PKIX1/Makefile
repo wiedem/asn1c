@@ -347,7 +347,7 @@ libsomething_la_SOURCES=$(ASN_MODULE_SOURCES) $(ASN_MODULE_HEADERS)
 # This file may be used as an input for make(3)
 # Remove the lines below to convert it into a pure .am file
 TARGET = x509dump
-CFLAGS += -DHAVE_CONFIG_H -DJUNKTEST -DASN_DISABLE_PER_SUPPORT -DPDU=Certificate -I.
+CFLAGS += -DHAVE_CONFIG_H -DJUNKTEST -DPDU=Certificate -I.
 OBJS=${ASN_MODULE_SOURCES:.c=.o} ${ASN_CONVERTER_SOURCES:.c=.o}
 
 all: Certificate.c $(TARGET)
