@@ -27,6 +27,7 @@ der_type_encoder_f SEQUENCE_OF_encode_der;
 xer_type_encoder_f SEQUENCE_OF_encode_xer;
 per_type_encoder_f SEQUENCE_OF_encode_uper;
 per_type_encoder_f SEQUENCE_OF_encode_aper;
+extern asn_TYPE_operation_t asn_OP_SEQUENCE_OF;
 
 #ifdef __cplusplus
 }

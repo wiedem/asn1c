@@ -19,9 +19,7 @@
 static const ber_tlv_tag_t asn_DEF_NativeInteger_tags[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (2 << 2))
 };
-asn_TYPE_descriptor_t asn_DEF_NativeInteger = {
-	"INTEGER",			/* The ASN.1 type is still INTEGER */
-	"INTEGER",
+asn_TYPE_operation_t asn_OP_NativeInteger = {
 	NativeInteger_free,
 	NativeInteger_print,
 	asn_generic_no_constraint,
@@ -29,7 +27,7 @@ asn_TYPE_descriptor_t asn_DEF_NativeInteger = {
 	NativeInteger_encode_der,
 	NativeInteger_decode_xer,
 	NativeInteger_encode_xer,
-#ifdef  ASN_DISABLE_PER_SUPPORT
+#ifdef ASN_DISABLE_PER_SUPPORT
 	0,
 	0,
 	0,
@@ -40,7 +38,13 @@ asn_TYPE_descriptor_t asn_DEF_NativeInteger = {
 	NativeInteger_decode_aper,	/* Aligned PER decoder */
 	NativeInteger_encode_aper,	/* Aligned PER encoder */
 #endif /* ASN_DISABLE_PER_SUPPORT */
-	0, /* Use generic outmost tag fetcher */
+	0	/* Use generic outmost tag fetcher */
+};
+asn_TYPE_descriptor_t asn_DEF_NativeInteger = {
+	"INTEGER",			/* The ASN.1 type is still INTEGER */
+	"INTEGER",
+	&asn_OP_NativeInteger,
+	asn_generic_no_constraint,
 	asn_DEF_NativeInteger_tags,
 	sizeof(asn_DEF_NativeInteger_tags) / sizeof(asn_DEF_NativeInteger_tags[0]),
 	asn_DEF_NativeInteger_tags,	/* Same as above */
@@ -162,7 +166,7 @@ NativeInteger_encode_der(asn_TYPE_descriptor_t *sd, void *ptr,
 	tmp.buf = buf;
 	tmp.size = sizeof(buf);
 #endif	/* WORDS_BIGENDIAN */
-	
+
 	/* Encode fake INTEGER */
 	erval = INTEGER_encode_der(sd, &tmp, tag_mode, tag, cb, app_key);
 	if(erval.encoded == -1) {

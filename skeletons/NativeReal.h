@@ -18,6 +18,7 @@ extern "C" {
 #endif
 
 extern asn_TYPE_descriptor_t asn_DEF_NativeReal;
+extern asn_TYPE_operation_t asn_OP_NativeReal;
 
 asn_struct_free_f  NativeReal_free;
 asn_struct_print_f NativeReal_print;
@@ -29,6 +30,8 @@ per_type_decoder_f NativeReal_decode_uper;
 per_type_encoder_f NativeReal_encode_uper;
 per_type_decoder_f NativeReal_decode_aper;
 per_type_encoder_f NativeReal_encode_aper;
+
+#define NativeReal_constraint  asn_generic_no_constraint
 
 #ifdef __cplusplus
 }
