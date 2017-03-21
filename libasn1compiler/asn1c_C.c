@@ -738,7 +738,9 @@ asn1c_lang_C_type_SEx_OF(arg_t *arg) {
 	|| ((memb->expr_type == ASN_BASIC_ENUMERATED
 		|| (0 /* -- prohibited by X.693:8.3.4 */
 			&& memb->expr_type == ASN_BASIC_INTEGER))
-	    	&& expr_elements_count(arg, memb))) {
+			&& expr_elements_count(arg, memb))
+	|| (memb->expr_type == ASN_BASIC_INTEGER && asn1c_type_fits_long(arg, memb) == FL_FITS_UNSIGN)
+	) {
 		arg_t tmp;
 		asn1p_expr_t tmp_memb;
 		arg->embed++;
@@ -2434,12 +2436,8 @@ emit_member_table(arg_t *arg, asn1p_expr_t *expr) {
 		|| (0 /* -- prohibited by X.693:8.3.4 */
 			&& expr->expr_type == ASN_BASIC_INTEGER
 			&& expr_elements_count(arg, expr))
-#if 1
-	  ;
-#else
 		|| (expr->expr_type == ASN_BASIC_INTEGER
 			&& asn1c_type_fits_long(arg, expr) == FL_FITS_UNSIGN);
-#endif
 	if(C99_MODE) OUT(".type = ");
 	OUT("&asn_DEF_");
 	if(complex_contents) {
