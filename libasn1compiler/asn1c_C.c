@@ -2086,6 +2086,17 @@ emit_member_PER_constraints(arg_t *arg, asn1p_expr_t *expr, const char *pfx) {
 		range = asn1constraint_compute_PER_range(etype,
 				expr->combined_constraints, ACT_EL_RANGE,
 				0, 0, 0);
+#if 0
+		/******* Uri's debug *****/
+		fprintf(stderr, "%s:%1d computed PER range %s left=%d right=%d\n",
+			__FILE__, __LINE__, arg, range->left.value, range->right.value);
+		fprintf(stderr, "%s:%1d expr->combined_constraints: el_count=%1d\n", __FILE__, __LINE__,
+			expr->combined_constraints->el_count);
+		if (expr->combined_constraints->el_count > 0) {
+		  
+		}
+		/******* Uri's debug *****/
+#endif /* Debugging output chasing down #129 bug */
 		if(emit_single_member_PER_constraint(arg, range, 0, 0))
 			return -1;
 		asn1constraint_range_free(range);
