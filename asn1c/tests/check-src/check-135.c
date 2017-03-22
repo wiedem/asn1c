@@ -123,13 +123,13 @@ main(int ac, char **av) {
 	check(&t, buf1, sizeof(buf1), sizeof(buf1));
 	compare(&t, buf1_reconstr, sizeof(buf1_reconstr));
 	asn_fprint(stderr, &asn_DEF_T, &t);
-	asn_DEF_T.free_struct(&asn_DEF_T, &t, 1);
+	asn_DEF_T.op->free_struct(&asn_DEF_T, &t, 1);
 
 	/* Check slightly more than buf1 */
 	check(&t, buf1, sizeof(buf1) + 10, sizeof(buf1));
 	compare(&t, buf1_reconstr, sizeof(buf1_reconstr));
 	asn_fprint(stderr, &asn_DEF_T, &t);
-	asn_DEF_T.free_struct(&asn_DEF_T, &t, 1);
+	asn_DEF_T.op->free_struct(&asn_DEF_T, &t, 1);
 
 	return 0;
 }

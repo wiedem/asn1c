@@ -1,5 +1,19 @@
-
 0.9.??:
+    * Merged APER support (@ikarso and @AuthenticEshkinKot)
+    * Merged wider constraints support (@ikarso, seems to need more work)
+    * Applied unmerged PRs 89, 102, 104, 106, 109, 110, 118, 129, 126, 125,
+      129 from vlm/asn1c (eradicated conflicts between #125 and #129)
+    * Applied fix for INTEGER(0..N) as per vlm/asn1c #123 (@ikarso and @velichkov)
+    * Applied PR #134 (compilation of generated C code by C++ compiler)
+    * Fixed time.h-related issue on Darwin
+    * Fixed issue #136 - wrong setter name when default integer value was negative
+    * Made LaTeX documentation build correctly on modern Mac OS (Sierra)
+    * Applied unmerged PRs #90, #95, #117, #128
+    * Merged #2 from @velichkov to address INTEGER issues on 32-bit platforms
+    * Merged #1 from velichkov/32bit_fixes
+    * Merged PR143 from @brchiu to sync PR143 with mouse07410's master
+
+0.9.28:
     * PER decoding: avoid memory leak on error. By github.com/simo5
     * Constness patch #46 by Wim L <wiml@omnigroup.com> (41bbf1c..78d604f).
     Build issues:

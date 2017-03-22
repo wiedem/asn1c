@@ -381,6 +381,7 @@ regen-makefile:
 	ASN1MODULES="../rfc3280-*.asn1" \
 	ASN1PDU=Certificate \
 	PROGNAME=x509dump \
+	CFLAGS="-DASN_DISABLE_PER_SUPPORT" \
 	../sample.makefile.regen
 
 check: ${TARGET} check-ber check-xer check-per
@@ -432,7 +433,7 @@ check-per:
 	done; done; fi
 	@if test -f sample-Certificate-1.per ; then \
 	for f in sample-*-[1-9].per; do \
-	pdu=`echo $$f | sed -E -e "s/sample-([A-Za-z-]+)-[0-9].*/\1/"`; \
+	pdu=`echo $$f | sed -E -e "s/sample-([A-Za-z-]+)-[0-9].*//"`; \
 	for b in 1 17 33 980 8192; do \
 	echo "Recoding $$f into DER into XER and back ($$b)..."; \
 	./${TARGET} -b $$b -p $$pdu -iper -oder $$f > ./.tmp.1.$$$$ || exit 3; \
