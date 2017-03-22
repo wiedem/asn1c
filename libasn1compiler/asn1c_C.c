@@ -1942,14 +1942,14 @@ emit_single_member_PER_constraint(arg_t *arg, asn1cnst_range_t *range, int alpha
 			} else {
 				/* X.691, #10.9.4.1 */
 				for(ebits = 0; ebits <= 16; ebits++)
-					if(r <= 1 << ebits) break;
+					if(r <= (size_t)(1 << ebits)) break;
 				if(ebits == 17
 				|| range->right.value >= 65536)
 					ebits = -1;
 			if(0) {
 				/* X.691, #10.5.7.1 */
 				for(ebits = 0; ebits <= 8; ebits++)
-					if(r <= 1 << ebits) break;
+					if(r <= (size_t)(1 << ebits)) break;
 				if(ebits == 9) {
 					if(r <= 65536)
 						ebits = 16;
