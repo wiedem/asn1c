@@ -376,7 +376,7 @@ NativeInteger_encode_aper(asn_TYPE_descriptor_t *td,
 
 	native = *(long *)sptr;
 
-	ASN_DEBUG("Encoding NativeInteger %s %lld (APER)", td->name, native);
+	ASN_DEBUG("Encoding NativeInteger %s %ld (APER)", td->name, native);
 
 	memset(&tmpint, 0, sizeof(tmpint));
 	if((specs&&specs->field_unsigned)
