@@ -320,6 +320,7 @@ regen-makefile:
 	ASN1PDU=MegacoMessage \
 	PROGNAME=megaco-dump \
 	../sample.makefile.regen
+	tar xzf ber.tgz
 
 check: ${TARGET} check-ber check-xer check-per
 	@echo ================
@@ -388,3 +389,4 @@ distclean: clean
 	rm -f $(ASN_MODULE_HEADERS)
 	rm -f $(ASN_CONVERTER_SOURCES) $(ASN_CONVERTER_HEADERS)
 	rm -f Makefile.am.sample
+	rm -f sample-MegacoMessage-*.ber
