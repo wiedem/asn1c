@@ -38,7 +38,13 @@ if test ! -f Makefile.am.sample ; then
 	exit 1
 fi
 
-EXTRA_CFLAGS="-DJUNKTEST ${CFLAGS}"
+EXTRA_CFLAGS="-DJUNKTEST"
+# The following would put all the env CFLAGS into the Makefiles of every example.
+# The disadvantage is that those Makefiles are git-tracked, and thus would show
+# as changed every time you change your CFLAGS and recompile. By default I
+# prefer to disable that feature. If you want to enable it - just uncomment
+# the following line:
+#EXTRA_CFLAGS="-DJUNKTEST ${CFLAGS}"
 test -f config.h && EXTRA_CFLAGS="-DHAVE_CONFIG_H ${EXTRA_CFLAGS}"
 test -n "$TITLE" && EXTRA_CFLAGS="-DASN_CONVERTER_TITLE=\"$TITLE\" ${EXTRA_CFLAGS}"
 
