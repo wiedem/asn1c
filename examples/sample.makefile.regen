@@ -68,6 +68,7 @@ set +x
 	echo "	ASN1MODULES=\"${ASN1MODULES}\" \\"
 	echo "	ASN1PDU=${ASN1PDU} \\"
 	echo "	PROGNAME=${PROGNAME} \\"
+	test -n "$BERTARFILE" && echo "	BERTARFILE=\"${BERTARFILE}\" \\"
 	echo "	CFLAGS=\"${CFLAGS}\" \\"
 	echo "	$0"
 	echo
@@ -77,6 +78,7 @@ set +x
 	echo '	@echo ================'
 	echo
 	echo 'check-ber:'
+	test -n "$BERTARFILE" && echo "	tar xzf ${BERTARFILE}"
 	echo "	@if test -f sample-${ASN1PDU}-1.[db]er ; then \\"
 	echo "	for f in sample-${ASN1PDU}-*.[db]er; do \\"
 	echo '	for b in 1 17 33 980 8192; do \'

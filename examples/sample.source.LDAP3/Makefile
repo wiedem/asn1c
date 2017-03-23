@@ -198,7 +198,9 @@ regen-makefile:
 	ASN1MODULES="../rfc4511-Lightweight-Directory-Access-Protocol-V3.asn1" \
 	ASN1PDU=LDAPMessage \
 	PROGNAME=ldap3dump \
+	CFLAGS="-maes -mpclmul -mrdrnd -msse2 -mssse3 -msse4.2 -mtune=native -Os -Ofast -DASN_CONVERTER_TITLE="Lightweight Directory Access Protocol V3 decoder" -DHAVE_CONFIG_H -DJUNKTEST -DPDU=LDAPMessage -I. -DASN_CONVERTER_TITLE="Lightweight Directory Access Protocol V3 decoder" -DHAVE_CONFIG_H -DJUNKTEST -DPDU=LDAPMessage -I." \
 	../sample.makefile.regen
+	tar xzf ber.tgz
 
 check: ${TARGET} check-ber check-xer check-per
 	@echo ================
