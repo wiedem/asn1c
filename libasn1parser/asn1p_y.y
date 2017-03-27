@@ -2463,6 +2463,7 @@ _fixup_anonymous_identifier(asn1p_expr_t *expr) {
 
 int
 yyerror(void **param, const char *msg) {
+	assert(param);
 	extern char *asn1p_text;
 	fprintf(stderr,
 		"ASN.1 grammar parse error "
