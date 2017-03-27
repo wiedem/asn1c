@@ -1358,10 +1358,14 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 	OUT("\n");
 
 	p = MKID(expr);
-	if(HIDE_INNER_DEFS) OUT("static ");
+	if(HIDE_INNER_DEFS) {
+	  OUT("static ");
+	}
 	OUT("asn_enc_rval_t\n");
 	OUT("%s", p);
-	if(HIDE_INNER_DEFS) OUT("_%d", expr->_type_unique_index);
+	if(HIDE_INNER_DEFS) {
+	  OUT("_%d", expr->_type_unique_index);
+	}
 	OUT("_encode_xer(asn_TYPE_descriptor_t *td, void *structure,\n");
 	INDENTED(
 	OUT("\tint ilevel, enum xer_encoder_flags_e flags,\n");

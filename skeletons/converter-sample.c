@@ -50,7 +50,8 @@ static int opt_onepdu;	/* -1 (decode single PDU) */
 static enum input_format {
 	INP_BER,	/* -iber: BER input */
 	INP_XER,	/* -ixer: XER input */
-	INP_PER		/* -iper: Unaligned PER input */
+	INP_PER,		/* -iper: Unaligned PER input */
+	INP_APER	/* -iaper: Aligned PER input */
 } iform;	/* -i<format> */
 
 /* Output data format selector */
@@ -58,6 +59,7 @@ static enum output_format {
 	OUT_XER,	/* -oxer: XER (XML) output */
 	OUT_DER,	/* -oder: DER (BER) output */
 	OUT_PER,	/* -oper: Unaligned PER output */
+	OUT_APER,	/* -oaper: Aligned PER output */
 	OUT_TEXT,	/* -otext: semi-structured text */
 	OUT_NULL	/* -onull: No pretty-printing */
 } oform;	/* -o<format> */
@@ -105,6 +107,8 @@ main(int ac, char *av[]) {
 		if(optarg[0] == 'x') { iform = INP_XER; break; }
 		if(pduType->uper_decoder
 		&& optarg[0] == 'p') { iform = INP_PER; break; }
+		if(pduType->aper_decoder
+		&& optarg[0] == 'a') { iform = INP_APER; break; }
 		fprintf(stderr, "-i<format>: '%s': improper format selector\n",
 			optarg);
 		exit(EX_UNAVAILABLE);
@@ -112,6 +116,8 @@ main(int ac, char *av[]) {
 		if(optarg[0] == 'd') { oform = OUT_DER; break; }
 		if(pduType->uper_encoder
 		&& optarg[0] == 'p') { oform = OUT_PER; break; }
+		if(pduType->aper_encoder
+		&& optarg[0] == 'a') { oform = OUT_APER; break; }
 		if(optarg[0] == 'x') { oform = OUT_XER; break; }
 		if(optarg[0] == 't') { oform = OUT_TEXT; break; }
 		if(optarg[0] == 'n') { oform = OUT_NULL; break; }
@@ -195,21 +201,27 @@ main(int ac, char *av[]) {
 		fprintf(stderr, "Usage: %s [options] <data.ber> ...\n", av[0]);
 		fprintf(stderr, "Where options are:\n");
 		if(pduType->uper_decoder)
+		  fprintf(stderr,
+			  "  -iper        Input is in Unaligned PER (Packed Encoding Rules) (DEFAULT)\n");
+		if(pduType->aper_decoder)
+		  fprintf(stderr,
+			  "  -iaper       Input is in Aligned PER (Packed Encoding Rules)\n");
 		fprintf(stderr,
-		"  -iper        Input is in Unaligned PER (Packed Encoding Rules) (DEFAULT)\n");
-		fprintf(stderr,
-		"  -iber        Input is in BER (Basic Encoding Rules)%s\n",
+			"  -iber        Input is in BER (Basic Encoding Rules)%s\n",
 			iform == INP_PER ? "" : " (DEFAULT)");
 		fprintf(stderr,
-		"  -ixer        Input is in XER (XML Encoding Rules)\n");
+			"  -ixer        Input is in XER (XML Encoding Rules)\n");
 		if(pduType->uper_encoder)
+		  fprintf(stderr,
+			  "  -oper        Output in Unaligned PER (Packed Encoding Rules)\n");
+		if(pduType->aper_encoder)
+		  fprintf(stderr,
+			  "  -oaper       Output in Aligned PER (Packed Encoding Rules)\n");
 		fprintf(stderr,
-		"  -oper        Output in Unaligned PER (Packed Encoding Rules)\n");
-		fprintf(stderr,
-		"  -oder        Output in DER (Distinguished Encoding Rules)\n"
-		"  -oxer        Output in XER (XML Encoding Rules) (DEFAULT)\n"
-		"  -otext       Output in plain semi-structured text (dump)\n"
-		"  -onull       Verify (decode) input, but do not output\n");
+			"  -oder        Output in DER (Distinguished Encoding Rules)\n"
+			"  -oxer        Output in XER (XML Encoding Rules) (DEFAULT)\n"
+			"  -otext       Output in plain semi-structured text (dump)\n"
+			"  -onull       Verify (decode) input, but do not output\n");
 		if(pduType->uper_decoder)
 		fprintf(stderr,
 		"  -per-nopad   Assume PER PDUs are not padded (-iper)\n");
@@ -322,7 +334,19 @@ main(int ac, char *av[]) {
 			}
 			DEBUG("Encoded in %ld bits of UPER", (long)erv.encoded);
 			break;
+		case OUT_APER:
+		        erv = aper_encode(pduType, structure, write_out, stdout);
+                        if(erv.encoded < 0) {
+                                fprintf(stderr,
+                                "%s: Cannot convert %s into Aligned PER\n",
+                                        name, pduType->name);
+                                exit(EX_UNAVAILABLE);
+                        }
+                        DEBUG("Encoded in %ld bits of APER", (long)erv.encoded);
+                        break;
+
 		}
+
 
 		ASN_STRUCT_FREE(*pduType, structure);
 	    }
@@ -664,6 +688,23 @@ data_decode_from_file(asn_TYPE_descriptor_t *pduType, FILE *file, const char *na
 				break;
 			}
 			break;
+		case INP_APER:
+                        rval = aper_decode_complete(opt_codec_ctx, pduType,
+                                (void **)&structure, i_bptr, i_size);
+                        switch(rval.code) {
+                        case RC_OK:
+                                /* Fall through */
+                        case RC_FAIL:
+                                break;
+                        case RC_WMORE:
+                                /* PER does not support restartability */
+                                ASN_STRUCT_FREE(*pduType, structure);
+                                structure = 0;
+                                rval.consumed = 0;
+                                /* Continue accumulating data */
+                                break;
+                        }
+                        break;
 		}
 		DEBUG("decode(%ld) consumed %ld+%db (%ld), code %d",
 			(long)DynamicBuffer.length,

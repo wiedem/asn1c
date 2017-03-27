@@ -26,6 +26,12 @@ asn_enc_rval_t uper_encode(struct asn_TYPE_descriptor_s *type_descriptor,
 	void *app_key		/* Arbitrary callback argument */
 );
 
+asn_enc_rval_t aper_encode(struct asn_TYPE_descriptor_s *type_descriptor,
+       void *struct_ptr,       /* Structure to be encoded */
+       asn_app_consume_bytes_f *consume_bytes_cb,      /* Data collector */
+       void *app_key           /* Arbitrary callback argument */
+);
+  
 /*
  * A variant of uper_encode() which encodes data into the existing buffer
  * WARNING: This function returns the number of encoded bits in the .encoded
@@ -60,9 +66,11 @@ ssize_t uper_encode_to_new_buffer(
 
 ssize_t
 aper_encode_to_new_buffer(struct asn_TYPE_descriptor_s *td,
-						  asn_per_constraints_t *constraints,
-						  void *sptr,
-						  void **buffer_r);
+        asn_per_constraints_t *constraints,
+	void *sptr,
+	void **buffer_r
+);
+
 /*
  * Type of the generic PER encoder function.
  */
