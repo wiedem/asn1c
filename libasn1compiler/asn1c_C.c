@@ -1916,8 +1916,8 @@ emit_single_member_PER_constraint(arg_t *arg, asn1cnst_range_t *range, int alpha
 
 	if(range->left.type == ARE_VALUE) {
 		if(range->right.type == ARE_VALUE) {
-			asn1c_integer_t cover = 1;
-			asn1c_integer_t r = 1 + range->right.value
+			uintmax_t cover = 1;
+			uintmax_t r = 1 + range->right.value
 					      - range->left.value;
 			size_t rbits;	/* Value range bits */
 			ssize_t ebits;	/* Value effective range bits */
@@ -1935,14 +1935,6 @@ emit_single_member_PER_constraint(arg_t *arg, asn1cnst_range_t *range, int alpha
 				if(r <= cover)
 					break;
 				cover *= 2;	/* Can't do shifting */
-				if(cover < 0) {
-					FATAL("Constraint at line %d too wide "
-						"for %d-bits integer type",
-						arg->expr->_lineno,
-						sizeof(r) * 8);
-					rbits = sizeof(r);
-					break;
-				}
 			}
 
 			if(alphabetsize) {
@@ -1950,14 +1942,14 @@ emit_single_member_PER_constraint(arg_t *arg, asn1cnst_range_t *range, int alpha
 			} else {
 				/* X.691, #10.9.4.1 */
 				for(ebits = 0; ebits <= 16; ebits++)
-					if(r <= 1 << ebits) break;
+					if(r <= (size_t)(1 << ebits)) break;
 				if(ebits == 17
 				|| range->right.value >= 65536)
 					ebits = -1;
 			if(0) {
 				/* X.691, #10.5.7.1 */
 				for(ebits = 0; ebits <= 8; ebits++)
-					if(r <= 1 << ebits) break;
+					if(r <= (size_t)(1 << ebits)) break;
 				if(ebits == 9) {
 					if(r <= 65536)
 						ebits = 16;
