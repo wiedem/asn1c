@@ -1,142 +1,58 @@
 
 /*** <<< INCLUDES [T] >>> ***/
 
-#include "SimpleType.h"
-#include <asn_SET_OF.h>
-#include <constr_SET_OF.h>
+#include "EXTERNAL.h"
 
 /*** <<< TYPE-DECLS [T] >>> ***/
 
-typedef struct T {
-	A_SET_OF(SimpleType_t) list;
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} T_t;
+typedef EXTERNAL_t	 T_t;
 
 /*** <<< FUNC-DECLS [T] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_T;
+asn_struct_free_f T_free;
+asn_struct_print_f T_print;
+asn_constr_check_f T_constraint;
+ber_type_decoder_f T_decode_ber;
+der_type_encoder_f T_encode_der;
+xer_type_decoder_f T_decode_xer;
+xer_type_encoder_f T_encode_xer;
+
+/*** <<< CODE [T] >>> ***/
+
+/*
+ * This type is implemented using EXTERNAL,
+ * so here we adjust the DEF accordingly.
+ */
 
 /*** <<< STAT-DEFS [T] >>> ***/
 
-static asn_TYPE_member_t asn_MBR_T_1[] = {
-	{ ATF_POINTER, 0, 0,
-		.tag = (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
-		.tag_mode = 0,
-		.type = &asn_DEF_SimpleType,
-		.memb_constraints = 0,	/* Defer constraints checking to the member type */
-		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
-		.default_value = 0,
-		.name = "named"
-		},
-};
 static const ber_tlv_tag_t asn_DEF_T_tags_1[] = {
-	(ASN_TAG_CLASS_UNIVERSAL | (17 << 2))
-};
-static asn_SET_OF_specifics_t asn_SPC_T_specs_1 = {
-	sizeof(struct T),
-	offsetof(struct T, _asn_ctx),
-	1,	/* XER encoding is XMLValueList */
+	(ASN_TAG_CLASS_UNIVERSAL | (8 << 2)),
+	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 asn_TYPE_descriptor_t asn_DEF_T = {
 	"T",
 	"T",
-	&asn_OP_SET_OF,
-	SET_OF_constraint,
+	&asn_OP_SEQUENCE,
+	SEQUENCE_constraint,
 	asn_DEF_T_tags_1,
 	sizeof(asn_DEF_T_tags_1)
-		/sizeof(asn_DEF_T_tags_1[0]), /* 1 */
+		/sizeof(asn_DEF_T_tags_1[0]) - 1, /* 1 */
 	asn_DEF_T_tags_1,	/* Same as above */
 	sizeof(asn_DEF_T_tags_1)
-		/sizeof(asn_DEF_T_tags_1[0]), /* 1 */
+		/sizeof(asn_DEF_T_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
-	asn_MBR_T_1,
-	1,	/* Single element */
-	&asn_SPC_T_specs_1	/* Additional specs */
-};
-
-
-/*** <<< INCLUDES [SimpleType] >>> ***/
-
-#include <ENUMERATED.h>
-
-/*** <<< DEPS [SimpleType] >>> ***/
-
-typedef enum SimpleType {
-	SimpleType_one	= 0,
-	SimpleType_two	= 1,
-	SimpleType_three	= 2
-} e_SimpleType;
-
-/*** <<< TYPE-DECLS [SimpleType] >>> ***/
-
-typedef ENUMERATED_t	 SimpleType_t;
-
-/*** <<< FUNC-DECLS [SimpleType] >>> ***/
-
-extern asn_TYPE_descriptor_t asn_DEF_SimpleType;
-extern asn_INTEGER_specifics_t asn_SPC_SimpleType_specs_1;
-asn_struct_free_f SimpleType_free;
-asn_struct_print_f SimpleType_print;
-asn_constr_check_f SimpleType_constraint;
-ber_type_decoder_f SimpleType_decode_ber;
-der_type_encoder_f SimpleType_encode_der;
-xer_type_decoder_f SimpleType_decode_xer;
-xer_type_encoder_f SimpleType_encode_xer;
-
-/*** <<< CODE [SimpleType] >>> ***/
-
-/*
- * This type is implemented using ENUMERATED,
- * so here we adjust the DEF accordingly.
- */
-
-/*** <<< STAT-DEFS [SimpleType] >>> ***/
-
-static const asn_INTEGER_enum_map_t asn_MAP_SimpleType_value2enum_1[] = {
-	{ 0,	3,	"one" },
-	{ 1,	3,	"two" },
-	{ 2,	5,	"three" }
-};
-static const unsigned int asn_MAP_SimpleType_enum2value_1[] = {
-	0,	/* one(0) */
-	2,	/* three(2) */
-	1	/* two(1) */
-};
-const asn_INTEGER_specifics_t asn_SPC_SimpleType_specs_1 = {
-	asn_MAP_SimpleType_value2enum_1,	/* "tag" => N; sorted by tag */
-	asn_MAP_SimpleType_enum2value_1,	/* N => "tag"; sorted by N */
-	3,	/* Number of elements in the maps */
-	0,	/* Enumeration is not extensible */
-	1,	/* Strict enumeration */
-	0,	/* Native long size */
-	0
-};
-static const ber_tlv_tag_t asn_DEF_SimpleType_tags_1[] = {
-	(ASN_TAG_CLASS_UNIVERSAL | (10 << 2))
-};
-asn_TYPE_descriptor_t asn_DEF_SimpleType = {
-	"SimpleType",
-	"SimpleType",
-	&asn_OP_ENUMERATED,
-	ENUMERATED_constraint,
-	asn_DEF_SimpleType_tags_1,
-	sizeof(asn_DEF_SimpleType_tags_1)
-		/sizeof(asn_DEF_SimpleType_tags_1[0]), /* 1 */
-	asn_DEF_SimpleType_tags_1,	/* Same as above */
-	sizeof(asn_DEF_SimpleType_tags_1)
-		/sizeof(asn_DEF_SimpleType_tags_1[0]), /* 1 */
-	0,	/* No PER visible constraints */
-	0, 0,	/* Defined elsewhere */
-	&asn_SPC_SimpleType_specs_1	/* Additional specs */
+	asn_MBR_EXTERNAL_1,
+	4,	/* Elements count */
+	&asn_SPC_EXTERNAL_specs_1	/* Additional specs */
 };
 
 
 /*** <<< INCLUDES [EXTERNAL] >>> ***/
 
 #include <OBJECT_IDENTIFIER.h>
-#include <INTEGER.h>
+#include <NativeInteger.h>
 #include <ObjectDescriptor.h>
 #include <ANY.h>
 #include <OCTET_STRING.h>
@@ -157,7 +73,7 @@ typedef enum encoding_PR {
 
 typedef struct EXTERNAL {
 	OBJECT_IDENTIFIER_t	*direct_reference	/* OPTIONAL */;
-	INTEGER_t	*indirect_reference	/* OPTIONAL */;
+	long	*indirect_reference	/* OPTIONAL */;
 	ObjectDescriptor_t	*data_value_descriptor	/* OPTIONAL */;
 	struct encoding {
 		encoding_PR present;
@@ -178,6 +94,8 @@ typedef struct EXTERNAL {
 /*** <<< FUNC-DECLS [EXTERNAL] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_EXTERNAL;
+extern asn_SEQUENCE_specifics_t asn_SPC_EXTERNAL_specs_1;
+extern asn_TYPE_member_t asn_MBR_EXTERNAL_1[4];
 
 /*** <<< STAT-DEFS [EXTERNAL] >>> ***/
 
@@ -241,7 +159,7 @@ asn_TYPE_descriptor_t asn_DEF_encoding_5 = {
 	&asn_SPC_encoding_specs_5	/* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_EXTERNAL_1[] = {
+asn_TYPE_member_t asn_MBR_EXTERNAL_1[] = {
 	{ ATF_POINTER, 3, offsetof(struct EXTERNAL, direct_reference),
 		.tag = (ASN_TAG_CLASS_UNIVERSAL | (6 << 2)),
 		.tag_mode = 0,
@@ -254,7 +172,7 @@ static asn_TYPE_member_t asn_MBR_EXTERNAL_1[] = {
 	{ ATF_POINTER, 2, offsetof(struct EXTERNAL, indirect_reference),
 		.tag = (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		.tag_mode = 0,
-		.type = &asn_DEF_INTEGER,
+		.type = &asn_DEF_NativeInteger,
 		.memb_constraints = 0,	/* Defer constraints checking to the member type */
 		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
 		.default_value = 0,
@@ -291,7 +209,7 @@ static const asn_TYPE_tag2member_t asn_MAP_EXTERNAL_tag2el_1[] = {
     { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 3, 0, 0 }, /* octet-aligned */
     { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 3, 0, 0 } /* arbitrary */
 };
-static asn_SEQUENCE_specifics_t asn_SPC_EXTERNAL_specs_1 = {
+asn_SEQUENCE_specifics_t asn_SPC_EXTERNAL_specs_1 = {
 	sizeof(struct EXTERNAL),
 	offsetof(struct EXTERNAL, _asn_ctx),
 	asn_MAP_EXTERNAL_tag2el_1,
