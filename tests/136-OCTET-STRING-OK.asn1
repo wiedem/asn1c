@@ -1,0 +1,10 @@
+Test2b DEFINITIONS ::=
+BEGIN
+
+PDU ::= SEQUENCE {
+
+      count INTEGER (0..20000),
+      data  OCTET STRING SIZE (40..20000)
+}
+
+END

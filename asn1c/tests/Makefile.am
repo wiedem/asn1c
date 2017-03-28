@@ -44,6 +44,7 @@ TESTS += check-src/check-73.c
 TESTS += check-src/check-92.-findirect-choice.c
 TESTS += check-src/check-92.c
 TESTS += check-src/check64-134.-gen-PER.c
+TESTS += check-src/check-136.-gen-PER.c
 
 EXTRA_DIST =		\
 	data-62			\

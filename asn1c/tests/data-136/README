@@ -1,0 +1,14 @@
+Mode of operation:
+
+	Each of the *.in files is XER-decoded, then converted into UPER,
+	then compared with the .uper file, then decoded back into XER
+	and compared to the original .in file content.
+	After that it is converted into APER then compared with the .aper file,
+	then decoded back into XER and compared to the original .in file content
+
+Naming conventions:
+
+*-C.in  -       Comparison of .out might fail, but decoding succeeds
+*-P.in  -       PER decoding of .out file must fail.
+*-X.in	-	Final XER comparison must fail.
+
