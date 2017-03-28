@@ -167,7 +167,7 @@ NativeInteger_encode_der(asn_TYPE_descriptor_t *sd, void *ptr,
 		*p = (uint8_t)native;
 
 	tmp.buf = buf;
-	tmp.size = sizeof(buf);
+	tmp.size = buf_size;
 #endif	/* WORDS_BIGENDIAN */
 	
 	/* Encode fake INTEGER */
