@@ -136,20 +136,34 @@ NativeInteger_encode_der(asn_TYPE_descriptor_t *sd, void *ptr,
 	int tag_mode, ber_tlv_tag_t tag,
 	asn_app_consume_bytes_f *cb, void *app_key) {
 	unsigned long native = *(unsigned long *)ptr;	/* Disable sign ext. */
+	asn_INTEGER_specifics_t *specs=(asn_INTEGER_specifics_t *)sd->specifics;
 	asn_enc_rval_t erval;
 	INTEGER_t tmp;
 
+	/*
+ 	 * For unsigned long integers bigger then 0x80000000 we will need one more zero byte at the beggining.
+ 	 * See X.690 - 8.3 Encoding of an integer value
+ 	 * If the contents octet consists of more than one octet,
+ 	 * then bits of the first octet and bit 8 of the second octet:
+ 	 * a) shall not all be ones; and
+  	 * b) shall not all be zero.
+  	 */
+ 	size_t buf_size = sizeof(native) + ((specs && specs->field_unsigned && native >= 0x80000000) ? 1 : 0);
+ 	uint8_t buf[sizeof(native) + 1] = {0};
+    
 #ifdef	WORDS_BIGENDIAN		/* Opportunistic optimization */
 
-	tmp.buf = (uint8_t *)&native;
-	tmp.size = sizeof(native);
+	memcpy(buf + 1, &native, sizeof(native)); //Always copy to the second byte
+ 
+ 	tmp.buf = buf + (buf_size == 4 ? 1 : 0);
+ 	tmp.size = buf_size;
 
 #else	/* Works even if WORDS_BIGENDIAN is not set where should've been */
-	uint8_t buf[sizeof(native)];
 	uint8_t *p;
 
 	/* Prepare a fake INTEGER */
-	for(p = buf + sizeof(buf) - 1; p >= buf; p--, native >>= 8)
+	//	for(p = buf + sizeof(buf) - 1; p >= buf; p--, native >>= 8)
+	for(p = buf + buf_size - 1; p >= buf; p--, native >>= 8)
 		*p = (uint8_t)native;
 
 	tmp.buf = buf;
