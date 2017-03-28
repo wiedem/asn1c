@@ -167,7 +167,7 @@ NativeInteger_encode_der(asn_TYPE_descriptor_t *sd, void *ptr,
 		*p = (uint8_t)native;
 
 	tmp.buf = buf;
-	tmp.size = sizeof(buf);
+	tmp.size = buf_size;
 #endif	/* WORDS_BIGENDIAN */
 	
 	/* Encode fake INTEGER */
@@ -335,7 +335,7 @@ NativeInteger_encode_uper(asn_TYPE_descriptor_t *td,
 
 	memset(&tmpint, 0, sizeof(tmpint));
 	if((specs&&specs->field_unsigned)
-		? asn_ulong2INTEGER(&tmpint, native)
+		? asn_ulong2INTEGER(&tmpint, (unsigned long)native)
 		: asn_long2INTEGER(&tmpint, native))
 		ASN__ENCODE_FAILED;
 	er = INTEGER_encode_uper(td, constraints, &tmpint, po);
@@ -361,7 +361,7 @@ NativeInteger_encode_aper(
 
 	memset(&tmpint, 0, sizeof(tmpint));
 	if((specs&&specs->field_unsigned)
-		? asn_ulong2INTEGER(&tmpint, native)
+		? asn_ulong2INTEGER(&tmpint, (unsigned long)native)
 		: asn_long2INTEGER(&tmpint, native))
 		ASN__ENCODE_FAILED;
 	er = INTEGER_encode_aper(td, constraints, &tmpint, po);
