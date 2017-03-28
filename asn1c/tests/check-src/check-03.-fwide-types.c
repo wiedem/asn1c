@@ -36,7 +36,7 @@ check_xer(e_Enum2 eval, char *xer_string) {
 	assert(rv.consumed == strlen(xer_string));
 
 	asn_INTEGER2long(e, &val);
-	printf("%s -> %ld == %d\n", xer_string, val, eval);
+	printf("%s -> %lld == %d\n", xer_string, val, eval);
 	assert(val == eval);
 
 	buf_offset = 0;
