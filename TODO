@@ -1,9 +1,9 @@
 1. MAJOR:
 
-1.1 Support for Information Object Classes.
-   Status:	Support for parsing IOCs is mostly present.
-		Support for slicing the IOCs to produce "views"
-		is not yet designed.
+1.1 Support for Information Object Classes. 
+   Status:	with #99 fixed by @AuthenticEshkinKot I consider this is done.
+		Need to check if Support for slicing the IOCs to produce "views"
+		is there yet.
 
 2. MEDIUM:
 
