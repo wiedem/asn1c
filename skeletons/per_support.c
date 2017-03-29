@@ -319,7 +319,6 @@ aper_get_nsnnwn(asn_per_data_t *pd, int range) {
 	} else if (range == 256){
 		/* 1 byte */
 		bytes = 1;
-		return -1;
 	} else if (range <= 65536) {
 		/* 2 bytes */
 		bytes = 2;
