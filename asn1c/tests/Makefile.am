@@ -51,6 +51,7 @@ EXTRA_DIST =		\
 	data-70			\
 	data-119		\
 	data-126		\
+	data-136		\
 	check-src/check64-134.-gen-PER.c
 
 clean-local:
