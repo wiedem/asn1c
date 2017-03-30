@@ -1,4 +1,4 @@
-AC_INIT([asn1c],[0.9.28],[vlm@lionet.info])
+AC_INIT([asn1c],[0.9.30],[vlm@lionet.info])
 
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_HEADER([config.h])
@@ -16,7 +16,7 @@ AM_PROG_LEX
 dnl locate ar using standard macro (old automake 1.11 does not know about AM_PROG_AR)
 m4_ifdef([AM_PROG_AR],
          [AM_PROG_AR],
-         [AC_PATH_PROG(AR, ar, ar, $PATH:/usr/ucb:/usr/ccs/bin)])
+         [AC_PATH_PROG(AR, ar, ar, $PATH:/opt/local/bin:/usr/ucb:/usr/ccs/bin)])
 
 LT_INIT
 
