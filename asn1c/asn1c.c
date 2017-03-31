@@ -69,7 +69,7 @@ main(int ac, char **av) {
     /*
      * Process command-line options.
      */
-    while((ch = getopt(ac, av, "EFf:g:hLPp:RS:vW:X")) != -1) switch(ch) {
+    while((ch = getopt(ac, av, "VEFf:g:hLPp:RS:vW:X")) != -1) switch(ch) {
         case 'E':
             print_arg__print_out = 1;
             break;
@@ -161,6 +161,7 @@ main(int ac, char **av) {
             skeletons_dir = optarg;
             break;
         case 'v':
+        case 'V':
             fprintf(stderr, "ASN.1 Compiler, v" VERSION "\n" COPYRIGHT);
             exit(0);
             break;
@@ -443,6 +444,8 @@ usage(const char *av0) {
 "ASN.1 Compiler, v" VERSION "\n" COPYRIGHT
 "Usage: %s [options] file ...\n"
 "Options:\n"
+"  -V                    Print version of the  ASN.1 compiler and exit\n"
+"  -v                    Print version of the  ASN.1 compiler and exit\n"
 "  -E                    Run only the ASN.1 parser and print out the tree\n"
 "  -F                    During -E operation, also perform tree fixing\n"
 "\n"
