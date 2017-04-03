@@ -205,7 +205,7 @@ SET_OF_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 		/*
 		 * Invoke the member fetch routine according to member's type
 		 */
-		rval = elm->type->op->ber_decoder(opt_codec_ctx,
+		rval = elm->type->ber_decoder(opt_codec_ctx,
 				elm->type, &ctx->ptr, ptr, LEFT, 0);
 		ASN_DEBUG("In %s SET OF %s code %d consumed %d",
 			td->name, elm->type->name,
@@ -315,7 +315,7 @@ SET_OF_encode_der(asn_TYPE_descriptor_t *td, void *ptr,
 	asn_app_consume_bytes_f *cb, void *app_key) {
 	asn_TYPE_member_t *elm = td->elements;
 	asn_TYPE_descriptor_t *elm_type = elm->type;
-	der_type_encoder_f *der_encoder = elm_type->op->der_encoder;
+	der_type_encoder_f *der_encoder = elm_type->der_encoder;
 	asn_anonymous_set_ *list = _A_SET_FROM_VOID(ptr);
 	size_t computed_size = 0;
 	ssize_t encoding_size = 0;
@@ -526,7 +526,7 @@ SET_OF_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 
 			/* Invoke the inner type decoder, m.b. multiple times */
 			ASN_DEBUG("XER/SET OF element [%s]", elm_tag);
-			tmprval = element->type->op->xer_decoder(opt_codec_ctx,
+			tmprval = element->type->xer_decoder(opt_codec_ctx,
 					element->type, &ctx->ptr, elm_tag,
 					buf_ptr, size);
 			if(tmprval.code == RC_OK) {
@@ -697,7 +697,7 @@ SET_OF_encode_xer(asn_TYPE_descriptor_t *td, void *sptr,
 
 		if(!xcan && specs->as_XMLValueList == 1)
 			ASN__TEXT_INDENT(1, ilevel + 1);
-		tmper = elm->type->op->xer_encoder(elm->type, memb_ptr,
+		tmper = elm->type->xer_encoder(elm->type, memb_ptr,
 				ilevel + (specs->as_XMLValueList != 2),
 				flags, cb, app_key);
 		if(tmper.encoded == -1) {
@@ -776,7 +776,7 @@ SET_OF_print(asn_TYPE_descriptor_t *td, const void *sptr, int ilevel,
 
 		_i_INDENT(1);
 
-		ret = elm->type->op->print_struct(elm->type, memb_ptr,
+		ret = elm->type->print_struct(elm->type, memb_ptr,
 			ilevel + 1, cb, app_key);
 		if(ret) return ret;
 	}
@@ -838,7 +838,7 @@ SET_OF_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 	}
 
 	constr = elm->memb_constraints;
-	if(!constr) constr = elm->type->op->check_constraints;
+	if(!constr) constr = elm->type->check_constraints;
 
 	/*
 	 * Iterate over the members of an array.
@@ -859,28 +859,9 @@ SET_OF_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 	 * need to make sure we get the updated version.
 	 */
 	if(!elm->memb_constraints)
-		elm->memb_constraints = elm->type->op->check_constraints;
+		elm->memb_constraints = elm->type->check_constraints;
 
 	return 0;
-}
-
-#ifndef ASN_DISABLE_PER_SUPPORT
-asn_enc_rval_t
-SET_OF_encode_uper(
-        struct asn_TYPE_descriptor_s *type_descriptor,
-        asn_per_constraints_t *constraints,
-        void *struct_ptr,
-        asn_per_outp_t *per_output) {
- 
-        asn_enc_rval_t erval;
-
-	(void)type_descriptor;	/* Unused argument */
-	(void)constraints;	/* Unused argument */
-	(void)struct_ptr;	/* Unused argument */
-	(void)per_output;	/* Unused argument */
-
-        erval.encoded = -1;
-        ASN__ENCODED_OK(erval);
 }
 
 asn_dec_rval_t
@@ -904,7 +885,7 @@ SET_OF_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 	if(!st) {
 		st = *sptr = CALLOC(1, specs->struct_size);
 		if(!st) ASN__DECODE_FAILED;
-	}                                                                       
+	}
 	list = _A_SET_FROM_VOID(st);
 
 	/* Figure out which constraints to use */
@@ -942,7 +923,7 @@ SET_OF_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 		for(i = 0; i < nelems; i++) {
 			void *ptr = 0;
 			ASN_DEBUG("SET OF %s decoding", elm->type->name);
-			rv = elm->type->op->uper_decoder(opt_codec_ctx, elm->type,
+			rv = elm->type->uper_decoder(opt_codec_ctx, elm->type,
 				elm->per_constraints, &ptr, pd);
 			ASN_DEBUG("%s SET OF %s decoded %d, %p",
 				td->name, elm->type->name, rv.code, ptr);
@@ -971,29 +952,11 @@ SET_OF_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 	return rv;
 }
 
-asn_enc_rval_t
-SET_OF_encode_aper(
-        struct asn_TYPE_descriptor_s *type_descriptor,
-        asn_per_constraints_t *constraints,
-        void *struct_ptr,
-        asn_per_outp_t *per_output) {
- 
-        asn_enc_rval_t erval;
-
-	(void)type_descriptor;	/* Unused argument */
-	(void)constraints;	/* Unused argument */
-	(void)struct_ptr;	/* Unused argument */
-	(void)per_output;	/* Unused argument */
-
-        erval.encoded = -1;
-        ASN__ENCODED_OK(erval);
-}
-
 asn_dec_rval_t
 SET_OF_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-        asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
+				   asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
 	asn_dec_rval_t rv;
-        asn_SET_OF_specifics_t *specs = (asn_SET_OF_specifics_t *)td->specifics;
+	asn_SET_OF_specifics_t *specs = (asn_SET_OF_specifics_t *)td->specifics;
 	asn_TYPE_member_t *elm = td->elements;	/* Single one */
 	void *st = *sptr;
 	asn_anonymous_set_ *list;
@@ -1001,48 +964,36 @@ SET_OF_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 	int repeat = 0;
 	ssize_t nelems;
 
-	if(ASN__STACK_OVERFLOW_CHECK(opt_codec_ctx)) {
+	if(ASN__STACK_OVERFLOW_CHECK(opt_codec_ctx))
 		ASN__DECODE_FAILED;
-	}
 
 	/*
 	 * Create the target structure if it is not present already.
 	 */
 	if(!st) {
 		st = *sptr = CALLOC(1, specs->struct_size);
-		if(!st) {
-			ASN__DECODE_FAILED;
-		}
+		if(!st) ASN__DECODE_FAILED;
 	}
 	list = _A_SET_FROM_VOID(st);
 
 	/* Figure out which constraints to use */
-	if(constraints) {
-		ct = &constraints->size;
-	} else if(td->per_constraints) {
-		ct = &td->per_constraints->size;
-	} else {
-		ct = 0;
-	}
+	if(constraints) ct = &constraints->size;
+	else if(td->per_constraints) ct = &td->per_constraints->size;
+	else ct = 0;
 
 	if(ct && ct->flags & APC_EXTENSIBLE) {
-		int value = aper_get_few_bits(pd, 1);
-		if(value < 0) {
-			ASN__DECODE_STARVED;
-		}
-		if(value) {
-			ct = 0;	/* Not restricted! */
-		}
+		int value = per_get_few_bits(pd, 1);
+		if(value < 0) ASN__DECODE_STARVED;
+		if(value) ct = 0;	/* Not restricted! */
 	}
 
 	if(ct && ct->effective_bits >= 0) {
 		/* X.691, #19.5: No length determinant */
-		nelems = aper_get_few_bits(pd, ct->effective_bits);
+// 		nelems = per_get_few_bits(pd, ct->effective_bits);
+		nelems = aper_get_nsnnwn(pd, ct->upper_bound - ct->lower_bound);
 		ASN_DEBUG("Preparing to fetch %ld+%lld elements from %s",
 			(long)nelems, ct->lower_bound, td->name);
-		if(nelems < 0) {
-			ASN__DECODE_STARVED;
-		}
+		if(nelems < 0)  ASN__DECODE_STARVED;
 		nelems += ct->lower_bound;
 	} else {
 		nelems = -1;
@@ -1051,26 +1002,23 @@ SET_OF_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 	do {
 		int i;
 		if(nelems < 0) {
-			nelems = aper_get_length(pd,
+			nelems = aper_get_length(pd, ct ? ct->upper_bound - ct->lower_bound + 1 : -1,
 				ct ? ct->effective_bits : -1, &repeat);
 			ASN_DEBUG("Got to decode %d elements (eff %d)",
 				(int)nelems, (int)(ct ? ct->effective_bits : -1));
-			if(nelems < 0) {
-				ASN__DECODE_STARVED;
-			}
+			if(nelems < 0) ASN__DECODE_STARVED;
 		}
 
 		for(i = 0; i < nelems; i++) {
 			void *ptr = 0;
 			ASN_DEBUG("SET OF %s decoding", elm->type->name);
-			rv = elm->type->op->aper_decoder(opt_codec_ctx, elm->type,
+			rv = elm->type->aper_decoder(opt_codec_ctx, elm->type,
 				elm->per_constraints, &ptr, pd);
 			ASN_DEBUG("%s SET OF %s decoded %d, %p",
 				td->name, elm->type->name, rv.code, ptr);
 			if(rv.code == RC_OK) {
-				if(ASN_SET_ADD(list, ptr) == 0) {
+				if(ASN_SET_ADD(list, ptr) == 0)
 					continue;
-				}
 				ASN_DEBUG("Failed to add element into %s",
 					td->name);
 				/* Fall through */
@@ -1079,13 +1027,11 @@ SET_OF_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 				ASN_DEBUG("Failed decoding %s of %s (SET OF)",
 					elm->type->name, td->name);
 			}
-			if(ptr) {
-				ASN_STRUCT_FREE(*elm->type, ptr);
-			}
+			if(ptr) ASN_STRUCT_FREE(*elm->type, ptr);
 			return rv;
 		}
 
-		nelems = -1;	/* Allow aper_get_length() */
+		nelems = -1;	/* Allow uper_get_length() */
 	} while(repeat);
 
 	ASN_DEBUG("Decoded %s as SET OF", td->name);
@@ -1094,27 +1040,3 @@ SET_OF_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 	rv.consumed = 0;
 	return rv;
 }
-
-#endif /* ASN_DISABLE_PER_SUPPORT */
-
-asn_TYPE_operation_t asn_OP_SET_OF = {
-	SET_OF_free,
-	SET_OF_print,
-	SET_OF_constraint,
-	SET_OF_decode_ber,
-	SET_OF_encode_der,
-	SET_OF_decode_xer,
-	SET_OF_encode_xer,
-#ifdef ASN_DISABLE_PER_SUPPORT
-	0,
-	0,
-	0,
-	0,
-#else
-	SET_OF_decode_uper,
-	SET_OF_encode_uper,
-	SET_OF_decode_aper,
-	SET_OF_encode_aper,
-#endif /* ASN_DISABLE_PER_SUPPORT */
-	0	/* Use generic outmost tag fetcher */
-};

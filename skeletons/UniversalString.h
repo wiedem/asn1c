@@ -14,8 +14,6 @@ extern "C" {
 typedef OCTET_STRING_t UniversalString_t;  /* Implemented via OCTET STRING */
 
 extern asn_TYPE_descriptor_t asn_DEF_UniversalString;
-extern asn_TYPE_operation_t asn_OP_UniversalString;
-extern asn_OCTET_STRING_specifics_t asn_SPC_UniversalString_specs;
 
 asn_struct_print_f UniversalString_print;	/* Human-readable output */
 xer_type_decoder_f UniversalString_decode_xer;

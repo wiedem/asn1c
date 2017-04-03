@@ -381,7 +381,6 @@ regen-makefile:
 	ASN1MODULES="../rfc3280-*.asn1" \
 	ASN1PDU=Certificate \
 	PROGNAME=x509dump \
-	CFLAGS="-DASN_DISABLE_PER_SUPPORT" \
 	../sample.makefile.regen
 
 check: ${TARGET} check-ber check-xer check-per

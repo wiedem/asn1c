@@ -24,15 +24,11 @@ typedef struct Collection_16P1 {
 /*** <<< FUNC-DECLS [Collection] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_Collection_16P0;
-extern asn_SET_OF_specifics_t asn_SPC_Collection_16P0_specs_1;
-extern asn_TYPE_member_t asn_MBR_Collection_16P0_1[1];
 extern asn_TYPE_descriptor_t asn_DEF_Collection_16P1;
-extern asn_SET_OF_specifics_t asn_SPC_Collection_16P1_specs_3;
-extern asn_TYPE_member_t asn_MBR_Collection_16P1_3[1];
 
 /*** <<< STAT-DEFS [Collection] >>> ***/
 
-asn_TYPE_member_t asn_MBR_Collection_16P0_1[] = {
+static asn_TYPE_member_t asn_MBR_Collection_16P0_1[] = {
 	{ ATF_POINTER, 0, 0,
 		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
 		.tag_mode = 0,
@@ -46,7 +42,7 @@ asn_TYPE_member_t asn_MBR_Collection_16P0_1[] = {
 static const ber_tlv_tag_t asn_DEF_Collection_16P0_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (17 << 2))
 };
-asn_SET_OF_specifics_t asn_SPC_Collection_16P0_specs_1 = {
+static asn_SET_OF_specifics_t asn_SPC_Collection_16P0_specs_1 = {
 	sizeof(struct Collection_16P0),
 	offsetof(struct Collection_16P0, _asn_ctx),
 	0,	/* XER encoding is XMLDelimitedItemList */
@@ -54,8 +50,16 @@ asn_SET_OF_specifics_t asn_SPC_Collection_16P0_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Collection_16P0 = {
 	"Collection",
 	"Collection",
-	&asn_OP_SET_OF,
+	SET_OF_free,
+	SET_OF_print,
 	SET_OF_constraint,
+	SET_OF_decode_ber,
+	SET_OF_encode_der,
+	SET_OF_decode_xer,
+	SET_OF_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Collection_16P0_tags_1,
 	sizeof(asn_DEF_Collection_16P0_tags_1)
 		/sizeof(asn_DEF_Collection_16P0_tags_1[0]), /* 1 */
@@ -68,7 +72,7 @@ asn_TYPE_descriptor_t asn_DEF_Collection_16P0 = {
 	&asn_SPC_Collection_16P0_specs_1	/* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_Collection_16P1_3[] = {
+static asn_TYPE_member_t asn_MBR_Collection_16P1_3[] = {
 	{ ATF_POINTER, 0, 0,
 		.tag = (ASN_TAG_CLASS_UNIVERSAL | (22 << 2)),
 		.tag_mode = 0,
@@ -82,7 +86,7 @@ asn_TYPE_member_t asn_MBR_Collection_16P1_3[] = {
 static const ber_tlv_tag_t asn_DEF_Collection_16P1_tags_3[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (17 << 2))
 };
-asn_SET_OF_specifics_t asn_SPC_Collection_16P1_specs_3 = {
+static asn_SET_OF_specifics_t asn_SPC_Collection_16P1_specs_3 = {
 	sizeof(struct Collection_16P1),
 	offsetof(struct Collection_16P1, _asn_ctx),
 	0,	/* XER encoding is XMLDelimitedItemList */
@@ -90,8 +94,16 @@ asn_SET_OF_specifics_t asn_SPC_Collection_16P1_specs_3 = {
 asn_TYPE_descriptor_t asn_DEF_Collection_16P1 = {
 	"Collection",
 	"Collection",
-	&asn_OP_SET_OF,
+	SET_OF_free,
+	SET_OF_print,
 	SET_OF_constraint,
+	SET_OF_decode_ber,
+	SET_OF_encode_der,
+	SET_OF_decode_xer,
+	SET_OF_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Collection_16P1_tags_3,
 	sizeof(asn_DEF_Collection_16P1_tags_3)
 		/sizeof(asn_DEF_Collection_16P1_tags_3[0]), /* 1 */
@@ -165,8 +177,16 @@ static asn_SEQUENCE_specifics_t asn_SPC_Bunch_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Bunch = {
 	"Bunch",
 	"Bunch",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Bunch_tags_1,
 	sizeof(asn_DEF_Bunch_tags_1)
 		/sizeof(asn_DEF_Bunch_tags_1[0]), /* 1 */
@@ -276,8 +296,16 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_encoding_5 = {
 	"encoding",
 	"encoding",
-	&asn_OP_CHOICE,
+	CHOICE_free,
+	CHOICE_print,
 	CHOICE_constraint,
+	CHOICE_decode_ber,
+	CHOICE_encode_der,
+	CHOICE_decode_xer,
+	CHOICE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	CHOICE_outmost_tag,
 	0,	/* No effective tags (pointer) */
 	0,	/* No effective tags (count) */
 	0,	/* No tags (pointer) */
@@ -350,8 +378,16 @@ static asn_SEQUENCE_specifics_t asn_SPC_EXTERNAL_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_EXTERNAL = {
 	"EXTERNAL",
 	"EXTERNAL",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_EXTERNAL_tags_1,
 	sizeof(asn_DEF_EXTERNAL_tags_1)
 		/sizeof(asn_DEF_EXTERNAL_tags_1[0]) - 1, /* 1 */

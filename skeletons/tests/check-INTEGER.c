@@ -75,7 +75,7 @@ check(uint8_t *buf, int size, long long check_long, int check_ret) {
 }
 
 static void
-check_unsigned(uint8_t *buf, int size, unsigned long long  check_long, int check_ret) {
+check_unsigned(uint8_t *buf, int size, unsigned long long check_long, int check_ret) {
 	char scratch[128];
 	char verify[32];
 	INTEGER_t val;
@@ -166,7 +166,7 @@ check_xer(int tofail, char *xmldata, long long orig_value) {
 
 	assert(value == orig_value);
 
-	asn_DEF_INTEGER.op->free_struct(&asn_DEF_INTEGER, st, 0);
+	asn_DEF_INTEGER.free_struct(&asn_DEF_INTEGER, st, 0);
 }
 
 int
@@ -249,7 +249,6 @@ main() {
 	check_xer(0, "<INTEGER>-2147483648</INTEGER>", -2147483647-1);
 	check_xer(0, "<INTEGER>+2147483647</INTEGER>", 2147483647);
 	check_xer(0, "<INTEGER>2147483647</INTEGER>", 2147483647);
-
 	if(sizeof(long) == 4) {
 		check_xer(0, "<INTEGER>-2147483648</INTEGER>", -2147483648);
 		check_xer(0, "<INTEGER>-2147483649</INTEGER>", -2147483649);

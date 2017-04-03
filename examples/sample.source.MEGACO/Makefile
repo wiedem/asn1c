@@ -319,7 +319,6 @@ regen-makefile:
 	ASN1MODULES="../rfc3525-MEDIA-GATEWAY-CONTROL.asn1" \
 	ASN1PDU=MegacoMessage \
 	PROGNAME=megaco-dump \
-	BERTARFILE="ber.tgz" \
 	../sample.makefile.regen
 
 check: ${TARGET} check-ber check-xer check-per
@@ -328,7 +327,6 @@ check: ${TARGET} check-ber check-xer check-per
 	@echo ================
 
 check-ber:
-	tar xzf ber.tgz
 	@if test -f sample-MegacoMessage-1.[db]er ; then \
 	for f in sample-MegacoMessage-*.[db]er; do \
 	for b in 1 17 33 980 8192; do \
@@ -390,4 +388,3 @@ distclean: clean
 	rm -f $(ASN_MODULE_HEADERS)
 	rm -f $(ASN_CONVERTER_SOURCES) $(ASN_CONVERTER_HEADERS)
 	rm -f Makefile.am.sample
-	rm -f sample-MegacoMessage-*.ber

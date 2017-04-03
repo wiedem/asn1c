@@ -23,7 +23,7 @@ static void normalize(asn_per_outp_t *po) {
 }
 
 static void
-check_per_encode_constrained(int lineno, int unsigned_, long long value, long long lbound, unsigned long long ubound, int bit_range) {
+check_per_encode_constrained(int lineno, int unsigned_, long value, long lbound, unsigned long ubound, int bit_range) {
 	INTEGER_t st;
 	INTEGER_t *reconstructed_st = 0;
 	struct asn_INTEGER_specifics_s specs;
@@ -34,10 +34,10 @@ check_per_encode_constrained(int lineno, int unsigned_, long long value, long lo
 	asn_per_data_t pd;
 
 	if(unsigned_)
-		printf("%d: Recoding %s %llu [%lld..%llu]\n", lineno,
+		printf("%d: Recoding %s %lu [%ld..%lu]\n", lineno,
 		  unsigned_ ? "unsigned" : "signed", value, lbound, ubound);
 	else
-		printf("%d: Recoding %s %lld [%lld..%llu]\n", lineno,
+		printf("%d: Recoding %s %ld [%ld..%lu]\n", lineno,
 		  unsigned_ ? "unsigned" : "signed", value, lbound, ubound);
 
 	memset(&st, 0, sizeof(st));

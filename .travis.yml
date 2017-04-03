@@ -13,7 +13,7 @@ addons:
     - gcc-multilib
 script:
     - autoreconf -iv
-    - ./configure --enable-Werror --build=$BUILD
+    - ./configure --enable-Werror
     - make -j8
     - make check
     - make distcheck

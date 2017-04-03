@@ -246,8 +246,8 @@ asn1f_fix_module__phase_2(arg_t *arg) {
 	int rvalue = 0;
 	int ret;
 
-	/* Should we free arg->expr here first? */
 	TQ_FOR(expr, &(arg->mod->members), next) {
+
 		arg->expr = expr;
 
 		/*

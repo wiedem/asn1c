@@ -409,7 +409,7 @@ SEQUENCE_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 		/*
 		 * Invoke the member fetch routine according to member's type
 		 */
-		rval = elements[edx].type->op->ber_decoder(opt_codec_ctx,
+		rval = elements[edx].type->ber_decoder(opt_codec_ctx,
 				elements[edx].type,
 				memb_ptr2, ptr, LEFT,
 				elements[edx].tag_mode);
@@ -537,7 +537,7 @@ SEQUENCE_encode_der(asn_TYPE_descriptor_t *td,
 		} else {
 			memb_ptr = (void *)((char *)sptr + elm->memb_offset);
 		}
-		erval = elm->type->op->der_encoder(elm->type, memb_ptr,
+		erval = elm->type->der_encoder(elm->type, memb_ptr,
 			elm->tag_mode, elm->tag,
 			0, 0);
 		if(erval.encoded == -1)
@@ -572,7 +572,7 @@ SEQUENCE_encode_der(asn_TYPE_descriptor_t *td,
 		} else {
 			memb_ptr = (void *)((char *)sptr + elm->memb_offset);
 		}
-		tmperval = elm->type->op->der_encoder(elm->type, memb_ptr,
+		tmperval = elm->type->der_encoder(elm->type, memb_ptr,
 			elm->tag_mode, elm->tag,
 			cb, app_key);
 		if(tmperval.encoded == -1)
@@ -674,7 +674,7 @@ SEQUENCE_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 			}
 
 			/* Invoke the inner type decoder, m.b. multiple times */
-			tmprval = elm->type->op->xer_decoder(opt_codec_ctx,
+			tmprval = elm->type->xer_decoder(opt_codec_ctx,
 					elm->type, memb_ptr2, elm->name,
 					buf_ptr, size);
 			XER_ADVANCE(tmprval.consumed);
@@ -885,7 +885,7 @@ SEQUENCE_encode_xer(asn_TYPE_descriptor_t *td, void *sptr,
 		ASN__CALLBACK3("<", 1, mname, mlen, ">", 1);
 
 		/* Print the member itself */
-		tmper = elm->type->op->xer_encoder(elm->type, memb_ptr,
+		tmper = elm->type->xer_encoder(elm->type, memb_ptr,
 			ilevel + 1, flags, cb, app_key);
 		if(tmper.encoded == -1) return tmper;
 
@@ -937,7 +937,7 @@ SEQUENCE_print(asn_TYPE_descriptor_t *td, const void *sptr, int ilevel,
 			return -1;
 
 		/* Print the member itself */
-		ret = elm->type->op->print_struct(elm->type, memb_ptr, ilevel + 1,
+		ret = elm->type->print_struct(elm->type, memb_ptr, ilevel + 1,
 			cb, app_key);
 		if(ret) return ret;
 	}
@@ -1027,7 +1027,6 @@ SEQUENCE_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 	return 0;
 }
 
-#ifndef ASN_DISABLE_PER_SUPPORT
 asn_dec_rval_t
 SEQUENCE_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 	asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
@@ -1120,7 +1119,7 @@ SEQUENCE_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 
 		/* Fetch the member from the stream */
 		ASN_DEBUG("Decoding member %s in %s", elm->name, td->name);
-		rv = elm->type->op->uper_decoder(opt_codec_ctx, elm->type,
+		rv = elm->type->uper_decoder(opt_codec_ctx, elm->type,
 			elm->per_constraints, memb_ptr2, pd);
 		if(rv.code != RC_OK) {
 			ASN_DEBUG("Failed decode %s in %s",
@@ -1243,8 +1242,221 @@ SEQUENCE_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 	return rv;
 }
 
+asn_dec_rval_t
+SEQUENCE_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
+	asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
+	asn_SEQUENCE_specifics_t *specs = (asn_SEQUENCE_specifics_t *)td->specifics;
+	void *st = *sptr;	/* Target structure. */
+	int extpresent;		/* Extension additions are present */
+	uint8_t *opres;		/* Presence of optional root members */
+	asn_per_data_t opmd;
+	asn_dec_rval_t rv;
+	int edx;
+
+	(void)constraints;
+
+	if(ASN__STACK_OVERFLOW_CHECK(opt_codec_ctx))
+		ASN__DECODE_FAILED;
+
+	if(!st) {
+		st = *sptr = CALLOC(1, specs->struct_size);
+		if(!st) ASN__DECODE_FAILED;
+	}
+
+	ASN_DEBUG("Decoding %s as SEQUENCE (APER)", td->name);
+
+	/* Handle extensions */
+	if(specs->ext_before >= 0) {
+		extpresent = per_get_few_bits(pd, 1);
+		if(extpresent < 0) ASN__DECODE_STARVED;
+	} else {
+		extpresent = 0;
+	}
+
+	/* Prepare a place and read-in the presence bitmap */
+	memset(&opmd, 0, sizeof(opmd));
+	if(specs->roms_count) {
+		opres = (uint8_t *)MALLOC(((specs->roms_count + 7) >> 3) + 1);
+		if(!opres) ASN__DECODE_FAILED;
+		/* Get the presence map */
+		if(per_get_many_bits(pd, opres, 0, specs->roms_count)) {
+			FREEMEM(opres);
+			ASN__DECODE_STARVED;
+		}
+		opmd.buffer = opres;
+		opmd.nbits = specs->roms_count;
+		ASN_DEBUG("Read in presence bitmap for %s of %d bits (%x..)",
+			td->name, specs->roms_count, *opres);
+	} else {
+		opres = 0;
+	}
+
+	/*
+	 * Get the sequence ROOT elements.
+	 */
+	for(edx = 0; edx < td->elements_count; edx++) {
+		asn_TYPE_member_t *elm = &td->elements[edx];
+		void *memb_ptr;		/* Pointer to the member */
+		void **memb_ptr2;	/* Pointer to that pointer */
+
+		if(IN_EXTENSION_GROUP(specs, edx))
+			continue;
+
+		/* Fetch the pointer to this member */
+		if(elm->flags & ATF_POINTER) {
+			memb_ptr2 = (void **)((char *)st + elm->memb_offset);
+		} else {
+			memb_ptr = (char *)st + elm->memb_offset;
+			memb_ptr2 = &memb_ptr;
+		}
+
+		/* Deal with optionality */
+		if(elm->optional) {
+			int present = per_get_few_bits(&opmd, 1);
+			ASN_DEBUG("Member %s->%s is optional, p=%d (%d->%d)",
+				td->name, elm->name, present,
+				(int)opmd.nboff, (int)opmd.nbits);
+			if(present == 0) {
+				/* This element is not present */
+				if(elm->default_value) {
+					/* Fill-in DEFAULT */
+					if(elm->default_value(1, memb_ptr2)) {
+						FREEMEM(opres);
+						ASN__DECODE_FAILED;
+					}
+					ASN_DEBUG("Filled-in default");
+				}
+				/* The member is just not present */
+				continue;
+			}
+			/* Fall through */
+		}
+
+		/* Fetch the member from the stream */
+		ASN_DEBUG("Decoding member %s in %s", elm->name, td->name);
+		rv = elm->type->aper_decoder(opt_codec_ctx, elm->type,
+			elm->per_constraints, memb_ptr2, pd);
+		if(rv.code != RC_OK) {
+			ASN_DEBUG("Failed decode %s in %s",
+				elm->name, td->name);
+			FREEMEM(opres);
+			return rv;
+		}
+	}
+
+	/* Optionality map is not needed anymore */
+	FREEMEM(opres);
+
+	/*
+	 * Deal with extensions.
+	 */
+	if(extpresent) {
+		ssize_t bmlength;
+		uint8_t *epres;		/* Presence of extension members */
+		asn_per_data_t epmd;
+
+		bmlength = uper_get_nslength(pd);
+		if(bmlength < 0) ASN__DECODE_STARVED;
+
+		ASN_DEBUG("Extensions %lld present in %s", (long long)bmlength, td->name);
+
+		epres = (uint8_t *)MALLOC((bmlength + 15) >> 3);
+		if(!epres) ASN__DECODE_STARVED;
+
+		/* Get the extensions map */
+		if(per_get_many_bits(pd, epres, 0, bmlength))
+			ASN__DECODE_STARVED;
+
+		memset(&epmd, 0, sizeof(epmd));
+		epmd.buffer = epres;
+		epmd.nbits = bmlength;
+		ASN_DEBUG("Read in extensions bitmap for %s of %lld bits (%x..)",
+			td->name, (long long)bmlength, *epres);
+
+	    /* Go over extensions and read them in */
+	    for(edx = specs->ext_after + 1; edx < td->elements_count; edx++) {
+		asn_TYPE_member_t *elm = &td->elements[edx];
+		void *memb_ptr;		/* Pointer to the member */
+		void **memb_ptr2;	/* Pointer to that pointer */
+		int present;
+
+		if(!IN_EXTENSION_GROUP(specs, edx)) {
+			ASN_DEBUG("%d is not extension", edx);
+			continue;
+		}
+
+		/* Fetch the pointer to this member */
+		if(elm->flags & ATF_POINTER) {
+			memb_ptr2 = (void **)((char *)st + elm->memb_offset);
+		} else {
+			memb_ptr = (void *)((char *)st + elm->memb_offset);
+			memb_ptr2 = &memb_ptr;
+		}
+
+		present = per_get_few_bits(&epmd, 1);
+		if(present <= 0) {
+			if(present < 0) break;	/* No more extensions */
+			continue;
+		}
+
+		ASN_DEBUG("Decoding member %s in %s %p", elm->name, td->name, *memb_ptr2);
+		rv = uper_open_type_get(opt_codec_ctx, elm->type,
+			elm->per_constraints, memb_ptr2, pd);
+		if(rv.code != RC_OK) {
+			FREEMEM(epres);
+			return rv;
+		}
+	    }
+
+		/* Skip over overflow extensions which aren't present
+		 * in this system's version of the protocol */
+		for(;;) {
+			ASN_DEBUG("Getting overflow extensions");
+			switch(per_get_few_bits(&epmd, 1)) {
+			case -1: break;
+			case 0: continue;
+			default:
+				if(uper_open_type_skip(opt_codec_ctx, pd)) {
+					FREEMEM(epres);
+					ASN__DECODE_STARVED;
+				}
+			}
+			break;
+		}
+
+		FREEMEM(epres);
+	}
+
+	/* Fill DEFAULT members in extensions */
+	for(edx = specs->roms_count; edx < specs->roms_count
+			+ specs->aoms_count; edx++) {
+		asn_TYPE_member_t *elm = &td->elements[edx];
+		void **memb_ptr2;	/* Pointer to member pointer */
+
+		if(!elm->default_value) continue;
+
+		/* Fetch the pointer to this member */
+		if(elm->flags & ATF_POINTER) {
+			memb_ptr2 = (void **)((char *)st
+					+ elm->memb_offset);
+			if(*memb_ptr2) continue;
+		} else {
+			continue;	/* Extensions are all optionals */
+		}
+
+		/* Set default value */
+		if(elm->default_value(1, memb_ptr2)) {
+			ASN__DECODE_FAILED;
+		}
+	}
+
+	rv.consumed = 0;
+	rv.code = RC_OK;
+	return rv;
+}
+
 static int
-SEQUENCE_handle_extensions(asn_TYPE_descriptor_t *td, void *sptr,
+SEQUENCE_handle_extensions_uper(asn_TYPE_descriptor_t *td, void *sptr,
 		asn_per_outp_t *po1, asn_per_outp_t *po2) {
 	asn_SEQUENCE_specifics_t *specs
 		= (asn_SEQUENCE_specifics_t *)td->specifics;
@@ -1295,6 +1507,58 @@ SEQUENCE_handle_extensions(asn_TYPE_descriptor_t *td, void *sptr,
 	return exts_present ? exts_count : 0;
 }
 
+static int
+SEQUENCE_handle_extensions_aper(asn_TYPE_descriptor_t *td, void *sptr,
+		asn_per_outp_t *po1, asn_per_outp_t *po2) {
+	asn_SEQUENCE_specifics_t *specs
+		= (asn_SEQUENCE_specifics_t *)td->specifics;
+	int exts_present = 0;
+	int exts_count = 0;
+	int edx;
+
+	if(specs->ext_before < 0)
+		return 0;
+
+	/* Find out which extensions are present */
+	for(edx = specs->ext_after + 1; edx < td->elements_count; edx++) {
+		asn_TYPE_member_t *elm = &td->elements[edx];
+		void *memb_ptr;		/* Pointer to the member */
+		void **memb_ptr2;	/* Pointer to that pointer */
+		int present;
+
+		if(!IN_EXTENSION_GROUP(specs, edx)) {
+			ASN_DEBUG("%s (@%d) is not extension", elm->type->name, edx);
+			continue;
+		}
+
+		/* Fetch the pointer to this member */
+		if(elm->flags & ATF_POINTER) {
+			memb_ptr2 = (void **)((char *)sptr + elm->memb_offset);
+			present = (*memb_ptr2 != 0);
+		} else {
+			memb_ptr = (void *)((char *)sptr + elm->memb_offset);
+			memb_ptr2 = &memb_ptr;
+			present = 1;
+		}
+
+		ASN_DEBUG("checking %s (@%d) present => %d",
+			elm->type->name, edx, present);
+		exts_count++;
+		exts_present += present;
+
+		/* Encode as presence marker */
+		if(po1 && per_put_few_bits(po1, present, 1))
+			return -1;
+		/* Encode as open type field */
+		if(po2 && present && aper_open_type_put(elm->type,
+				elm->per_constraints, *memb_ptr2, po2))
+			return -1;
+
+	}
+
+	return exts_present ? exts_count : 0;
+}
+
 asn_enc_rval_t
 SEQUENCE_encode_uper(asn_TYPE_descriptor_t *td,
 	asn_per_constraints_t *constraints, void *sptr, asn_per_outp_t *po) {
@@ -1320,7 +1584,7 @@ SEQUENCE_encode_uper(asn_TYPE_descriptor_t *td,
 	 * and whether to encode extensions
 	 */
 	if(specs->ext_before >= 0) {
-		n_extensions = SEQUENCE_handle_extensions(td, sptr, 0, 0);
+		n_extensions = SEQUENCE_handle_extensions_uper(td, sptr, 0, 0);
 		per_put_few_bits(po, n_extensions ? 1 : 0, 1);
 	} else {
 		n_extensions = 0;	/* There are no extensions to encode */
@@ -1396,7 +1660,7 @@ SEQUENCE_encode_uper(asn_TYPE_descriptor_t *td,
 			continue;
 
 		ASN_DEBUG("Encoding %s->%s", td->name, elm->name);
-		er = elm->type->op->uper_encoder(elm->type, elm->per_constraints,
+		er = elm->type->uper_encoder(elm->type, elm->per_constraints,
 			*memb_ptr2, po);
 		if(er.encoded == -1)
 			return er;
@@ -1413,231 +1677,15 @@ SEQUENCE_encode_uper(asn_TYPE_descriptor_t *td,
 	ASN_DEBUG("Bit-map of %d elements", n_extensions);
 	/* #18.7. Encoding the extensions presence bit-map. */
 	/* TODO: act upon NOTE in #18.7 for canonical PER */
-	if(SEQUENCE_handle_extensions(td, sptr, po, 0) != n_extensions)
+	if(SEQUENCE_handle_extensions_uper(td, sptr, po, 0) != n_extensions)
 		ASN__ENCODE_FAILED;
 
 	ASN_DEBUG("Writing %d extensions", n_extensions);
 	/* #18.9. Encode extensions as open type fields. */
-	if(SEQUENCE_handle_extensions(td, sptr, 0, po) != n_extensions)
+	if(SEQUENCE_handle_extensions_uper(td, sptr, 0, po) != n_extensions)
 		ASN__ENCODE_FAILED;
 
 	ASN__ENCODED_OK(er);
-}
-
-
-asn_dec_rval_t
-SEQUENCE_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-	asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
-	asn_SEQUENCE_specifics_t *specs = (asn_SEQUENCE_specifics_t *)td->specifics;
-	void *st = *sptr;	/* Target structure. */
-	int extpresent;		/* Extension additions are present */
-	uint8_t *opres;		/* Presence of optional root members */
-	asn_per_data_t opmd;
-	asn_dec_rval_t rv;
-	int edx;
-
-	(void)constraints;
-
-	if(ASN__STACK_OVERFLOW_CHECK(opt_codec_ctx))
-		ASN__DECODE_FAILED;
-
-	if(!st) {
-		st = *sptr = CALLOC(1, specs->struct_size);
-		if(!st) ASN__DECODE_FAILED;
-	}
-
-	ASN_DEBUG("Decoding %s as SEQUENCE (APER)", td->name);
-
-	/* Handle extensions */
-	if(specs->ext_before >= 0) {
-		extpresent = aper_get_few_bits(pd, 1);
-		if(extpresent < 0) ASN__DECODE_STARVED;
-	} else {
-		extpresent = 0;
-	}
-
-	/* Prepare a place and read-in the presence bitmap */
-	memset(&opmd, 0, sizeof(opmd));
-	if(specs->roms_count) {
-		opres = (uint8_t *)MALLOC(((specs->roms_count + 7) >> 3) + 1);
-		if(!opres) ASN__DECODE_FAILED;
-		/* Get the presence map */
-		if(per_get_many_bits(pd, opres, 0, specs->roms_count)) {
-			FREEMEM(opres);
-			ASN__DECODE_STARVED;
-		}
-		opmd.buffer = opres;
-		opmd.nbits = specs->roms_count;
-		ASN_DEBUG("Read in presence bitmap for %s of %d bits (%x..)",
-			td->name, specs->roms_count, *opres);
-	} else {
-		opres = 0;
-	}
-
-	/*
-	 * Get the sequence ROOT elements.
-	 */
-	for(edx = 0; edx < td->elements_count; edx++) {
-		asn_TYPE_member_t *elm = &td->elements[edx];
-		void *memb_ptr;		/* Pointer to the member */
-		void **memb_ptr2;	/* Pointer to that pointer */
-
-		if(IN_EXTENSION_GROUP(specs, edx))
-			continue;
-
-		/* Fetch the pointer to this member */
-		if(elm->flags & ATF_POINTER) {
-			memb_ptr2 = (void **)((char *)st + elm->memb_offset);
-		} else {
-			memb_ptr = (char *)st + elm->memb_offset;
-			memb_ptr2 = &memb_ptr;
-		}
-
-		/* Deal with optionality */
-		if(elm->optional) {
-			int present = aper_get_few_bits(&opmd, 1);
-			ASN_DEBUG("Member %s->%s is optional, p=%d (%d->%d)",
-				td->name, elm->name, present,
-				(int)opmd.nboff, (int)opmd.nbits);
-			if(present == 0) {
-				/* This element is not present */
-				if(elm->default_value) {
-					/* Fill-in DEFAULT */
-					if(elm->default_value(1, memb_ptr2)) {
-						FREEMEM(opres);
-						ASN__DECODE_FAILED;
-					}
-					ASN_DEBUG("Filled-in default");
-				}
-				/* The member is just not present */
-				continue;
-			}
-			/* Fall through */
-		}
-
-		/* Fetch the member from the stream */
-		ASN_DEBUG("Decoding member %s in %s", elm->name, td->name);
-		rv = elm->type->op->aper_decoder(opt_codec_ctx, elm->type,
-			elm->per_constraints, memb_ptr2, pd);
-		if(rv.code != RC_OK) {
-			ASN_DEBUG("Failed decode %s in %s",
-				elm->name, td->name);
-			FREEMEM(opres);
-			return rv;
-		}
-	}
-
-	/* Optionality map is not needed anymore */
-	FREEMEM(opres);
-
-	/*
-	 * Deal with extensions.
-	 */
-	if(extpresent) {
-		ssize_t bmlength;
-		uint8_t *epres;		/* Presence of extension members */
-		asn_per_data_t epmd;
-
-		bmlength = aper_get_nslength(pd);
-		if(bmlength < 0) ASN__DECODE_STARVED;
-
-		ASN_DEBUG("Extensions %ld present in %s", (long)bmlength, td->name);
-
-		epres = (uint8_t *)MALLOC((bmlength + 15) >> 3);
-		if(!epres) ASN__DECODE_STARVED;
-
-		/* Get the extensions map */
-		if(per_get_many_bits(pd, epres, 0, bmlength)) {
-			FREEMEM(epres);
-			ASN__DECODE_STARVED;
-		}
-
-		memset(&epmd, 0, sizeof(epmd));
-		epmd.buffer = epres;
-		epmd.nbits = bmlength;
-		ASN_DEBUG("Read in extensions bitmap for %s of %ld bits (%x..)",
-			td->name, (long)bmlength, *epres);
-
-	    /* Go over extensions and read them in */
-	    for(edx = specs->ext_after + 1; edx < td->elements_count; edx++) {
-		asn_TYPE_member_t *elm = &td->elements[edx];
-		void *memb_ptr;		/* Pointer to the member */
-		void **memb_ptr2;	/* Pointer to that pointer */
-		int present;
-
-		if(!IN_EXTENSION_GROUP(specs, edx)) {
-			ASN_DEBUG("%d is not extension", edx);
-			continue;
-		}
-
-		/* Fetch the pointer to this member */
-		if(elm->flags & ATF_POINTER) {
-			memb_ptr2 = (void **)((char *)st + elm->memb_offset);
-		} else {
-			memb_ptr = (void *)((char *)st + elm->memb_offset);
-			memb_ptr2 = &memb_ptr;
-		}
-
-		present = aper_get_few_bits(&epmd, 1);
-		if(present <= 0) {
-			if(present < 0) break;	/* No more extensions */
-			continue;
-		}
-
-		ASN_DEBUG("Decoding member %s in %s %p", elm->name, td->name, *memb_ptr2);
-		rv = aper_open_type_get(opt_codec_ctx, elm->type,
-			elm->per_constraints, memb_ptr2, pd);
-		if(rv.code != RC_OK) {
-			FREEMEM(epres);
-			return rv;
-		}
-	    }
-
-		/* Skip over overflow extensions which aren't present
-		 * in this system's version of the protocol */
-		for(;;) {
-			ASN_DEBUG("Getting overflow extensions");
-			switch(aper_get_few_bits(&epmd, 1)) {
-			case -1: break;
-			case 0: continue;
-			default:
-				if(aper_open_type_skip(opt_codec_ctx, pd)) {
-					FREEMEM(epres);
-					ASN__DECODE_STARVED;
-				}
-			}
-			break;
-		}
-
-		FREEMEM(epres);
-	}
-
-	/* Fill DEFAULT members in extensions */
-	for(edx = specs->roms_count; edx < specs->roms_count
-			+ specs->aoms_count; edx++) {
-		asn_TYPE_member_t *elm = &td->elements[edx];
-		void **memb_ptr2;	/* Pointer to member pointer */
-
-		if(!elm->default_value) continue;
-
-		/* Fetch the pointer to this member */
-		if(elm->flags & ATF_POINTER) {
-			memb_ptr2 = (void **)((char *)st
-					+ elm->memb_offset);
-			if(*memb_ptr2) continue;
-		} else {
-			continue;	/* Extensions are all optionals */
-		}
-
-		/* Set default value */
-		if(elm->default_value(1, memb_ptr2)) {
-			ASN__DECODE_FAILED;
-		}
-	}
-
-	rv.consumed = 0;
-	rv.code = RC_OK;
-	return rv;
 }
 
 asn_enc_rval_t
@@ -1659,23 +1707,22 @@ SEQUENCE_encode_aper(asn_TYPE_descriptor_t *td,
 
 	ASN_DEBUG("Encoding %s as SEQUENCE (APER)", td->name);
 
-
 	/*
 	 * X.691#18.1 Whether structure is extensible
 	 * and whether to encode extensions
 	 */
 	if(specs->ext_before >= 0) {
-		n_extensions = SEQUENCE_handle_extensions(td, sptr, 0, 0);
+		n_extensions = SEQUENCE_handle_extensions_aper(td, sptr, 0, 0);
 		per_put_few_bits(po, n_extensions ? 1 : 0, 1);
 	} else {
-		n_extensions = 0;	/* There are no extensions to encode */
+		n_extensions = 0;       /* There are no extensions to encode */
 	}
 
 	/* Encode a presence bitmap */
 	for(i = 0; i < specs->roms_count; i++) {
 		asn_TYPE_member_t *elm;
-		void *memb_ptr;		/* Pointer to the member */
-		void **memb_ptr2;	/* Pointer to that pointer */
+		void *memb_ptr;	 /* Pointer to the member */
+		void **memb_ptr2;       /* Pointer to that pointer */
 		int present;
 
 		edx = specs->oms[i];
@@ -1712,8 +1759,8 @@ SEQUENCE_encode_aper(asn_TYPE_descriptor_t *td,
 		? td->elements_count : specs->ext_before - 1); edx++) {
 
 		asn_TYPE_member_t *elm = &td->elements[edx];
-		void *memb_ptr;		/* Pointer to the member */
-		void **memb_ptr2;	/* Pointer to that pointer */
+		void *memb_ptr;	 /* Pointer to the member */
+		void **memb_ptr2;       /* Pointer to that pointer */
 
 		if(IN_EXTENSION_GROUP(specs, edx))
 			continue;
@@ -1741,7 +1788,7 @@ SEQUENCE_encode_aper(asn_TYPE_descriptor_t *td,
 			continue;
 
 		ASN_DEBUG("Encoding %s->%s", td->name, elm->name);
-		er = elm->type->op->aper_encoder(elm->type, elm->per_constraints,
+		er = elm->type->aper_encoder(elm->type, elm->per_constraints,
 			*memb_ptr2, po);
 		if(er.encoded == -1)
 			return er;
@@ -1758,38 +1805,13 @@ SEQUENCE_encode_aper(asn_TYPE_descriptor_t *td,
 	ASN_DEBUG("Bit-map of %d elements", n_extensions);
 	/* #18.7. Encoding the extensions presence bit-map. */
 	/* TODO: act upon NOTE in #18.7 for canonical PER */
-	if(SEQUENCE_handle_extensions(td, sptr, po, 0) != n_extensions)
+	if(SEQUENCE_handle_extensions_aper(td, sptr, po, 0) != n_extensions)
 		ASN__ENCODE_FAILED;
 
 	ASN_DEBUG("Writing %d extensions", n_extensions);
 	/* #18.9. Encode extensions as open type fields. */
-	if(SEQUENCE_handle_extensions(td, sptr, 0, po) != n_extensions)
+	if(SEQUENCE_handle_extensions_aper(td, sptr, 0, po) != n_extensions)
 		ASN__ENCODE_FAILED;
 
 	ASN__ENCODED_OK(er);
 }
-
-#endif /* ASN_DISABLE_PER_SUPPORT */
-
-asn_TYPE_operation_t asn_OP_SEQUENCE = {
-	SEQUENCE_free,
-	SEQUENCE_print,
-	SEQUENCE_constraint,
-	SEQUENCE_decode_ber,
-	SEQUENCE_encode_der,
-	SEQUENCE_decode_xer,
-	SEQUENCE_encode_xer,
-#ifdef ASN_DISABLE_PER_SUPPORT
-	0,
-	0,
-	0,
-	0,
-#else
-	SEQUENCE_decode_uper,
-	SEQUENCE_encode_uper,
-	SEQUENCE_decode_aper,
-	SEQUENCE_encode_aper,
-#endif /* ASN_DISABLE_PER_SUPPORT */
-	0	/* Use generic outmost tag fetcher */
-};
-

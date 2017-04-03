@@ -29,7 +29,7 @@ SEQUENCE_OF_encode_der(asn_TYPE_descriptor_t *td, void *ptr,
 	for(edx = 0; edx < list->count; edx++) {
 		void *memb_ptr = list->array[edx];
 		if(!memb_ptr) continue;
-		erval = elm->type->op->der_encoder(elm->type, memb_ptr,
+		erval = elm->type->der_encoder(elm->type, memb_ptr,
 			0, elm->tag,
 			0, 0);
 		if(erval.encoded == -1)
@@ -63,7 +63,7 @@ SEQUENCE_OF_encode_der(asn_TYPE_descriptor_t *td, void *ptr,
 	for(edx = 0; edx < list->count; edx++) {
 		void *memb_ptr = list->array[edx];
 		if(!memb_ptr) continue;
-		erval = elm->type->op->der_encoder(elm->type, memb_ptr,
+		erval = elm->type->der_encoder(elm->type, memb_ptr,
 			0, elm->tag,
 			cb, app_key);
 		if(erval.encoded == -1)
@@ -115,7 +115,7 @@ SEQUENCE_OF_encode_xer(asn_TYPE_descriptor_t *td, void *sptr,
 			ASN__CALLBACK3("<", 1, mname, mlen, ">", 1);
 		}
 
-		tmper = elm->type->op->xer_encoder(elm->type, memb_ptr,
+		tmper = elm->type->xer_encoder(elm->type, memb_ptr,
 				ilevel + 1, flags, cb, app_key);
 		if(tmper.encoded == -1) return tmper;
                 if(tmper.encoded == 0 && specs->as_XMLValueList) {
@@ -139,8 +139,6 @@ SEQUENCE_OF_encode_xer(asn_TYPE_descriptor_t *td, void *sptr,
 cb_failed:
 	ASN__ENCODE_FAILED;
 }
-
-#ifndef ASN_DISABLE_PER_SUPPORT
 
 asn_enc_rval_t
 SEQUENCE_OF_encode_uper(asn_TYPE_descriptor_t *td,
@@ -198,7 +196,7 @@ SEQUENCE_OF_encode_uper(asn_TYPE_descriptor_t *td,
 		while(mayEncode--) {
 			void *memb_ptr = list->array[seq++];
 			if(!memb_ptr) ASN__ENCODE_FAILED;
-			er = elm->type->op->uper_encoder(elm->type,
+			er = elm->type->uper_encoder(elm->type,
 				elm->per_constraints, memb_ptr, po);
 			if(er.encoded == -1)
 				ASN__ENCODE_FAILED;
@@ -222,7 +220,7 @@ SEQUENCE_OF_encode_aper(asn_TYPE_descriptor_t *td,
 
 	er.encoded = 0;
 
-	ASN_DEBUG("Encoding %s as SEQUENCE OF (%d)", td->name, list->count);
+	ASN_DEBUG("Encoding %s as SEQUENCE OF size (%d) using ALIGNED PER", td->name, list->count);
 
 	if(constraints) ct = &constraints->size;
 	else if(td->per_constraints) ct = &td->per_constraints->size;
@@ -246,8 +244,10 @@ SEQUENCE_OF_encode_aper(asn_TYPE_descriptor_t *td,
 
 	if(ct && ct->effective_bits >= 0) {
 		/* X.691, #19.5: No length determinant */
-		if(per_put_few_bits(po, list->count - ct->lower_bound,
-				ct->effective_bits))
+//		 if(per_put_few_bits(po, list->count - ct->lower_bound,
+//				 ct->effective_bits))
+//			 ASN__ENCODE_FAILED;
+		if (aper_put_length(po, ct->upper_bound - ct->lower_bound + 1, list->count - ct->lower_bound) < 0)
 			ASN__ENCODE_FAILED;
 	}
 
@@ -257,14 +257,14 @@ SEQUENCE_OF_encode_aper(asn_TYPE_descriptor_t *td,
 		if(ct && ct->effective_bits >= 0) {
 			mayEncode = list->count;
 		} else {
-			mayEncode = aper_put_length(po, list->count - seq);
+			mayEncode = aper_put_length(po, -1, list->count - seq);
 			if(mayEncode < 0) ASN__ENCODE_FAILED;
 		}
 
 		while(mayEncode--) {
 			void *memb_ptr = list->array[seq++];
 			if(!memb_ptr) ASN__ENCODE_FAILED;
-			er = elm->type->op->aper_encoder(elm->type,
+			er = elm->type->aper_encoder(elm->type,
 				elm->per_constraints, memb_ptr, po);
 			if(er.encoded == -1)
 				ASN__ENCODE_FAILED;
@@ -273,26 +273,3 @@ SEQUENCE_OF_encode_aper(asn_TYPE_descriptor_t *td,
 
 	ASN__ENCODED_OK(er);
 }
-#endif /* ASN_DISABLE_PER_SUPPORT */
-
-asn_TYPE_operation_t asn_OP_SEQUENCE_OF = {
-	SEQUENCE_OF_free,
-	SEQUENCE_OF_print,
-	SEQUENCE_OF_constraint,
-	SEQUENCE_OF_decode_ber,
-	SEQUENCE_OF_encode_der,
-	SEQUENCE_OF_decode_xer,
-	SEQUENCE_OF_encode_xer,
-#ifdef ASN_DISABLE_PER_SUPPORT
-	0,
-	0,
-	0,
-	0,
-#else
-	SEQUENCE_OF_decode_uper,
-	SEQUENCE_OF_encode_uper,
-	SEQUENCE_OF_decode_aper,
-	SEQUENCE_OF_encode_aper,
-#endif /* ASN_DISABLE_PER_SUPPORT */
-	0	/* Use generic outmost tag fetcher */
-};

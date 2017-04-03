@@ -59,8 +59,16 @@ static asn_SEQUENCE_specifics_t asn_SPC_T1_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_T1 = {
 	"T1",
 	"T1",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_T1_tags_1,
 	sizeof(asn_DEF_T1_tags_1)
 		/sizeof(asn_DEF_T1_tags_1[0]), /* 1 */
@@ -135,8 +143,16 @@ static asn_SEQUENCE_specifics_t asn_SPC_T2_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_T2 = {
 	"T2",
 	"T2",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_T2_tags_1,
 	sizeof(asn_DEF_T2_tags_1)
 		/sizeof(asn_DEF_T2_tags_1[0]), /* 1 */
@@ -206,8 +222,16 @@ static asn_SEQUENCE_specifics_t asn_SPC_T3_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_T3 = {
 	"T3",
 	"T3",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_T3_tags_1,
 	sizeof(asn_DEF_T3_tags_1)
 		/sizeof(asn_DEF_T3_tags_1[0]), /* 1 */
@@ -317,8 +341,16 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_encoding_5 = {
 	"encoding",
 	"encoding",
-	&asn_OP_CHOICE,
+	CHOICE_free,
+	CHOICE_print,
 	CHOICE_constraint,
+	CHOICE_decode_ber,
+	CHOICE_encode_der,
+	CHOICE_decode_xer,
+	CHOICE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	CHOICE_outmost_tag,
 	0,	/* No effective tags (pointer) */
 	0,	/* No effective tags (count) */
 	0,	/* No tags (pointer) */
@@ -391,8 +423,16 @@ static asn_SEQUENCE_specifics_t asn_SPC_EXTERNAL_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_EXTERNAL = {
 	"EXTERNAL",
 	"EXTERNAL",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_EXTERNAL_tags_1,
 	sizeof(asn_DEF_EXTERNAL_tags_1)
 		/sizeof(asn_DEF_EXTERNAL_tags_1[0]) - 1, /* 1 */

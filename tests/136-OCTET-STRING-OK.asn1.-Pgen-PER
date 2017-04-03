@@ -1,51 +1,154 @@
 
-/*** <<< INCLUDES [T] >>> ***/
+/*** <<< INCLUDES [PDU] >>> ***/
 
-#include "EXTERNAL.h"
+#include <NativeInteger.h>
+#include <OCTET_STRING.h>
+#include <constr_SEQUENCE.h>
 
-/*** <<< TYPE-DECLS [T] >>> ***/
+/*** <<< TYPE-DECLS [PDU] >>> ***/
 
-typedef EXTERNAL_t	 T_t;
+typedef struct PDU {
+	long	 count;
+	OCTET_STRING_t	 data;
+	
+	/* Context for parsing across buffer boundaries */
+	asn_struct_ctx_t _asn_ctx;
+} PDU_t;
 
-/*** <<< FUNC-DECLS [T] >>> ***/
+/*** <<< FUNC-DECLS [PDU] >>> ***/
 
-extern asn_TYPE_descriptor_t asn_DEF_T;
-asn_struct_free_f T_free;
-asn_struct_print_f T_print;
-asn_constr_check_f T_constraint;
-ber_type_decoder_f T_decode_ber;
-der_type_encoder_f T_encode_der;
-xer_type_decoder_f T_decode_xer;
-xer_type_encoder_f T_encode_xer;
+extern asn_TYPE_descriptor_t asn_DEF_PDU;
 
-/*** <<< CODE [T] >>> ***/
+/*** <<< CODE [PDU] >>> ***/
 
-/*
- * This type is implemented using EXTERNAL,
- * so here we adjust the DEF accordingly.
- */
+static int
+memb_count_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	long long value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	value = *(const long long *)sptr;
+	
+	if((value >= 0LL && value <= 20000LL)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
 
-/*** <<< STAT-DEFS [T] >>> ***/
+static int
+memb_data_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const OCTET_STRING_t *st = (const OCTET_STRING_t *)sptr;
+	size_t size;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	size = st->size;
+	
+	if((size >= 40LL && size <= 20000LL)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
 
-static const ber_tlv_tag_t asn_DEF_T_tags_1[] = {
-	(ASN_TAG_CLASS_UNIVERSAL | (8 << 2)),
+
+/*** <<< CTDEFS [PDU] >>> ***/
+
+static asn_per_constraints_t asn_PER_memb_count_constr_2 GCC_NOTUSED = {
+	{ APC_CONSTRAINED,	 15,  15,  0l,  20000l }	/* (0..20000) */,
+	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
+	0, 0	/* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_data_constr_3 GCC_NOTUSED = {
+	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
+	{ APC_CONSTRAINED,	 15,  15,  40l,  20000l }	/* (SIZE(40..20000)) */,
+	0, 0	/* No PER value map */
+};
+
+/*** <<< STAT-DEFS [PDU] >>> ***/
+
+static asn_TYPE_member_t asn_MBR_PDU_1[] = {
+	{ ATF_NOFLAGS, 0, offsetof(struct PDU, count),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_NativeInteger,
+		.memb_constraints = memb_count_constraint_1,
+		.per_constraints = &asn_PER_memb_count_constr_2,
+		.default_value = 0,
+		.name = "count"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PDU, data),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_OCTET_STRING,
+		.memb_constraints = memb_data_constraint_1,
+		.per_constraints = &asn_PER_memb_data_constr_3,
+		.default_value = 0,
+		.name = "data"
+		},
+};
+static const ber_tlv_tag_t asn_DEF_PDU_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
-asn_TYPE_descriptor_t asn_DEF_T = {
-	"T",
-	"T",
-	&asn_OP_SEQUENCE,
+static const asn_TYPE_tag2member_t asn_MAP_PDU_tag2el_1[] = {
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* count */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, 0, 0 } /* data */
+};
+static asn_SEQUENCE_specifics_t asn_SPC_PDU_specs_1 = {
+	sizeof(struct PDU),
+	offsetof(struct PDU, _asn_ctx),
+	asn_MAP_PDU_tag2el_1,
+	2,	/* Count of tags in the map */
+	0, 0, 0,	/* Optional elements (not needed) */
+	-1,	/* Start extensions */
+	-1	/* Stop extensions */
+};
+asn_TYPE_descriptor_t asn_DEF_PDU = {
+	"PDU",
+	"PDU",
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
-	asn_DEF_T_tags_1,
-	sizeof(asn_DEF_T_tags_1)
-		/sizeof(asn_DEF_T_tags_1[0]) - 1, /* 1 */
-	asn_DEF_T_tags_1,	/* Same as above */
-	sizeof(asn_DEF_T_tags_1)
-		/sizeof(asn_DEF_T_tags_1[0]), /* 2 */
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	SEQUENCE_decode_uper,
+	SEQUENCE_encode_uper,
+	SEQUENCE_decode_aper,
+	SEQUENCE_encode_aper,
+	0,	/* Use generic outmost tag fetcher */
+	asn_DEF_PDU_tags_1,
+	sizeof(asn_DEF_PDU_tags_1)
+		/sizeof(asn_DEF_PDU_tags_1[0]), /* 1 */
+	asn_DEF_PDU_tags_1,	/* Same as above */
+	sizeof(asn_DEF_PDU_tags_1)
+		/sizeof(asn_DEF_PDU_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
-	asn_MBR_EXTERNAL_1,
-	4,	/* Elements count */
-	&asn_SPC_EXTERNAL_specs_1	/* Additional specs */
+	asn_MBR_PDU_1,
+	2,	/* Elements count */
+	&asn_SPC_PDU_specs_1	/* Additional specs */
 };
 
 
@@ -94,8 +197,14 @@ typedef struct EXTERNAL {
 /*** <<< FUNC-DECLS [EXTERNAL] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_EXTERNAL;
-extern asn_SEQUENCE_specifics_t asn_SPC_EXTERNAL_specs_1;
-extern asn_TYPE_member_t asn_MBR_EXTERNAL_1[4];
+
+/*** <<< CTDEFS [EXTERNAL] >>> ***/
+
+static asn_per_constraints_t asn_PER_type_encoding_constr_5 GCC_NOTUSED = {
+	{ APC_CONSTRAINED,	 2,  2,  0l,  2l }	/* (0..2) */,
+	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
+	0, 0	/* No PER value map */
+};
 
 /*** <<< STAT-DEFS [EXTERNAL] >>> ***/
 
@@ -105,7 +214,7 @@ static asn_TYPE_member_t asn_MBR_encoding_5[] = {
 		.tag_mode = +1,	/* EXPLICIT tag at current level */
 		.type = &asn_DEF_ANY,
 		.memb_constraints = 0,	/* Defer constraints checking to the member type */
-		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.per_constraints = 0,	/* No PER visible constraints */
 		.default_value = 0,
 		.name = "single-ASN1-type"
 		},
@@ -114,7 +223,7 @@ static asn_TYPE_member_t asn_MBR_encoding_5[] = {
 		.tag_mode = -1,	/* IMPLICIT tag at current level */
 		.type = &asn_DEF_OCTET_STRING,
 		.memb_constraints = 0,	/* Defer constraints checking to the member type */
-		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.per_constraints = 0,	/* No PER visible constraints */
 		.default_value = 0,
 		.name = "octet-aligned"
 		},
@@ -123,7 +232,7 @@ static asn_TYPE_member_t asn_MBR_encoding_5[] = {
 		.tag_mode = -1,	/* IMPLICIT tag at current level */
 		.type = &asn_DEF_BIT_STRING,
 		.memb_constraints = 0,	/* Defer constraints checking to the member type */
-		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.per_constraints = 0,	/* No PER visible constraints */
 		.default_value = 0,
 		.name = "arbitrary"
 		},
@@ -147,25 +256,35 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_encoding_5 = {
 	"encoding",
 	"encoding",
-	&asn_OP_CHOICE,
+	CHOICE_free,
+	CHOICE_print,
 	CHOICE_constraint,
+	CHOICE_decode_ber,
+	CHOICE_encode_der,
+	CHOICE_decode_xer,
+	CHOICE_encode_xer,
+	CHOICE_decode_uper,
+	CHOICE_encode_uper,
+	CHOICE_decode_aper,
+	CHOICE_encode_aper,
+	CHOICE_outmost_tag,
 	0,	/* No effective tags (pointer) */
 	0,	/* No effective tags (count) */
 	0,	/* No tags (pointer) */
 	0,	/* No tags (count) */
-	0,	/* No PER visible constraints */
+	&asn_PER_type_encoding_constr_5,
 	asn_MBR_encoding_5,
 	3,	/* Elements count */
 	&asn_SPC_encoding_specs_5	/* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_EXTERNAL_1[] = {
+static asn_TYPE_member_t asn_MBR_EXTERNAL_1[] = {
 	{ ATF_POINTER, 3, offsetof(struct EXTERNAL, direct_reference),
 		.tag = (ASN_TAG_CLASS_UNIVERSAL | (6 << 2)),
 		.tag_mode = 0,
 		.type = &asn_DEF_OBJECT_IDENTIFIER,
 		.memb_constraints = 0,	/* Defer constraints checking to the member type */
-		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.per_constraints = 0,	/* No PER visible constraints */
 		.default_value = 0,
 		.name = "direct-reference"
 		},
@@ -174,7 +293,7 @@ asn_TYPE_member_t asn_MBR_EXTERNAL_1[] = {
 		.tag_mode = 0,
 		.type = &asn_DEF_NativeInteger,
 		.memb_constraints = 0,	/* Defer constraints checking to the member type */
-		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.per_constraints = 0,	/* No PER visible constraints */
 		.default_value = 0,
 		.name = "indirect-reference"
 		},
@@ -183,7 +302,7 @@ asn_TYPE_member_t asn_MBR_EXTERNAL_1[] = {
 		.tag_mode = 0,
 		.type = &asn_DEF_ObjectDescriptor,
 		.memb_constraints = 0,	/* Defer constraints checking to the member type */
-		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.per_constraints = 0,	/* No PER visible constraints */
 		.default_value = 0,
 		.name = "data-value-descriptor"
 		},
@@ -192,11 +311,12 @@ asn_TYPE_member_t asn_MBR_EXTERNAL_1[] = {
 		.tag_mode = 0,
 		.type = &asn_DEF_encoding_5,
 		.memb_constraints = 0,	/* Defer constraints checking to the member type */
-		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.per_constraints = 0,	/* No PER visible constraints */
 		.default_value = 0,
 		.name = "encoding"
 		},
 };
+static const int asn_MAP_EXTERNAL_oms_1[] = { 0, 1, 2 };
 static const ber_tlv_tag_t asn_DEF_EXTERNAL_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (8 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
@@ -209,20 +329,31 @@ static const asn_TYPE_tag2member_t asn_MAP_EXTERNAL_tag2el_1[] = {
     { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 3, 0, 0 }, /* octet-aligned */
     { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 3, 0, 0 } /* arbitrary */
 };
-asn_SEQUENCE_specifics_t asn_SPC_EXTERNAL_specs_1 = {
+static asn_SEQUENCE_specifics_t asn_SPC_EXTERNAL_specs_1 = {
 	sizeof(struct EXTERNAL),
 	offsetof(struct EXTERNAL, _asn_ctx),
 	asn_MAP_EXTERNAL_tag2el_1,
 	6,	/* Count of tags in the map */
-	0, 0, 0,	/* Optional elements (not needed) */
+	asn_MAP_EXTERNAL_oms_1,	/* Optional members */
+	3, 0,	/* Root/Additions */
 	-1,	/* Start extensions */
 	-1	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_EXTERNAL = {
 	"EXTERNAL",
 	"EXTERNAL",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	SEQUENCE_decode_uper,
+	SEQUENCE_encode_uper,
+	SEQUENCE_decode_aper,
+	SEQUENCE_encode_aper,
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_EXTERNAL_tags_1,
 	sizeof(asn_DEF_EXTERNAL_tags_1)
 		/sizeof(asn_DEF_EXTERNAL_tags_1[0]) - 1, /* 1 */

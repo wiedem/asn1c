@@ -14,7 +14,9 @@
 static const ber_tlv_tag_t asn_DEF_ENUMERATED_tags[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (10 << 2))
 };
-asn_TYPE_operation_t asn_OP_ENUMERATED = {
+asn_TYPE_descriptor_t asn_DEF_ENUMERATED = {
+	"ENUMERATED",
+	"ENUMERATED",
 	ASN__PRIMITIVE_TYPE_free,
 	INTEGER_print,			/* Implemented in terms of INTEGER */
 	asn_generic_no_constraint,
@@ -22,24 +24,11 @@ asn_TYPE_operation_t asn_OP_ENUMERATED = {
 	INTEGER_encode_der,		/* Implemented in terms of INTEGER */
 	INTEGER_decode_xer,	/* This is temporary! */
 	INTEGER_encode_xer,
-#ifdef ASN_DISABLE_PER_SUPPORT
-	0,
-	0,
-	0,
-	0,
-#else
 	ENUMERATED_decode_uper,	/* Unaligned PER decoder */
 	ENUMERATED_encode_uper,	/* Unaligned PER encoder */
 	ENUMERATED_decode_aper,	/* Aligned PER decoder */
 	ENUMERATED_encode_aper,	/* Aligned PER encoder */
-#endif /* ASN_DISABLE_PER_SUPPORT */
-	0	/* Use generic outmost tag fetcher */
-};
-asn_TYPE_descriptor_t asn_DEF_ENUMERATED = {
-	"ENUMERATED",
-	"ENUMERATED",
-	&asn_OP_ENUMERATED,
-	asn_generic_no_constraint,
+	0, /* Use generic outmost tag fetcher */
 	asn_DEF_ENUMERATED_tags,
 	sizeof(asn_DEF_ENUMERATED_tags) / sizeof(asn_DEF_ENUMERATED_tags[0]),
 	asn_DEF_ENUMERATED_tags,	/* Same as above */
@@ -49,7 +38,6 @@ asn_TYPE_descriptor_t asn_DEF_ENUMERATED = {
 	0	/* No specifics */
 };
 
-#ifndef ASN_DISABLE_PER_SUPPORT
 asn_dec_rval_t
 ENUMERATED_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 	asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
@@ -70,19 +58,6 @@ ENUMERATED_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td
 			rval.code = RC_FAIL;
 	return rval;
 }
-
-asn_enc_rval_t
-ENUMERATED_encode_uper(asn_TYPE_descriptor_t *td,
-	asn_per_constraints_t *constraints, void *sptr, asn_per_outp_t *po) {
-	ENUMERATED_t *st = (ENUMERATED_t *)sptr;
-	long long value;
-
-	if(asn_INTEGER2long(st, &value))
-		ASN__ENCODE_FAILED;
-
-	return NativeEnumerated_encode_uper(td, constraints, &value, po);
-}
-
 
 asn_dec_rval_t
 ENUMERATED_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
@@ -106,7 +81,7 @@ ENUMERATED_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td
 }
 
 asn_enc_rval_t
-ENUMERATED_encode_aper(asn_TYPE_descriptor_t *td,
+ENUMERATED_encode_uper(asn_TYPE_descriptor_t *td,
 	asn_per_constraints_t *constraints, void *sptr, asn_per_outp_t *po) {
 	ENUMERATED_t *st = (ENUMERATED_t *)sptr;
 	long long value;
@@ -114,7 +89,17 @@ ENUMERATED_encode_aper(asn_TYPE_descriptor_t *td,
 	if(asn_INTEGER2long(st, &value))
 		ASN__ENCODE_FAILED;
 
-	return NativeEnumerated_encode_aper(td, constraints, &value, po);
+	return NativeEnumerated_encode_uper(td, constraints, &value, po);
 }
 
-#endif /* ASN_DISABLE_PER_SUPPORT */
+asn_enc_rval_t
+ENUMERATED_encode_aper(asn_TYPE_descriptor_t *td,
+		asn_per_constraints_t *constraints, void *sptr, asn_per_outp_t *po) {
+		ENUMERATED_t *st = (ENUMERATED_t *)sptr;
+		long long value;
+
+		if(asn_INTEGER2long(st, &value))
+				ASN__ENCODE_FAILED;
+
+		return NativeEnumerated_encode_aper(td, constraints, &value, po);
+}

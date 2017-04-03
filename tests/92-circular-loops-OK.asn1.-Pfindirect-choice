@@ -37,8 +37,6 @@ typedef struct Everything {
 /*** <<< FUNC-DECLS [Everything] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_Everything;
-extern asn_SEQUENCE_specifics_t asn_SPC_Everything_specs_1;
-extern asn_TYPE_member_t asn_MBR_Everything_1[10];
 
 /*** <<< POST-INCLUDE [Everything] >>> ***/
 
@@ -48,7 +46,7 @@ extern asn_TYPE_member_t asn_MBR_Everything_1[10];
 
 /*** <<< STAT-DEFS [Everything] >>> ***/
 
-asn_TYPE_member_t asn_MBR_Everything_1[] = {
+static asn_TYPE_member_t asn_MBR_Everything_1[] = {
 	{ ATF_POINTER, 0, offsetof(struct Everything, ch1),
 		.tag = (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		.tag_mode = +1,	/* EXPLICIT tag at current level */
@@ -155,7 +153,7 @@ static const asn_TYPE_tag2member_t asn_MAP_Everything_tag2el_1[] = {
     { (ASN_TAG_CLASS_CONTEXT | (8 << 2)), 8, 0, 0 }, /* tt */
     { (ASN_TAG_CLASS_CONTEXT | (9 << 2)), 9, 0, 0 } /* to */
 };
-asn_SEQUENCE_specifics_t asn_SPC_Everything_specs_1 = {
+static asn_SEQUENCE_specifics_t asn_SPC_Everything_specs_1 = {
 	sizeof(struct Everything),
 	offsetof(struct Everything, _asn_ctx),
 	asn_MAP_Everything_tag2el_1,
@@ -167,8 +165,16 @@ asn_SEQUENCE_specifics_t asn_SPC_Everything_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Everything = {
 	"Everything",
 	"Everything",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Everything_tags_1,
 	sizeof(asn_DEF_Everything_tags_1)
 		/sizeof(asn_DEF_Everything_tags_1[0]), /* 1 */
@@ -219,8 +225,6 @@ typedef struct Choice1 {
 /*** <<< FUNC-DECLS [Choice1] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_Choice1;
-extern asn_CHOICE_specifics_t asn_SPC_Choice1_specs_1;
-extern asn_TYPE_member_t asn_MBR_Choice1_1[2];
 
 /*** <<< POST-INCLUDE [Choice1] >>> ***/
 
@@ -228,7 +232,7 @@ extern asn_TYPE_member_t asn_MBR_Choice1_1[2];
 
 /*** <<< STAT-DEFS [Choice1] >>> ***/
 
-asn_TYPE_member_t asn_MBR_Choice1_1[] = {
+static asn_TYPE_member_t asn_MBR_Choice1_1[] = {
 	{ ATF_POINTER, 0, offsetof(struct Choice1, choice.something),
 		.tag = (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		.tag_mode = -1,	/* IMPLICIT tag at current level */
@@ -252,7 +256,7 @@ static const asn_TYPE_tag2member_t asn_MAP_Choice1_tag2el_1[] = {
     { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* something */
     { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* some2 */
 };
-asn_CHOICE_specifics_t asn_SPC_Choice1_specs_1 = {
+static asn_CHOICE_specifics_t asn_SPC_Choice1_specs_1 = {
 	sizeof(struct Choice1),
 	offsetof(struct Choice1, _asn_ctx),
 	offsetof(struct Choice1, present),
@@ -265,8 +269,16 @@ asn_CHOICE_specifics_t asn_SPC_Choice1_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Choice1 = {
 	"Choice1",
 	"Choice1",
-	&asn_OP_CHOICE,
+	CHOICE_free,
+	CHOICE_print,
 	CHOICE_constraint,
+	CHOICE_decode_ber,
+	CHOICE_encode_der,
+	CHOICE_decode_xer,
+	CHOICE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	CHOICE_outmost_tag,
 	0,	/* No effective tags (pointer) */
 	0,	/* No effective tags (count) */
 	0,	/* No tags (pointer) */
@@ -316,8 +328,6 @@ typedef struct Choice2 {
 /*** <<< FUNC-DECLS [Choice2] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_Choice2;
-extern asn_CHOICE_specifics_t asn_SPC_Choice2_specs_1;
-extern asn_TYPE_member_t asn_MBR_Choice2_1[2];
 
 /*** <<< POST-INCLUDE [Choice2] >>> ***/
 
@@ -326,7 +336,7 @@ extern asn_TYPE_member_t asn_MBR_Choice2_1[2];
 
 /*** <<< STAT-DEFS [Choice2] >>> ***/
 
-asn_TYPE_member_t asn_MBR_Choice2_1[] = {
+static asn_TYPE_member_t asn_MBR_Choice2_1[] = {
 	{ ATF_POINTER, 0, offsetof(struct Choice2, choice.typeref),
 		.tag = (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		.tag_mode = -1,	/* IMPLICIT tag at current level */
@@ -350,7 +360,7 @@ static const asn_TYPE_tag2member_t asn_MAP_Choice2_tag2el_1[] = {
     { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* typeref */
     { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* some3 */
 };
-asn_CHOICE_specifics_t asn_SPC_Choice2_specs_1 = {
+static asn_CHOICE_specifics_t asn_SPC_Choice2_specs_1 = {
 	sizeof(struct Choice2),
 	offsetof(struct Choice2, _asn_ctx),
 	offsetof(struct Choice2, present),
@@ -363,8 +373,16 @@ asn_CHOICE_specifics_t asn_SPC_Choice2_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Choice2 = {
 	"Choice2",
 	"Choice2",
-	&asn_OP_CHOICE,
+	CHOICE_free,
+	CHOICE_print,
 	CHOICE_constraint,
+	CHOICE_decode_ber,
+	CHOICE_encode_der,
+	CHOICE_decode_xer,
+	CHOICE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	CHOICE_outmost_tag,
 	0,	/* No effective tags (pointer) */
 	0,	/* No effective tags (count) */
 	0,	/* No tags (pointer) */
@@ -424,8 +442,6 @@ typedef struct Choice3 {
 /*** <<< FUNC-DECLS [Choice3] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_Choice3;
-extern asn_CHOICE_specifics_t asn_SPC_Choice3_specs_1;
-extern asn_TYPE_member_t asn_MBR_Choice3_1[3];
 
 /*** <<< POST-INCLUDE [Choice3] >>> ***/
 
@@ -465,8 +481,16 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_a_2 = {
 	"a",
 	"a",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_a_tags_2,
 	sizeof(asn_DEF_a_tags_2)
 		/sizeof(asn_DEF_a_tags_2[0]) - 1, /* 1 */
@@ -503,8 +527,16 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_c_5 = {
 	"c",
 	"c",
-	&asn_OP_SEQUENCE_OF,
+	SEQUENCE_OF_free,
+	SEQUENCE_OF_print,
 	SEQUENCE_OF_constraint,
+	SEQUENCE_OF_decode_ber,
+	SEQUENCE_OF_encode_der,
+	SEQUENCE_OF_decode_xer,
+	SEQUENCE_OF_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_c_tags_5,
 	sizeof(asn_DEF_c_tags_5)
 		/sizeof(asn_DEF_c_tags_5[0]) - 1, /* 1 */
@@ -517,7 +549,7 @@ asn_TYPE_descriptor_t asn_DEF_c_5 = {
 	&asn_SPC_c_specs_5	/* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_Choice3_1[] = {
+static asn_TYPE_member_t asn_MBR_Choice3_1[] = {
 	{ ATF_POINTER, 0, offsetof(struct Choice3, choice.a),
 		.tag = (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		.tag_mode = 0,
@@ -551,7 +583,7 @@ static const asn_TYPE_tag2member_t asn_MAP_Choice3_tag2el_1[] = {
     { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* b */
     { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* c */
 };
-asn_CHOICE_specifics_t asn_SPC_Choice3_specs_1 = {
+static asn_CHOICE_specifics_t asn_SPC_Choice3_specs_1 = {
 	sizeof(struct Choice3),
 	offsetof(struct Choice3, _asn_ctx),
 	offsetof(struct Choice3, present),
@@ -564,8 +596,16 @@ asn_CHOICE_specifics_t asn_SPC_Choice3_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Choice3 = {
 	"Choice3",
 	"Choice3",
-	&asn_OP_CHOICE,
+	CHOICE_free,
+	CHOICE_print,
 	CHOICE_constraint,
+	CHOICE_decode_ber,
+	CHOICE_encode_der,
+	CHOICE_decode_xer,
+	CHOICE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	CHOICE_outmost_tag,
 	0,	/* No effective tags (pointer) */
 	0,	/* No effective tags (count) */
 	0,	/* No tags (pointer) */
@@ -614,8 +654,6 @@ typedef struct Set {
 /*** <<< FUNC-DECLS [Set] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_Set;
-extern asn_SET_OF_specifics_t asn_SPC_Set_specs_1;
-extern asn_TYPE_member_t asn_MBR_Set_1[1];
 
 /*** <<< POST-INCLUDE [Set] >>> ***/
 
@@ -694,8 +732,16 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_Member_2 = {
 	"SEQUENCE",
 	"SEQUENCE",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Member_tags_2,
 	sizeof(asn_DEF_Member_tags_2)
 		/sizeof(asn_DEF_Member_tags_2[0]), /* 1 */
@@ -708,7 +754,7 @@ asn_TYPE_descriptor_t asn_DEF_Member_2 = {
 	&asn_SPC_Member_specs_2	/* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_Set_1[] = {
+static asn_TYPE_member_t asn_MBR_Set_1[] = {
 	{ ATF_POINTER, 0, 0,
 		.tag = (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		.tag_mode = 0,
@@ -722,7 +768,7 @@ asn_TYPE_member_t asn_MBR_Set_1[] = {
 static const ber_tlv_tag_t asn_DEF_Set_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (17 << 2))
 };
-asn_SET_OF_specifics_t asn_SPC_Set_specs_1 = {
+static asn_SET_OF_specifics_t asn_SPC_Set_specs_1 = {
 	sizeof(struct Set),
 	offsetof(struct Set, _asn_ctx),
 	0,	/* XER encoding is XMLDelimitedItemList */
@@ -730,8 +776,16 @@ asn_SET_OF_specifics_t asn_SPC_Set_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Set = {
 	"Set",
 	"Set",
-	&asn_OP_SET_OF,
+	SET_OF_free,
+	SET_OF_print,
 	SET_OF_constraint,
+	SET_OF_decode_ber,
+	SET_OF_encode_der,
+	SET_OF_decode_xer,
+	SET_OF_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Set_tags_1,
 	sizeof(asn_DEF_Set_tags_1)
 		/sizeof(asn_DEF_Set_tags_1[0]), /* 1 */
@@ -774,8 +828,6 @@ typedef struct Sequence {
 /*** <<< FUNC-DECLS [Sequence] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_Sequence;
-extern asn_SEQUENCE_specifics_t asn_SPC_Sequence_specs_1;
-extern asn_TYPE_member_t asn_MBR_Sequence_1[4];
 
 /*** <<< POST-INCLUDE [Sequence] >>> ***/
 
@@ -784,7 +836,7 @@ extern asn_TYPE_member_t asn_MBR_Sequence_1[4];
 
 /*** <<< STAT-DEFS [Sequence] >>> ***/
 
-asn_TYPE_member_t asn_MBR_Sequence_1[] = {
+static asn_TYPE_member_t asn_MBR_Sequence_1[] = {
 	{ ATF_NOFLAGS, 0, offsetof(struct Sequence, a),
 		.tag = (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		.tag_mode = -1,	/* IMPLICIT tag at current level */
@@ -831,7 +883,7 @@ static const asn_TYPE_tag2member_t asn_MAP_Sequence_tag2el_1[] = {
     { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* b */
     { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 } /* set */
 };
-asn_SEQUENCE_specifics_t asn_SPC_Sequence_specs_1 = {
+static asn_SEQUENCE_specifics_t asn_SPC_Sequence_specs_1 = {
 	sizeof(struct Sequence),
 	offsetof(struct Sequence, _asn_ctx),
 	asn_MAP_Sequence_tag2el_1,
@@ -843,8 +895,16 @@ asn_SEQUENCE_specifics_t asn_SPC_Sequence_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Sequence = {
 	"Sequence",
 	"Sequence",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Sequence_tags_1,
 	sizeof(asn_DEF_Sequence_tags_1)
 		/sizeof(asn_DEF_Sequence_tags_1[0]), /* 1 */
@@ -879,10 +939,82 @@ xer_type_encoder_f TypeRef_encode_xer;
 
 /*** <<< CODE [TypeRef] >>> ***/
 
+int
+TypeRef_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	/* Replace with underlying type checker */
+	td->check_constraints = asn_DEF_Sequence.check_constraints;
+	return td->check_constraints(td, sptr, ctfailcb, app_key);
+}
+
 /*
  * This type is implemented using Sequence,
  * so here we adjust the DEF accordingly.
  */
+static void
+TypeRef_1_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
+	td->free_struct    = asn_DEF_Sequence.free_struct;
+	td->print_struct   = asn_DEF_Sequence.print_struct;
+	td->check_constraints = asn_DEF_Sequence.check_constraints;
+	td->ber_decoder    = asn_DEF_Sequence.ber_decoder;
+	td->der_encoder    = asn_DEF_Sequence.der_encoder;
+	td->xer_decoder    = asn_DEF_Sequence.xer_decoder;
+	td->xer_encoder    = asn_DEF_Sequence.xer_encoder;
+	td->uper_decoder   = asn_DEF_Sequence.uper_decoder;
+	td->uper_encoder   = asn_DEF_Sequence.uper_encoder;
+	td->aper_decoder   = asn_DEF_Sequence.aper_decoder;
+	td->aper_encoder   = asn_DEF_Sequence.aper_encoder;
+	if(!td->per_constraints)
+		td->per_constraints = asn_DEF_Sequence.per_constraints;
+	td->elements       = asn_DEF_Sequence.elements;
+	td->elements_count = asn_DEF_Sequence.elements_count;
+	td->specifics      = asn_DEF_Sequence.specifics;
+}
+
+void
+TypeRef_free(asn_TYPE_descriptor_t *td,
+		void *struct_ptr, int contents_only) {
+	TypeRef_1_inherit_TYPE_descriptor(td);
+	td->free_struct(td, struct_ptr, contents_only);
+}
+
+int
+TypeRef_print(asn_TYPE_descriptor_t *td, const void *struct_ptr,
+		int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
+	TypeRef_1_inherit_TYPE_descriptor(td);
+	return td->print_struct(td, struct_ptr, ilevel, cb, app_key);
+}
+
+asn_dec_rval_t
+TypeRef_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
+		void **structure, const void *bufptr, size_t size, int tag_mode) {
+	TypeRef_1_inherit_TYPE_descriptor(td);
+	return td->ber_decoder(opt_codec_ctx, td, structure, bufptr, size, tag_mode);
+}
+
+asn_enc_rval_t
+TypeRef_encode_der(asn_TYPE_descriptor_t *td,
+		void *structure, int tag_mode, ber_tlv_tag_t tag,
+		asn_app_consume_bytes_f *cb, void *app_key) {
+	TypeRef_1_inherit_TYPE_descriptor(td);
+	return td->der_encoder(td, structure, tag_mode, tag, cb, app_key);
+}
+
+asn_dec_rval_t
+TypeRef_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
+		void **structure, const char *opt_mname, const void *bufptr, size_t size) {
+	TypeRef_1_inherit_TYPE_descriptor(td);
+	return td->xer_decoder(opt_codec_ctx, td, structure, opt_mname, bufptr, size);
+}
+
+asn_enc_rval_t
+TypeRef_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
+		int ilevel, enum xer_encoder_flags_e flags,
+		asn_app_consume_bytes_f *cb, void *app_key) {
+	TypeRef_1_inherit_TYPE_descriptor(td);
+	return td->xer_encoder(td, structure, ilevel, flags, cb, app_key);
+}
+
 
 /*** <<< STAT-DEFS [TypeRef] >>> ***/
 
@@ -892,8 +1024,16 @@ static const ber_tlv_tag_t asn_DEF_TypeRef_tags_1[] = {
 asn_TYPE_descriptor_t asn_DEF_TypeRef = {
 	"TypeRef",
 	"TypeRef",
-	&asn_OP_SEQUENCE,
-	SEQUENCE_constraint,
+	TypeRef_free,
+	TypeRef_print,
+	TypeRef_constraint,
+	TypeRef_decode_ber,
+	TypeRef_encode_der,
+	TypeRef_decode_xer,
+	TypeRef_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_TypeRef_tags_1,
 	sizeof(asn_DEF_TypeRef_tags_1)
 		/sizeof(asn_DEF_TypeRef_tags_1[0]), /* 1 */
@@ -901,9 +1041,8 @@ asn_TYPE_descriptor_t asn_DEF_TypeRef = {
 	sizeof(asn_DEF_TypeRef_tags_1)
 		/sizeof(asn_DEF_TypeRef_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
-	asn_MBR_Sequence_1,
-	4,	/* Elements count */
-	&asn_SPC_Sequence_specs_1	/* Additional specs */
+	0, 0,	/* Defined elsewhere */
+	0	/* No specifics */
 };
 
 
@@ -933,8 +1072,6 @@ typedef struct Alpha {
 /*** <<< FUNC-DECLS [Alpha] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_Alpha;
-extern asn_SEQUENCE_specifics_t asn_SPC_Alpha_specs_1;
-extern asn_TYPE_member_t asn_MBR_Alpha_1[2];
 
 /*** <<< POST-INCLUDE [Alpha] >>> ***/
 
@@ -973,8 +1110,16 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_b_3 = {
 	"b",
 	"b",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_b_tags_3,
 	sizeof(asn_DEF_b_tags_3)
 		/sizeof(asn_DEF_b_tags_3[0]) - 1, /* 1 */
@@ -987,7 +1132,7 @@ asn_TYPE_descriptor_t asn_DEF_b_3 = {
 	&asn_SPC_b_specs_3	/* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_Alpha_1[] = {
+static asn_TYPE_member_t asn_MBR_Alpha_1[] = {
 	{ ATF_POINTER, 0, offsetof(struct Alpha, a),
 		.tag = (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		.tag_mode = -1,	/* IMPLICIT tag at current level */
@@ -1014,7 +1159,7 @@ static const asn_TYPE_tag2member_t asn_MAP_Alpha_tag2el_1[] = {
     { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* a */
     { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* b */
 };
-asn_SEQUENCE_specifics_t asn_SPC_Alpha_specs_1 = {
+static asn_SEQUENCE_specifics_t asn_SPC_Alpha_specs_1 = {
 	sizeof(struct Alpha),
 	offsetof(struct Alpha, _asn_ctx),
 	asn_MAP_Alpha_tag2el_1,
@@ -1026,8 +1171,16 @@ asn_SEQUENCE_specifics_t asn_SPC_Alpha_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Alpha = {
 	"Alpha",
 	"Alpha",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Alpha_tags_1,
 	sizeof(asn_DEF_Alpha_tags_1)
 		/sizeof(asn_DEF_Alpha_tags_1[0]), /* 1 */
@@ -1063,8 +1216,6 @@ typedef struct Beta {
 /*** <<< FUNC-DECLS [Beta] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_Beta;
-extern asn_SEQUENCE_specifics_t asn_SPC_Beta_specs_1;
-extern asn_TYPE_member_t asn_MBR_Beta_1[2];
 
 /*** <<< POST-INCLUDE [Beta] >>> ***/
 
@@ -1073,7 +1224,7 @@ extern asn_TYPE_member_t asn_MBR_Beta_1[2];
 
 /*** <<< STAT-DEFS [Beta] >>> ***/
 
-asn_TYPE_member_t asn_MBR_Beta_1[] = {
+static asn_TYPE_member_t asn_MBR_Beta_1[] = {
 	{ ATF_POINTER, 2, offsetof(struct Beta, b),
 		.tag = (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		.tag_mode = -1,	/* IMPLICIT tag at current level */
@@ -1100,7 +1251,7 @@ static const asn_TYPE_tag2member_t asn_MAP_Beta_tag2el_1[] = {
     { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* b */
     { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* g */
 };
-asn_SEQUENCE_specifics_t asn_SPC_Beta_specs_1 = {
+static asn_SEQUENCE_specifics_t asn_SPC_Beta_specs_1 = {
 	sizeof(struct Beta),
 	offsetof(struct Beta, _asn_ctx),
 	asn_MAP_Beta_tag2el_1,
@@ -1112,8 +1263,16 @@ asn_SEQUENCE_specifics_t asn_SPC_Beta_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Beta = {
 	"Beta",
 	"Beta",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Beta_tags_1,
 	sizeof(asn_DEF_Beta_tags_1)
 		/sizeof(asn_DEF_Beta_tags_1[0]), /* 1 */
@@ -1151,8 +1310,6 @@ typedef struct Gamma {
 /*** <<< FUNC-DECLS [Gamma] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_Gamma;
-extern asn_SEQUENCE_specifics_t asn_SPC_Gamma_specs_1;
-extern asn_TYPE_member_t asn_MBR_Gamma_1[3];
 
 /*** <<< POST-INCLUDE [Gamma] >>> ***/
 
@@ -1162,7 +1319,7 @@ extern asn_TYPE_member_t asn_MBR_Gamma_1[3];
 
 /*** <<< STAT-DEFS [Gamma] >>> ***/
 
-asn_TYPE_member_t asn_MBR_Gamma_1[] = {
+static asn_TYPE_member_t asn_MBR_Gamma_1[] = {
 	{ ATF_POINTER, 0, offsetof(struct Gamma, o),
 		.tag = (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		.tag_mode = -1,	/* IMPLICIT tag at current level */
@@ -1199,7 +1356,7 @@ static const asn_TYPE_tag2member_t asn_MAP_Gamma_tag2el_1[] = {
     { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* a */
     { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* b */
 };
-asn_SEQUENCE_specifics_t asn_SPC_Gamma_specs_1 = {
+static asn_SEQUENCE_specifics_t asn_SPC_Gamma_specs_1 = {
 	sizeof(struct Gamma),
 	offsetof(struct Gamma, _asn_ctx),
 	asn_MAP_Gamma_tag2el_1,
@@ -1211,8 +1368,16 @@ asn_SEQUENCE_specifics_t asn_SPC_Gamma_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Gamma = {
 	"Gamma",
 	"Gamma",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Gamma_tags_1,
 	sizeof(asn_DEF_Gamma_tags_1)
 		/sizeof(asn_DEF_Gamma_tags_1[0]), /* 1 */
@@ -1260,8 +1425,6 @@ typedef struct OneTwo {
 /*** <<< FUNC-DECLS [OneTwo] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_OneTwo;
-extern asn_SET_specifics_t asn_SPC_OneTwo_specs_1;
-extern asn_TYPE_member_t asn_MBR_OneTwo_1[1];
 
 /*** <<< POST-INCLUDE [OneTwo] >>> ***/
 
@@ -1269,7 +1432,7 @@ extern asn_TYPE_member_t asn_MBR_OneTwo_1[1];
 
 /*** <<< STAT-DEFS [OneTwo] >>> ***/
 
-asn_TYPE_member_t asn_MBR_OneTwo_1[] = {
+static asn_TYPE_member_t asn_MBR_OneTwo_1[] = {
 	{ ATF_POINTER, 0, offsetof(struct OneTwo, m12),
 		.tag = (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		.tag_mode = -1,	/* IMPLICIT tag at current level */
@@ -1289,7 +1452,7 @@ static const asn_TYPE_tag2member_t asn_MAP_OneTwo_tag2el_1[] = {
 static const uint8_t asn_MAP_OneTwo_mmap_1[(1 + (8 * sizeof(unsigned int)) - 1) / 8] = {
 	(1 << 7)
 };
-asn_SET_specifics_t asn_SPC_OneTwo_specs_1 = {
+static asn_SET_specifics_t asn_SPC_OneTwo_specs_1 = {
 	sizeof(struct OneTwo),
 	offsetof(struct OneTwo, _asn_ctx),
 	offsetof(struct OneTwo, _presence_map),
@@ -1303,8 +1466,16 @@ asn_SET_specifics_t asn_SPC_OneTwo_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_OneTwo = {
 	"OneTwo",
 	"OneTwo",
-	&asn_OP_SET,
+	SET_free,
+	SET_print,
 	SET_constraint,
+	SET_decode_ber,
+	SET_encode_der,
+	SET_decode_xer,
+	SET_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_OneTwo_tags_1,
 	sizeof(asn_DEF_OneTwo_tags_1)
 		/sizeof(asn_DEF_OneTwo_tags_1[0]), /* 1 */
@@ -1352,8 +1523,6 @@ typedef struct TwoThree {
 /*** <<< FUNC-DECLS [TwoThree] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_TwoThree;
-extern asn_SET_specifics_t asn_SPC_TwoThree_specs_1;
-extern asn_TYPE_member_t asn_MBR_TwoThree_1[1];
 
 /*** <<< POST-INCLUDE [TwoThree] >>> ***/
 
@@ -1361,7 +1530,7 @@ extern asn_TYPE_member_t asn_MBR_TwoThree_1[1];
 
 /*** <<< STAT-DEFS [TwoThree] >>> ***/
 
-asn_TYPE_member_t asn_MBR_TwoThree_1[] = {
+static asn_TYPE_member_t asn_MBR_TwoThree_1[] = {
 	{ ATF_POINTER, 0, offsetof(struct TwoThree, m23),
 		.tag = (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		.tag_mode = -1,	/* IMPLICIT tag at current level */
@@ -1381,7 +1550,7 @@ static const asn_TYPE_tag2member_t asn_MAP_TwoThree_tag2el_1[] = {
 static const uint8_t asn_MAP_TwoThree_mmap_1[(1 + (8 * sizeof(unsigned int)) - 1) / 8] = {
 	(1 << 7)
 };
-asn_SET_specifics_t asn_SPC_TwoThree_specs_1 = {
+static asn_SET_specifics_t asn_SPC_TwoThree_specs_1 = {
 	sizeof(struct TwoThree),
 	offsetof(struct TwoThree, _asn_ctx),
 	offsetof(struct TwoThree, _presence_map),
@@ -1395,8 +1564,16 @@ asn_SET_specifics_t asn_SPC_TwoThree_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_TwoThree = {
 	"TwoThree",
 	"TwoThree",
-	&asn_OP_SET,
+	SET_free,
+	SET_print,
 	SET_constraint,
+	SET_decode_ber,
+	SET_encode_der,
+	SET_decode_xer,
+	SET_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_TwoThree_tags_1,
 	sizeof(asn_DEF_TwoThree_tags_1)
 		/sizeof(asn_DEF_TwoThree_tags_1[0]), /* 1 */
@@ -1447,8 +1624,6 @@ typedef struct ThreeOne {
 /*** <<< FUNC-DECLS [ThreeOne] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_ThreeOne;
-extern asn_SET_specifics_t asn_SPC_ThreeOne_specs_1;
-extern asn_TYPE_member_t asn_MBR_ThreeOne_1[2];
 
 /*** <<< POST-INCLUDE [ThreeOne] >>> ***/
 
@@ -1457,7 +1632,7 @@ extern asn_TYPE_member_t asn_MBR_ThreeOne_1[2];
 
 /*** <<< STAT-DEFS [ThreeOne] >>> ***/
 
-asn_TYPE_member_t asn_MBR_ThreeOne_1[] = {
+static asn_TYPE_member_t asn_MBR_ThreeOne_1[] = {
 	{ ATF_POINTER, 0, offsetof(struct ThreeOne, m31),
 		.tag = (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		.tag_mode = -1,	/* IMPLICIT tag at current level */
@@ -1487,7 +1662,7 @@ static const asn_TYPE_tag2member_t asn_MAP_ThreeOne_tag2el_1[] = {
 static const uint8_t asn_MAP_ThreeOne_mmap_1[(2 + (8 * sizeof(unsigned int)) - 1) / 8] = {
 	(1 << 7) | (1 << 6)
 };
-asn_SET_specifics_t asn_SPC_ThreeOne_specs_1 = {
+static asn_SET_specifics_t asn_SPC_ThreeOne_specs_1 = {
 	sizeof(struct ThreeOne),
 	offsetof(struct ThreeOne, _asn_ctx),
 	offsetof(struct ThreeOne, _presence_map),
@@ -1501,8 +1676,16 @@ asn_SET_specifics_t asn_SPC_ThreeOne_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_ThreeOne = {
 	"ThreeOne",
 	"ThreeOne",
-	&asn_OP_SET,
+	SET_free,
+	SET_print,
 	SET_constraint,
+	SET_decode_ber,
+	SET_encode_der,
+	SET_decode_xer,
+	SET_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_ThreeOne_tags_1,
 	sizeof(asn_DEF_ThreeOne_tags_1)
 		/sizeof(asn_DEF_ThreeOne_tags_1[0]), /* 1 */
@@ -1612,8 +1795,16 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_encoding_5 = {
 	"encoding",
 	"encoding",
-	&asn_OP_CHOICE,
+	CHOICE_free,
+	CHOICE_print,
 	CHOICE_constraint,
+	CHOICE_decode_ber,
+	CHOICE_encode_der,
+	CHOICE_decode_xer,
+	CHOICE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	CHOICE_outmost_tag,
 	0,	/* No effective tags (pointer) */
 	0,	/* No effective tags (count) */
 	0,	/* No tags (pointer) */
@@ -1686,8 +1877,16 @@ static asn_SEQUENCE_specifics_t asn_SPC_EXTERNAL_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_EXTERNAL = {
 	"EXTERNAL",
 	"EXTERNAL",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	0, 0,	/* No UPER support, use "-gen-PER" to enable */
+	0, 0,	/* No APER support, use "-gen-PER" to enable */
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_EXTERNAL_tags_1,
 	sizeof(asn_DEF_EXTERNAL_tags_1)
 		/sizeof(asn_DEF_EXTERNAL_tags_1[0]) - 1, /* 1 */

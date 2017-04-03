@@ -202,8 +202,7 @@ asn1c_lang_C_type_common_INTEGER(arg_t *arg) {
 			OUT("\t/* This list is extensible */\n");
 		OUT("};\n");
 
-		if(!(expr->_type_referenced)) OUT("static ");
-		OUT("const asn_INTEGER_specifics_t asn_SPC_%s_specs_%d = {\n",
+		OUT("static const asn_INTEGER_specifics_t asn_SPC_%s_specs_%d = {\n",
 			MKID(expr), expr->_type_unique_index);
 		INDENT(+1);
 		OUT("asn_MAP_%s_value2enum_%d,\t"
@@ -235,8 +234,7 @@ asn1c_lang_C_type_common_INTEGER(arg_t *arg) {
 	if(expr->expr_type == ASN_BASIC_INTEGER
 	&& asn1c_type_fits_long(arg, expr) == FL_FITS_UNSIGN) {
 		REDIR(OT_STAT_DEFS);
-		if(!(expr->_type_referenced)) OUT("static ");
-		OUT("const asn_INTEGER_specifics_t asn_SPC_%s_specs_%d = {\n",
+		OUT("static const asn_INTEGER_specifics_t asn_SPC_%s_specs_%d = {\n",
 			MKID(expr), expr->_type_unique_index);
 		INDENT(+1);
 		OUT("0,\t");
@@ -350,7 +348,7 @@ asn1c_lang_C_type_SEQUENCE_def(arg_t *arg) {
 
 	GEN_INCLUDE_STD("constr_SEQUENCE");
 	if(!arg->embed)
-		GEN_DECLARE("SEQUENCE", expr);	/* asn_DEF_xxx */
+		GEN_DECLARE(expr);	/* asn_DEF_xxx */
 
 	REDIR(OT_STAT_DEFS);
 
@@ -360,8 +358,7 @@ asn1c_lang_C_type_SEQUENCE_def(arg_t *arg) {
 	if(expr_elements_count(arg, expr)) {
 		int comp_mode = 0;	/* {root,ext=1,root,root,...} */
 
-		if(!(expr->_type_referenced)) OUT("static ");
-		OUT("asn_TYPE_member_t asn_MBR_%s_%d[] = {\n",
+		OUT("static asn_TYPE_member_t asn_MBR_%s_%d[] = {\n",
 			MKID(expr), expr->_type_unique_index);
 
 		elements = 0;
@@ -443,8 +440,7 @@ asn1c_lang_C_type_SEQUENCE_def(arg_t *arg) {
 	 */
 	emit_tag2member_map(arg, tag2el, tag2el_count, 0);
 
-	if(!(expr->_type_referenced)) OUT("static ");
-	OUT("asn_SEQUENCE_specifics_t asn_SPC_%s_specs_%d = {\n",
+	OUT("static asn_SEQUENCE_specifics_t asn_SPC_%s_specs_%d = {\n",
 		MKID(expr), expr->_type_unique_index);
 	INDENT(+1);
 	OUT("sizeof(struct ");
@@ -592,7 +588,7 @@ asn1c_lang_C_type_SET_def(arg_t *arg) {
 
 	GEN_INCLUDE_STD("constr_SET");
 	if(!arg->embed)
-		GEN_DECLARE("SET", expr);	/* asn_DEF_xxx */
+		GEN_DECLARE(expr);	/* asn_DEF_xxx */
 
 	REDIR(OT_STAT_DEFS);
 
@@ -602,10 +598,9 @@ asn1c_lang_C_type_SET_def(arg_t *arg) {
 	if(expr_elements_count(arg, expr)) {
 		int comp_mode = 0;	/* {root,ext=1,root,root,...} */
 
-		if(!(expr->_type_referenced)) OUT("static ");
-		OUT("asn_TYPE_member_t asn_MBR_%s_%d[] = {\n",
+		OUT("static asn_TYPE_member_t asn_MBR_%s_%d[] = {\n",
 			MKID(expr), expr->_type_unique_index);
-
+	
 		elements = 0;
 		INDENTED(TQ_FOR(v, &(expr->members), next) {
 			if(v->expr_type == A1TC_EXTENSIBLE) {
@@ -663,8 +658,7 @@ asn1c_lang_C_type_SET_def(arg_t *arg) {
 	OUT("\n");
 	OUT("};\n");
 
-	if(!(expr->_type_referenced)) OUT("static \n");
-	OUT("asn_SET_specifics_t asn_SPC_%s_specs_%d = {\n",
+	OUT("static asn_SET_specifics_t asn_SPC_%s_specs_%d = {\n",
 		MKID(expr), expr->_type_unique_index);
 	INDENTED(
 		OUT("sizeof(struct ");
@@ -738,9 +732,10 @@ asn1c_lang_C_type_SEx_OF(arg_t *arg) {
 	|| ((memb->expr_type == ASN_BASIC_ENUMERATED
 		|| (0 /* -- prohibited by X.693:8.3.4 */
 			&& memb->expr_type == ASN_BASIC_INTEGER))
-			&& expr_elements_count(arg, memb))
-	|| (memb->expr_type == ASN_BASIC_INTEGER && asn1c_type_fits_long(arg, memb) == FL_FITS_UNSIGN)
-	) {
+	    //	    	&& expr_elements_count(arg, memb))) {
+	    && expr_elements_count(arg, memb))
+	   || (memb->expr_type == ASN_BASIC_INTEGER && asn1c_type_fits_long(arg, memb) == FL_FITS_UNSIGN)
+	   ) {
 		arg_t tmp;
 		asn1p_expr_t tmp_memb;
 		arg->embed++;
@@ -802,15 +797,14 @@ asn1c_lang_C_type_SEx_OF_def(arg_t *arg, int seq_of) {
 		GEN_INCLUDE_STD("constr_SET_OF");
 	}
 	if(!arg->embed)
-		GEN_DECLARE("SET_OF", expr);	/* asn_DEF_xxx */
+		GEN_DECLARE(expr);	/* asn_DEF_xxx */
 
 	REDIR(OT_STAT_DEFS);
 
 	/*
 	 * Print out the table according to which parsing is performed.
 	 */
-	if(!(expr->_type_referenced)) OUT("static ");
-	OUT("asn_TYPE_member_t asn_MBR_%s_%d[] = {\n",
+	OUT("static asn_TYPE_member_t asn_MBR_%s_%d[] = {\n",
 		MKID(expr), expr->_type_unique_index);
 	INDENT(+1);
 		v = TQ_FIRST(&(expr->members));
@@ -832,8 +826,7 @@ asn1c_lang_C_type_SEx_OF_def(arg_t *arg, int seq_of) {
 	 */
 	tv_mode = emit_tags_vectors(arg, expr, &tags_count, &all_tags_count);
 
-	if(!(expr->_type_referenced)) OUT("static ");
-	OUT("asn_SET_OF_specifics_t asn_SPC_%s_specs_%d = {\n",
+	OUT("static asn_SET_OF_specifics_t asn_SPC_%s_specs_%d = {\n",
 		MKID(expr), expr->_type_unique_index);
 	INDENTED(
 		OUT("sizeof(struct ");
@@ -952,7 +945,7 @@ asn1c_lang_C_type_CHOICE_def(arg_t *arg) {
 
 	GEN_INCLUDE_STD("constr_CHOICE");
 	if(!arg->embed)
-		GEN_DECLARE("CHOICE", expr);	/* asn_DEF_xxx */
+		GEN_DECLARE(expr);	/* asn_DEF_xxx */
 
 	REDIR(OT_STAT_DEFS);
 
@@ -961,8 +954,7 @@ asn1c_lang_C_type_CHOICE_def(arg_t *arg) {
 	 */
 	if(expr_elements_count(arg, expr)) {
 
-		if(!(expr->_type_referenced)) OUT("static ");
-		OUT("asn_TYPE_member_t asn_MBR_%s_%d[] = {\n",
+		OUT("static asn_TYPE_member_t asn_MBR_%s_%d[] = {\n",
 			MKID(expr), expr->_type_unique_index);
 
 		elements = 0;
@@ -1010,8 +1002,7 @@ asn1c_lang_C_type_CHOICE_def(arg_t *arg) {
 	 */
 	emit_tag2member_map(arg, tag2el, tag2el_count, 0);
 
-	if(!(expr->_type_referenced)) OUT("static ");
-	OUT("asn_CHOICE_specifics_t asn_SPC_%s_specs_%d = {\n",
+	OUT("static asn_CHOICE_specifics_t asn_SPC_%s_specs_%d = {\n",
 		MKID(expr), expr->_type_unique_index);
 	INDENTED(
 		OUT("sizeof(struct ");
@@ -1195,7 +1186,7 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 	/*
 	 * Constraint checking.
 	 */
-	if(!(arg->flags & A1C_NO_CONSTRAINTS) && expr->combined_constraints) {
+	if(!(arg->flags & A1C_NO_CONSTRAINTS)) {
 		p = MKID(expr);
 		if(HIDE_INNER_DEFS) OUT("static ");
 		OUT("int\n");
@@ -1247,8 +1238,6 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 		asn1c_type_name(arg, expr, TNF_SAFE));
 	OUT(" * so here we adjust the DEF accordingly.\n");
 	OUT(" */\n");
-
-#if 0 /* remove unnecessary functions */
 	OUT("static void\n");
 	OUT("%s_%d_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {\n",
 		MKID(expr), expr->_type_unique_index);
@@ -1263,12 +1252,10 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 	OUT("td->der_encoder    = asn_DEF_%s.der_encoder;\n",    type_name);
 	OUT("td->xer_decoder    = asn_DEF_%s.xer_decoder;\n",    type_name);
 	OUT("td->xer_encoder    = asn_DEF_%s.xer_encoder;\n",    type_name);
-	if(arg->flags & A1C_GEN_PER) {
-	  OUT("td->uper_decoder   = asn_DEF_%s.uper_decoder;\n",   type_name);
-	  OUT("td->uper_encoder   = asn_DEF_%s.uper_encoder;\n",   type_name);
-	  OUT("td->aper_decoder   = asn_DEF_%s.aper_decoder;\n",   type_name);
-	  OUT("td->aper_encoder   = asn_DEF_%s.aper_encoder;\n",   type_name);
-	}
+	OUT("td->uper_decoder   = asn_DEF_%s.uper_decoder;\n",   type_name);
+	OUT("td->uper_encoder   = asn_DEF_%s.uper_encoder;\n",   type_name);
+	OUT("td->aper_decoder   = asn_DEF_%s.aper_decoder;\n",   type_name);
+	OUT("td->aper_encoder   = asn_DEF_%s.aper_encoder;\n",   type_name);
 	if(!terminal && !tags_count) {
 	  OUT("/* The next four lines are here because of -fknown-extern-type */\n");
 	  OUT("td->tags           = asn_DEF_%s.tags;\n",         type_name);
@@ -1277,11 +1264,9 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 	  OUT("td->all_tags_count = asn_DEF_%s.all_tags_count;\n",type_name);
 	  OUT("/* End of these lines */\n");
 	}
-	if(arg->flags & A1C_GEN_PER) {
-	  OUT("if(!td->per_constraints)\n");
+	OUT("if(!td->per_constraints)\n");
 		OUT("\ttd->per_constraints = asn_DEF_%s.per_constraints;\n",
 			type_name);
-	}
 	OUT("td->elements       = asn_DEF_%s.elements;\n",       type_name);
 	OUT("td->elements_count = asn_DEF_%s.elements_count;\n", type_name);
 	if(etd_spec != ETD_NO_SPECIFICS) {
@@ -1376,10 +1361,14 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 	OUT("\n");
 
 	p = MKID(expr);
-	if(HIDE_INNER_DEFS) OUT("static ");
+	if(HIDE_INNER_DEFS) {
+	  OUT("static ");
+	}
 	OUT("asn_enc_rval_t\n");
 	OUT("%s", p);
-	if(HIDE_INNER_DEFS) OUT("_%d", expr->_type_unique_index);
+	if(HIDE_INNER_DEFS) {
+	  OUT("_%d", expr->_type_unique_index);
+	}
 	OUT("_encode_xer(asn_TYPE_descriptor_t *td, void *structure,\n");
 	INDENTED(
 	OUT("\tint ilevel, enum xer_encoder_flags_e flags,\n");
@@ -1392,90 +1381,71 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 	OUT("\n");
 
   if(arg->flags & A1C_GEN_PER) {
-	/* === Unaligned PER decode === */
 	p = MKID(expr);
 
-	if(HIDE_INNER_DEFS) {
-		OUT("static ");
-	}
+	if(HIDE_INNER_DEFS) OUT("static ");
 	OUT("asn_dec_rval_t\n");
 	OUT("%s", p);
-	if(HIDE_INNER_DEFS) {
-		OUT("_%d", expr->_type_unique_index);
-	}
+	if(HIDE_INNER_DEFS) OUT("_%d", expr->_type_unique_index);
 	OUT("_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,\n");
 	INDENTED(
-		OUT("\tasn_per_constraints_t *constraints, void **structure, asn_per_data_t *per_data) {\n");
-		OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
-			p, expr->_type_unique_index);
-		OUT("return td->uper_decoder(opt_codec_ctx, td, constraints, structure, per_data);\n");
+	OUT("\tasn_per_constraints_t *constraints, void **structure, asn_per_data_t *per_data) {\n");
+	OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
+		p, expr->_type_unique_index);
+	OUT("return td->uper_decoder(opt_codec_ctx, td, constraints, structure, per_data);\n");
 	);
 	OUT("}\n");
 	OUT("\n");
 
-	/* === Unaligned PER encode === */
 	p = MKID(expr);
-	if(HIDE_INNER_DEFS) {
-		OUT("static ");
-	}
+	if(HIDE_INNER_DEFS) OUT("static ");
 	OUT("asn_enc_rval_t\n");
 	OUT("%s", p);
-	if(HIDE_INNER_DEFS) {
-		OUT("_%d", expr->_type_unique_index);
-	}
+	if(HIDE_INNER_DEFS) OUT("_%d", expr->_type_unique_index);
 	OUT("_encode_uper(asn_TYPE_descriptor_t *td,\n");
 	INDENTED(
-		OUT("\tasn_per_constraints_t *constraints,\n");
-		OUT("\tvoid *structure, asn_per_outp_t *per_out) {\n");
-		OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
-			p, expr->_type_unique_index);
-		OUT("return td->uper_encoder(td, constraints, structure, per_out);\n");
+	OUT("\tasn_per_constraints_t *constraints,\n");
+	OUT("\tvoid *structure, asn_per_outp_t *per_out) {\n");
+	OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
+		p, expr->_type_unique_index);
+	OUT("return td->uper_encoder(td, constraints, structure, per_out);\n");
 	);
 	OUT("}\n");
 	OUT("\n");
 
-	/* === Aligned PER decode === */
 	p = MKID(expr);
-	if(HIDE_INNER_DEFS) {
-		OUT("static ");
-	}
+	if(HIDE_INNER_DEFS) OUT("static ");
+							OUT("asn_enc_rval_t\n");
+	OUT("%s", p);
+	if(HIDE_INNER_DEFS) OUT("_%d", expr->_type_unique_index);
+		OUT("_encode_aper(asn_TYPE_descriptor_t *td,\n");
+	INDENTED(
+	OUT("\tasn_per_constraints_t *constraints,\n");
+	OUT("\tvoid *structure, asn_per_outp_t *per_out) {\n");
+	OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
+		p, expr->_type_unique_index);
+	OUT("return td->aper_encoder(td, constraints, structure, per_out);\n");
+	);
+	OUT("}\n");
+	OUT("\n");
+
+	p = MKID(expr);
+
+	if(HIDE_INNER_DEFS) OUT("static ");
 	OUT("asn_dec_rval_t\n");
 	OUT("%s", p);
-	if(HIDE_INNER_DEFS) {
-		OUT("_%d", expr->_type_unique_index);
-	}
+	if(HIDE_INNER_DEFS) OUT("_%d", expr->_type_unique_index);
 	OUT("_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,\n");
 	INDENTED(
 		OUT("\tasn_per_constraints_t *constraints, void **structure, asn_per_data_t *per_data) {\n");
-		OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
-			p, expr->_type_unique_index);
-		OUT("return td->aper_decoder(opt_codec_ctx, td, constraints, structure, per_data);\n");
+	OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
+		p, expr->_type_unique_index);
+	OUT("return td->aper_decoder(opt_codec_ctx, td, constraints, structure, per_data);\n");
 	);
 	OUT("}\n");
 	OUT("\n");
+	}
 
-	/* === Aligned PER encode === */
-	p = MKID(expr);
-	if(HIDE_INNER_DEFS) {
-		OUT("static ");
-	}
-	OUT("asn_enc_rval_t\n");
-	OUT("%s", p);
-	if(HIDE_INNER_DEFS) {
-		OUT("_%d", expr->_type_unique_index);
-	}
-	OUT("_encode_aper(asn_TYPE_descriptor_t *td,\n");
-	INDENTED(
-		OUT("\tasn_per_constraints_t *constraints,\n");
-		OUT("\tvoid *structure, asn_per_outp_t *per_out) {\n");
-		OUT("%s_%d_inherit_TYPE_descriptor(td);\n",
-			p, expr->_type_unique_index);
-		OUT("return td->aper_encoder(td, constraints, structure, per_out);\n");
-	);
-	OUT("}\n");
-	OUT("\n");
-  }
-#endif
 	REDIR(OT_FUNC_DECLS);
 
 	p = MKID(expr);
@@ -1485,20 +1455,6 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 			p, expr->_type_unique_index);
 	} else {
 		OUT("extern asn_TYPE_descriptor_t asn_DEF_%s;\n", p);
-		if (etd_spec == ETD_HAS_SPECIFICS) {
-			if((expr->expr_type == ASN_BASIC_ENUMERATED) ||
-				(expr->expr_type == ASN_BASIC_INTEGER)) {
-				if(expr->_type_referenced) {
-					OUT("extern asn_INTEGER_specifics_t "
-						"asn_SPC_%s_specs_%d;\n", p, expr->_type_unique_index);
-				}
-			} else {
-				asn1p_expr_t *terminal = asn1f_find_terminal_type_ex(arg->asn, expr);
-
-				OUT("extern asn_%s_specifics_t ", asn1c_type_name(arg, terminal, TNF_SAFE));
-				OUT("asn_SPC_%s_specs_%d;\n", MKID(expr), expr->_type_unique_index);
-			}
-		}
 		OUT("asn_struct_free_f %s_free;\n", p);
 		OUT("asn_struct_print_f %s_print;\n", p);
 		OUT("asn_constr_check_f %s_constraint;\n", p);
@@ -1507,10 +1463,10 @@ asn1c_lang_C_type_SIMPLE_TYPE(arg_t *arg) {
 		OUT("xer_type_decoder_f %s_decode_xer;\n", p);
 		OUT("xer_type_encoder_f %s_encode_xer;\n", p);
 		if(arg->flags & A1C_GEN_PER) {
-			OUT("per_type_decoder_f %s_decode_uper;\n", p);
-			OUT("per_type_encoder_f %s_encode_uper;\n", p);
-			OUT("per_type_decoder_f %s_decode_aper;\n", p);
-			OUT("per_type_encoder_f %s_encode_aper;\n", p);
+		OUT("per_type_decoder_f %s_decode_uper;\n", p);
+		OUT("per_type_encoder_f %s_encode_uper;\n", p);
+		OUT("per_type_decoder_f %s_decode_aper;\n", p);
+		OUT("per_type_encoder_f %s_encode_aper;\n", p);
 		}
 	}
 
@@ -1918,7 +1874,7 @@ emit_single_member_PER_constraint(arg_t *arg, asn1cnst_range_t *range, int alpha
 		if(range->right.type == ARE_VALUE) {
 			uintmax_t cover = 1;
 			uintmax_t r = 1 + range->right.value
-					      - range->left.value;
+  					      - range->left.value;
 			size_t rbits;	/* Value range bits */
 			ssize_t ebits;	/* Value effective range bits */
 
@@ -1935,6 +1891,16 @@ emit_single_member_PER_constraint(arg_t *arg, asn1cnst_range_t *range, int alpha
 				if(r <= cover)
 					break;
 				cover *= 2;	/* Can't do shifting */
+#if 0
+				if(cover < 0) {
+					FATAL("Constraint at line %d too wide "
+						"for %d-bits integer type",
+						arg->expr->_lineno,
+						sizeof(r) * 8);
+					rbits = sizeof(r);
+					break;
+				}
+#endif /* unable to deal with wider constraints */
 			}
 
 			if(alphabetsize) {
@@ -2091,7 +2057,7 @@ emit_member_PER_constraints(arg_t *arg, asn1p_expr_t *expr, const char *pfx) {
 				break;
 			case ASN_STRING_UniversalString:
 				OUT("{ APC_CONSTRAINED,\t32, 32,"
-					" 0, 2147483647 }"
+					" 0, 2147483647L }"
 					" /* special case 1 */\n");
 				goto avoid;
 			default:
@@ -2106,17 +2072,6 @@ emit_member_PER_constraints(arg_t *arg, asn1p_expr_t *expr, const char *pfx) {
 		range = asn1constraint_compute_PER_range(etype,
 				expr->combined_constraints, ACT_EL_RANGE,
 				0, 0, 0);
-#if 0
-		/******* Uri's debug *****/
-		fprintf(stderr, "%s:%1d computed PER range %s left=%d right=%d\n",
-			__FILE__, __LINE__, arg, range->left.value, range->right.value);
-		fprintf(stderr, "%s:%1d expr->combined_constraints: el_count=%1d\n", __FILE__, __LINE__,
-			expr->combined_constraints->el_count);
-		if (expr->combined_constraints->el_count > 0) {
-		  
-		}
-		/******* Uri's debug *****/
-#endif /* Debugging output chasing down #129 bug */
 		if(emit_single_member_PER_constraint(arg, range, 0, 0))
 			return -1;
 		asn1constraint_range_free(range);
@@ -2284,7 +2239,7 @@ try_inline_default(arg_t *arg, asn1p_expr_t *expr, int out) {
 			OUT("return (*st == %" PRIdASN ");\n",
 				expr->marker.default_value->value.v_integer);
 		} else {
-			OUT("long long value;\n");
+			OUT("long value;\n");
 			OUT("if(asn_INTEGER2long(st, &value))\n");
 			OUT("\treturn -1;\n");
 			OUT("return (value == %" PRIdASN ");\n",
@@ -2522,7 +2477,6 @@ emit_type_DEF(arg_t *arg, asn1p_expr_t *expr, enum tvm_compat tv_mode, int tags_
 	asn1p_expr_t *terminal;
 	int using_type_name = 0;
 	char *p = MKID(expr);
-	char *p2 = (char *)0;
 
 	terminal = asn1f_find_terminal_type_ex(arg->asn, expr);
 
@@ -2551,15 +2505,8 @@ emit_type_DEF(arg_t *arg, asn1p_expr_t *expr, enum tvm_compat tv_mode, int tags_
 			using_type_name = 1;
 			p = asn1c_type_name(arg, arg->expr, TNF_SAFE);
 		} else {
-			if (expr->expr_type == A1TC_REFERENCE) {
-				p2 = strdup(asn1c_type_name(arg, terminal, TNF_SAFE));
-			} else {
-				p2 = strdup(asn1c_type_name(arg, expr, TNF_SAFE));
-			}
 			p = MKID(expr);
 		}
-		if (!p2)
-			p2 = strdup(p);
 
 #define FUNCREF(foo)	do {				\
 	OUT("%s", p);					\
@@ -2568,38 +2515,23 @@ emit_type_DEF(arg_t *arg, asn1p_expr_t *expr, enum tvm_compat tv_mode, int tags_
 	OUT("_" #foo ",\n");				\
 } while(0)
 
-#define FUNCREF2(foo)		\
-do {				\
-	OUT("%s", p2);		\
-	OUT("_" #foo ",\n");	\
-} while(0)
-
-#if 1
-		OUT("&asn_OP_%s,\n", p2);
-		if (!expr->combined_constraints)
-			FUNCREF2(constraint);
-		else
-			FUNCREF(constraint);
-#else
-		FUNCREF2(free);
-		FUNCREF2(print);
-		if (!expr->combined_constraints)
-			FUNCREF2(constraint);
-		else
-			FUNCREF(constraint);
-		FUNCREF2(decode_ber);
-		FUNCREF2(encode_der);
-		FUNCREF2(decode_xer);
-		FUNCREF2(encode_xer);
+		FUNCREF(free);
+		FUNCREF(print);
+		FUNCREF(constraint);
+		FUNCREF(decode_ber);
+		FUNCREF(encode_der);
+		FUNCREF(decode_xer);
+		FUNCREF(encode_xer);
 		if(arg->flags & A1C_GEN_PER) {
-			FUNCREF2(decode_uper);
-			FUNCREF2(encode_uper);
-			FUNCREF2(decode_aper);
-			FUNCREF2(encode_aper);
+			FUNCREF(decode_uper);
+			FUNCREF(encode_uper);
+			FUNCREF(decode_aper);
+			FUNCREF(encode_aper);
 		} else {
-			OUT("0, 0,\t/* No PER support, "
+			OUT("0, 0,\t/* No UPER support, "
 				"use \"-gen-PER\" to enable */\n");
-			OUT("0, 0,\t/* No APER */\n");
+			OUT("0, 0,\t/* No APER support, "
+				"use \"-gen-PER\" to enable */\n");
 		}
 
 		if(!terminal || terminal->expr_type == ASN_CONSTR_CHOICE) {
@@ -2608,8 +2540,6 @@ do {				\
 		} else {
 			OUT("0,\t/* Use generic outmost tag fetcher */\n");
 		}
-#endif
-		if (p2) free(p2);
 
 		p = MKID(expr);
 		if(tags_count) {
@@ -2660,35 +2590,16 @@ do {				\
 			OUT("0,\t/* No PER visible constraints */\n");
 		}
 
-		if(elements_count ||
-			((expr->expr_type == A1TC_REFERENCE) &&
-				(terminal->expr_type & ASN_CONSTR_MASK) &&
-				expr_elements_count(arg, terminal))) {
-
-			if (expr->expr_type == A1TC_REFERENCE) {
-				OUT("asn_MBR_%s_%d,\n", MKID(terminal), terminal->_type_unique_index);
-
-				if(terminal->expr_type == ASN_CONSTR_SEQUENCE_OF
-				|| terminal->expr_type == ASN_CONSTR_SET_OF) {
-					OUT("%d,\t/* Single element */\n",
-						expr_elements_count(arg, terminal));
-					assert(expr_elements_count(arg, terminal) == 1);
-				} else {
-					OUT("%d,\t/* Elements count */\n",
-						expr_elements_count(arg, terminal));
-				}
+		if(elements_count) {
+			OUT("asn_MBR_%s_%d,\n", p, expr->_type_unique_index);
+			if(expr->expr_type == ASN_CONSTR_SEQUENCE_OF
+			|| expr->expr_type == ASN_CONSTR_SET_OF) {
+				OUT("%d,\t/* Single element */\n",
+					elements_count);
+				assert(elements_count == 1);
 			} else {
-				OUT("asn_MBR_%s_%d,\n", p, expr->_type_unique_index);
-
-				if(expr->expr_type == ASN_CONSTR_SEQUENCE_OF
-				|| expr->expr_type == ASN_CONSTR_SET_OF) {
-					OUT("%d,\t/* Single element */\n",
-						elements_count);
-					assert(elements_count == 1);
-				} else {
-					OUT("%d,\t/* Elements count */\n",
-						elements_count);
-				}
+				OUT("%d,\t/* Elements count */\n",
+					elements_count);
 			}
 		} else {
 			if(expr_elements_count(arg, expr))
@@ -2699,28 +2610,7 @@ do {				\
 
 		switch(spec) {
 		case ETD_NO_SPECIFICS:
-			if ((expr->expr_type == A1TC_REFERENCE) &&
-				((terminal->expr_type & ASN_CONSTR_MASK) ||
-				(terminal->expr_type == ASN_BASIC_ENUMERATED) ||
-				((terminal->expr_type == ASN_BASIC_INTEGER) &&
-				(asn1c_type_fits_long(arg, terminal) == FL_FITS_UNSIGN)))) {
-				OUT("&asn_SPC_%s_specs_%d\t/* Additional specs */\n", MKID(terminal), terminal->_type_unique_index);
-			} else if ((expr->expr_type == ASN_TYPE_ANY) ||
-					(expr->expr_type == ASN_BASIC_BIT_STRING) ||
-					(expr->expr_type == ASN_STRING_BMPString) ||
-					(expr->expr_type == ASN_BASIC_OCTET_STRING) ||
-					(expr->expr_type == ASN_STRING_UniversalString)) {
-				OUT("&asn_SPC_%s_specs\t/* Additional specs */\n", asn1c_type_name(arg, expr, TNF_SAFE));
-			} else if ((expr->expr_type == A1TC_REFERENCE) &&
-					((terminal->expr_type == ASN_TYPE_ANY) ||
-					(terminal->expr_type == ASN_BASIC_BIT_STRING) ||
-					(terminal->expr_type == ASN_STRING_BMPString) ||
-					(terminal->expr_type == ASN_BASIC_OCTET_STRING) ||
-					(terminal->expr_type == ASN_STRING_UniversalString))) {
-				OUT("&asn_SPC_%s_specs\t/* Additional specs */\n", asn1c_type_name(arg, terminal, TNF_SAFE));
-			} else {
-				OUT("0\t/* No specifics */\n");
-			}
+			OUT("0\t/* No specifics */\n");
 			break;
 		case ETD_HAS_SPECIFICS:
 			OUT("&asn_SPC_%s_specs_%d\t/* Additional specs */\n",
@@ -2898,7 +2788,7 @@ asn1c_recurse(arg_t *arg, asn1p_expr_t *expr, int (*callback)(arg_t *arg, void *
 	int maxret = 0;
 	int ret;
 
-	if(expr->_mark & TM_RECURSION) return 0;
+	if(expr->_mark) return 0;
 	expr->_mark |= TM_RECURSION;
 
 	/* Invoke callback for every type going into recursion */

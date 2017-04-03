@@ -59,12 +59,12 @@ extern asn_TYPE_descriptor_t asn_DEF_Choice;
 /*** <<< CTDEFS [Choice] >>> ***/
 
 static asn_per_constraints_t asn_PER_type_ch_constr_4 GCC_NOTUSED = {
-	{ APC_CONSTRAINED,	 1,  1,  0,  1 }	/* (0..1) */,
+	{ APC_CONSTRAINED,	 1,  1,  0l,  1l }	/* (0..1) */,
 	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
 	0, 0	/* No PER value map */
 };
 static asn_per_constraints_t asn_PER_type_Choice_constr_1 GCC_NOTUSED = {
-	{ APC_CONSTRAINED | APC_EXTENSIBLE,  2,  2,  0,  2 }	/* (0..2,...) */,
+	{ APC_CONSTRAINED | APC_EXTENSIBLE,  2,  2,  0l,  2l }	/* (0..2,...) */,
 	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
 	0, 0	/* No PER value map */
 };
@@ -110,8 +110,18 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_ch_4 = {
 	"ch",
 	"ch",
-	&asn_OP_CHOICE,
+	CHOICE_free,
+	CHOICE_print,
 	CHOICE_constraint,
+	CHOICE_decode_ber,
+	CHOICE_encode_der,
+	CHOICE_decode_xer,
+	CHOICE_encode_xer,
+	CHOICE_decode_uper,
+	CHOICE_encode_uper,
+	CHOICE_decode_aper,
+	CHOICE_encode_aper,
+	CHOICE_outmost_tag,
 	0,	/* No effective tags (pointer) */
 	0,	/* No effective tags (count) */
 	0,	/* No tags (pointer) */
@@ -181,8 +191,18 @@ static asn_CHOICE_specifics_t asn_SPC_Choice_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Choice = {
 	"Choice",
 	"Choice",
-	&asn_OP_CHOICE,
+	CHOICE_free,
+	CHOICE_print,
 	CHOICE_constraint,
+	CHOICE_decode_ber,
+	CHOICE_encode_der,
+	CHOICE_decode_xer,
+	CHOICE_encode_xer,
+	CHOICE_decode_uper,
+	CHOICE_encode_uper,
+	CHOICE_decode_aper,
+	CHOICE_encode_aper,
+	CHOICE_outmost_tag,
 	0,	/* No effective tags (pointer) */
 	0,	/* No effective tags (count) */
 	0,	/* No tags (pointer) */
@@ -228,7 +248,7 @@ extern asn_TYPE_descriptor_t asn_DEF_Choice2;
 /*** <<< CTDEFS [Choice2] >>> ***/
 
 static asn_per_constraints_t asn_PER_type_Choice2_constr_1 GCC_NOTUSED = {
-	{ APC_CONSTRAINED,	 1,  1,  0,  1 }	/* (0..1) */,
+	{ APC_CONSTRAINED,	 1,  1,  0l,  1l }	/* (0..1) */,
 	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
 	0, 0	/* No PER value map */
 };
@@ -272,8 +292,18 @@ static asn_CHOICE_specifics_t asn_SPC_Choice2_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Choice2 = {
 	"Choice2",
 	"Choice2",
-	&asn_OP_CHOICE,
+	CHOICE_free,
+	CHOICE_print,
 	CHOICE_constraint,
+	CHOICE_decode_ber,
+	CHOICE_encode_der,
+	CHOICE_decode_xer,
+	CHOICE_encode_xer,
+	CHOICE_decode_uper,
+	CHOICE_encode_uper,
+	CHOICE_decode_aper,
+	CHOICE_encode_aper,
+	CHOICE_outmost_tag,
 	0,	/* No effective tags (pointer) */
 	0,	/* No effective tags (count) */
 	0,	/* No tags (pointer) */
@@ -334,7 +364,7 @@ extern asn_TYPE_descriptor_t asn_DEF_EXTERNAL;
 /*** <<< CTDEFS [EXTERNAL] >>> ***/
 
 static asn_per_constraints_t asn_PER_type_encoding_constr_5 GCC_NOTUSED = {
-	{ APC_CONSTRAINED,	 2,  2,  0,  2 }	/* (0..2) */,
+	{ APC_CONSTRAINED,	 2,  2,  0l,  2l }	/* (0..2) */,
 	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
 	0, 0	/* No PER value map */
 };
@@ -389,8 +419,18 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_encoding_5 = {
 	"encoding",
 	"encoding",
-	&asn_OP_CHOICE,
+	CHOICE_free,
+	CHOICE_print,
 	CHOICE_constraint,
+	CHOICE_decode_ber,
+	CHOICE_encode_der,
+	CHOICE_decode_xer,
+	CHOICE_encode_xer,
+	CHOICE_decode_uper,
+	CHOICE_encode_uper,
+	CHOICE_decode_aper,
+	CHOICE_encode_aper,
+	CHOICE_outmost_tag,
 	0,	/* No effective tags (pointer) */
 	0,	/* No effective tags (count) */
 	0,	/* No tags (pointer) */
@@ -465,8 +505,18 @@ static asn_SEQUENCE_specifics_t asn_SPC_EXTERNAL_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_EXTERNAL = {
 	"EXTERNAL",
 	"EXTERNAL",
-	&asn_OP_SEQUENCE,
+	SEQUENCE_free,
+	SEQUENCE_print,
 	SEQUENCE_constraint,
+	SEQUENCE_decode_ber,
+	SEQUENCE_encode_der,
+	SEQUENCE_decode_xer,
+	SEQUENCE_encode_xer,
+	SEQUENCE_decode_uper,
+	SEQUENCE_encode_uper,
+	SEQUENCE_decode_aper,
+	SEQUENCE_encode_aper,
+	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_EXTERNAL_tags_1,
 	sizeof(asn_DEF_EXTERNAL_tags_1)
 		/sizeof(asn_DEF_EXTERNAL_tags_1[0]) - 1, /* 1 */

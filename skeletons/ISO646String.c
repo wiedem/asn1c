@@ -17,7 +17,9 @@ static asn_per_constraints_t asn_DEF_ISO646String_constraints = {
 	{ APC_SEMI_CONSTRAINED, -1, -1, 0, 0 },	/* Size */
 	0, 0
 };
-asn_TYPE_operation_t asn_OP_ISO646String = {
+asn_TYPE_descriptor_t asn_DEF_ISO646String = {
+	"ISO646String",
+	"ISO646String",
 	OCTET_STRING_free,
 	OCTET_STRING_print_utf8,	/* ASCII subset */
 	VisibleString_constraint,
@@ -25,24 +27,11 @@ asn_TYPE_operation_t asn_OP_ISO646String = {
 	OCTET_STRING_encode_der,
 	OCTET_STRING_decode_xer_utf8,
 	OCTET_STRING_encode_xer_utf8,
-#ifdef ASN_DISABLE_PER_SUPPORT
-	0,
-	0,
-	0,
-	0,
-#else
-	OCTET_STRING_decode_uper,	/* Unaligned PER decoder */
-	OCTET_STRING_encode_uper,	/* Unaligned PER encoder */
-	OCTET_STRING_decode_aper,	/* Aligned PER decoder */
-	OCTET_STRING_encode_aper,	/* Aligned PER encoder */
-#endif /* ASN_DISABLE_PER_SUPPORT */
-	0	/* Use generic outmost tag fetcher */
-};
-asn_TYPE_descriptor_t asn_DEF_ISO646String = {
-	"ISO646String",
-	"ISO646String",
-	&asn_OP_ISO646String,
-	VisibleString_constraint,
+	OCTET_STRING_decode_uper,
+	OCTET_STRING_encode_uper,
+	OCTET_STRING_decode_aper,
+	OCTET_STRING_encode_aper,
+	0, /* Use generic outmost tag fetcher */
 	asn_DEF_ISO646String_tags,
 	sizeof(asn_DEF_ISO646String_tags)
 	  / sizeof(asn_DEF_ISO646String_tags[0]) - 1,

@@ -20,7 +20,9 @@
 static const ber_tlv_tag_t asn_DEF_NativeReal_tags[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (9 << 2))
 };
-asn_TYPE_operation_t asn_OP_NativeReal = {
+asn_TYPE_descriptor_t asn_DEF_NativeReal = {
+	"REAL",			/* The ASN.1 type is still REAL */
+	"REAL",
 	NativeReal_free,
 	NativeReal_print,
 	asn_generic_no_constraint,
@@ -28,24 +30,11 @@ asn_TYPE_operation_t asn_OP_NativeReal = {
 	NativeReal_encode_der,
 	NativeReal_decode_xer,
 	NativeReal_encode_xer,
-#ifdef ASN_DISABLE_PER_SUPPORT
-	0,
-	0,
-	0,
-	0,
-#else
 	NativeReal_decode_uper,
 	NativeReal_encode_uper,
 	NativeReal_decode_aper,
 	NativeReal_encode_aper,
-#endif /* ASN_DISABLE_PER_SUPPORT */
-	0	/* Use generic outmost tag fetcher */
-};
-asn_TYPE_descriptor_t asn_DEF_NativeReal = {
-	"REAL",			/* The ASN.1 type is still REAL */
-	"REAL",
-	&asn_OP_NativeReal,
-	asn_generic_no_constraint,
+	0, /* Use generic outmost tag fetcher */
 	asn_DEF_NativeReal_tags,
 	sizeof(asn_DEF_NativeReal_tags) / sizeof(asn_DEF_NativeReal_tags[0]),
 	asn_DEF_NativeReal_tags,	/* Same as above */
@@ -201,7 +190,6 @@ NativeReal_encode_der(asn_TYPE_descriptor_t *td, void *ptr,
 	return erval;
 }
 
-#ifndef ASN_DISABLE_PER_SUPPORT
 /*
  * Decode REAL type using PER.
  */
@@ -229,6 +217,43 @@ NativeReal_decode_uper(asn_codec_ctx_t *opt_codec_ctx,
 
 	memset(&tmp, 0, sizeof(tmp));
 	rval = OCTET_STRING_decode_uper(opt_codec_ctx, td, NULL,
+			&ptmp, pd);
+	if(rval.code != RC_OK) {
+		ASN_STRUCT_FREE_CONTENTS_ONLY(asn_DEF_REAL, &tmp);
+		return rval;
+	}
+
+	ret = asn_REAL2double(&tmp, Dbl);
+	ASN_STRUCT_FREE_CONTENTS_ONLY(asn_DEF_REAL, &tmp);
+	if(ret) ASN__DECODE_FAILED;
+
+	return rval;
+}
+
+asn_dec_rval_t
+NativeReal_decode_aper(asn_codec_ctx_t *opt_codec_ctx,
+	asn_TYPE_descriptor_t *td, asn_per_constraints_t *constraints,
+		void **dbl_ptr, asn_per_data_t *pd) {
+	double *Dbl = (double *)*dbl_ptr;
+	asn_dec_rval_t rval;
+	REAL_t tmp;
+	void *ptmp = &tmp;
+	int ret;
+
+	(void)constraints;
+
+	/*
+	 * If the structure is not there, allocate it.
+	 */
+	if(Dbl == NULL) {
+		*dbl_ptr = CALLOC(1, sizeof(*Dbl));
+		Dbl = (double *)*dbl_ptr;
+		if(Dbl == NULL)
+			ASN__DECODE_FAILED;
+	}
+
+	memset(&tmp, 0, sizeof(tmp));
+	rval = OCTET_STRING_decode_aper(opt_codec_ctx, td, NULL,
 			&ptmp, pd);
 	if(rval.code != RC_OK) {
 		ASN_STRUCT_FREE_CONTENTS_ONLY(asn_DEF_REAL, &tmp);
@@ -271,53 +296,6 @@ NativeReal_encode_uper(asn_TYPE_descriptor_t *td,
 	return erval;
 }
 
-
-/*
- * Decode REAL type using APER.
- */
-asn_dec_rval_t
-NativeReal_decode_aper(asn_codec_ctx_t *opt_codec_ctx,
-	asn_TYPE_descriptor_t *td, asn_per_constraints_t *constraints,
-		void **dbl_ptr, asn_per_data_t *pd) {
-	double *Dbl = (double *)*dbl_ptr;
-	asn_dec_rval_t rval;
-	REAL_t tmp;
-	void *ptmp = &tmp;
-	int ret;
-
-	(void)constraints;
-
-	/*
-	 * If the structure is not there, allocate it.
-	 */
-	if(Dbl == NULL) {
-		*dbl_ptr = CALLOC(1, sizeof(*Dbl));
-		Dbl = (double *)*dbl_ptr;
-		if(Dbl == NULL) {
-			ASN__DECODE_FAILED;
-		}
-	}
-
-	memset(&tmp, 0, sizeof(tmp));
-	rval = OCTET_STRING_decode_aper(opt_codec_ctx, td, NULL,
-			&ptmp, pd);
-	if(rval.code != RC_OK) {
-		ASN_STRUCT_FREE_CONTENTS_ONLY(asn_DEF_REAL, &tmp);
-		return rval;
-	}
-
-	ret = asn_REAL2double(&tmp, Dbl);
-	ASN_STRUCT_FREE_CONTENTS_ONLY(asn_DEF_REAL, &tmp);
-	if(ret) {
-		ASN__DECODE_FAILED;
-	}
-
-	return rval;
-}
-
-/*
- * Encode the NativeReal using the OCTET STRING APER encoder.
- */
 asn_enc_rval_t
 NativeReal_encode_aper(asn_TYPE_descriptor_t *td,
 	asn_per_constraints_t *constraints, void *sptr, asn_per_outp_t *po) {
@@ -330,23 +308,19 @@ NativeReal_encode_aper(asn_TYPE_descriptor_t *td,
 	/* Prepare a temporary clean structure */
 	memset(&tmp, 0, sizeof(tmp));
 
-	if(asn_double2REAL(&tmp, Dbl)) {
+	if(asn_double2REAL(&tmp, Dbl))
 		ASN__ENCODE_FAILED;
-	}
 
 	/* Encode a DER REAL */
 	erval = OCTET_STRING_encode_aper(td, NULL, &tmp, po);
-	if(erval.encoded == -1) {
+	if(erval.encoded == -1)
 		erval.structure_ptr = sptr;
-	}
 
 	/* Free possibly allocated members of the temporary structure */
 	ASN_STRUCT_FREE_CONTENTS_ONLY(asn_DEF_REAL, &tmp);
 
 	return erval;
 }
-
-#endif /* ASN_DISABLE_PER_SUPPORT */
 
 /*
  * Decode the chunk of XML text encoding REAL.

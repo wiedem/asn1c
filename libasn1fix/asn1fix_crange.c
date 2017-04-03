@@ -710,17 +710,6 @@ asn1constraint_compute_PER_range(asn1p_expr_type_e expr_type, const asn1p_constr
 	unsigned int i;
 	int ret;
 
-#if 0
-	/**** Uri's debug - chasing down #129 bug ******/
-	fprintf(stderr, "%s:%1d exmet=%1p minmax=%1p \n", __FILE__, __LINE__, exmet, minmax);
-	if (minmax) {
-	  fprintf(stderr, "empty=%1d extensible=%1d el_count=%1d incompat=%1d edge_left=%1d edge_right=%1d\n",
-		  minmax->empty_constraint, minmax->extensible, minmax->el_count, minmax->incompatible,
-		  minmax->left.value, minmax->right.value);
-	}
-	/**** Uri's debug - chasing down #129 bug ******/
-#endif /* Uri's debug of #129 constraints not being passed to generated code */
-	
 	if(!exmet) {
 		exmet = &expectation_met;
 		*exmet = 0;

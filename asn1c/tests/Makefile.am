@@ -1,4 +1,3 @@
-@CODE_COVERAGE_RULES@
 
 SUBDIRS = check-src
 
@@ -45,12 +44,14 @@ TESTS += check-src/check-73.c
 TESTS += check-src/check-92.-findirect-choice.c
 TESTS += check-src/check-92.c
 TESTS += check-src/check64-134.-gen-PER.c
+TESTS += check-src/check-136.-gen-PER.c
 
 EXTRA_DIST =		\
 	data-62			\
 	data-70			\
 	data-119		\
 	data-126		\
+	data-136		\
 	check-src/check64-134.-gen-PER.c
 
 clean-local:

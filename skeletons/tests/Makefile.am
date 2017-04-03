@@ -1,5 +1,3 @@
-@CODE_COVERAGE_RULES@
-
 check_PROGRAMS = \
 	check-ber_tlv_tag	\
 	check-length		\
@@ -12,7 +10,8 @@ check_PROGRAMS = \
 	check-REAL		\
 	check-XER		\
 	check-PER		\
-	check-PER-INTEGER
+	check-PER-INTEGER \
+	check-PER-OCTET_STRING
 
 AM_CPPFLAGS = -I$(top_srcdir)/skeletons $(TESTSUITE_CFLAGS)
 AM_LDFLAGS = $(top_builddir)/skeletons/libasn1cskeletons.la

@@ -16,12 +16,6 @@ extern "C" {
 		int size;	/* Allocated size */	\
 		void (*free)(void *);			\
 	}
-/* 
- * In the definition A_SET_OF() above we ignore type and change 
- * "void (*free)(type *)" to "void (*free)(void *)"
- * to satisfy C++ compilers. Otherwise they complain of
- * "incomplete type" of the struct, and abort with error.
- */
 
 #define	ASN_SET_ADD(headptr, ptr)		\
 	asn_set_add((headptr), (ptr))
