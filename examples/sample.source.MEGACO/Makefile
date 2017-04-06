@@ -390,3 +390,4 @@ distclean: clean
 	rm -f $(ASN_CONVERTER_SOURCES) $(ASN_CONVERTER_HEADERS)
 	rm -f Makefile.am.sample
 	rm -f sample-MegacoMessage-*.ber
+	rm -f .tmp.[0-9]*
