@@ -441,7 +441,7 @@ per_put_few_bits(asn_per_outp_t *po, uint32_t bits, int obits) {
 		int complete_bytes = (po->buffer - po->tmpspace);
 		ASN_DEBUG("[PER output %ld complete + %ld]",
 			(long)complete_bytes, (long)po->flushed_bytes);
-		if(po->outper(po->tmpspace, complete_bytes, po->op_key) < 0)
+		if(po->outper && (po->outper(po->tmpspace, complete_bytes, po->op_key) < 0))
 			return -1;
 		if(po->nboff)
 			po->tmpspace[0] = po->buffer[0];
