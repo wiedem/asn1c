@@ -61,6 +61,7 @@ enum enctype {
 static void
 save_object_as(PDU_t *st, enum enctype how) {
 	asn_enc_rval_t rval; /* Return value */
+	asn_enc_rval_t rval2;
 
 	buf_offset = 0;
 
@@ -69,13 +70,17 @@ save_object_as(PDU_t *st, enum enctype how) {
 	 */
 	switch(how) {
 	case AS_UPER:
+		rval2 = uper_encode(&asn_DEF_PDU, st, 0, 0);
 		rval = uper_encode(&asn_DEF_PDU, st, _buf_writer, 0);
 		assert(rval.encoded > 0);
+		assert(rval2.encoded == rval.encoded);
 		ASN_DEBUG("SAVED OBJECT IN SIZE %d\n", buf_offset);
 		return;
 	case AS_APER:
+		rval2 = aper_encode(&asn_DEF_PDU, st, 0, 0);
 		rval = aper_encode(&asn_DEF_PDU, st, _buf_writer, 0);
 		assert(rval.encoded > 0);
+		assert(rval2.encoded == rval.encoded);
 		ASN_DEBUG("SAVED OBJECT IN SIZE %d\n", buf_offset);
 		return;
 	case AS_DER:

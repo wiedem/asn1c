@@ -160,7 +160,10 @@ _uper_encode_flush_outp(asn_per_outp_t *po) {
 		buf++;
 	}
 
-	return po->outper(po->tmpspace, buf - po->tmpspace, po->op_key);
+	if (po->outper) {
+		return po->outper(po->tmpspace, buf - po->tmpspace, po->op_key);
+	}
+	return 0;
 }
 
 static int
@@ -177,7 +180,10 @@ _aper_encode_flush_outp(asn_per_outp_t *po) {
 		buf++;
 	}
 
-	return po->outper(po->tmpspace, buf - po->tmpspace, po->op_key);
+	if (po->outper) {
+		return po->outper(po->tmpspace, buf - po->tmpspace, po->op_key);
+	}
+	return 0;
 }
 
 static asn_enc_rval_t
