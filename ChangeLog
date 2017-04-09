@@ -1,5 +1,13 @@
-1.0.?:
-    * 
+1.0.0: 2017-Apr-9
+    * Merged PR by @AuthenticEshkitKot to add APER and Information Object support.
+    * Merged PR by @velichkov to add EXTERNAL support.
+    * Merged PR by @velichkov to make constraints working in UPER and APER.
+    * Merged multiple fixes by @velichkov.
+    * Merged fixes and structural improvements by @brchiu.
+    * Several other fixes and enhancements, like fixing memory leaks,
+      compatibility with bison-3, new test-cases to catch problems that the
+      original tests did not check for, added sample messages for MEGACO example,
+      addressed a ton of compiler warnings, etc. etc.
 
 0.9.30:
     * PER decoding: avoid memory leak on error. By github.com/simo5

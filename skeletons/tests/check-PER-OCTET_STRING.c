@@ -41,7 +41,7 @@ check_per_encode_constrained(
 	asn_enc_rval_t enc_rval = {0};
 	asn_dec_rval_t dec_rval = {0};
 
-	printf("%s:%d: Testing (%lld..%lld) rbits:%d ebits:%d, len:%d len:%d\n",
+	printf("%s:%d: Testing (%lld..%lld) rbits:%d ebits:%d, len:%zu len:%zu\n",
 			filename, lineno, lbound, ubound, rbits, ebits, dec_len, enc_len);
 
 	memset(&st, 0, sizeof(st));
