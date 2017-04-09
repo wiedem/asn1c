@@ -2,6 +2,7 @@
     * Merged PR by @AuthenticEshkitKot to add APER and Information Object support.
     * Merged PR by @velichkov to add EXTERNAL support.
     * Merged PR by @velichkov to make constraints working in UPER and APER.
+    * Merged PR by @velichkov to support wider PER constraints.
     * Merged multiple fixes by @velichkov.
     * Merged fixes and structural improvements by @brchiu.
     * Several other fixes and enhancements, like fixing memory leaks,
