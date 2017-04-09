@@ -1,4 +1,4 @@
-AC_INIT([asn1c],[0.9.30],[vlm@lionet.info])
+AC_INIT([asn1c],[1.0.0],[vlm@lionet.info])
 
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_HEADER([config.h])
