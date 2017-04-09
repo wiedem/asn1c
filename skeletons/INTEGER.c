@@ -14,9 +14,7 @@
 static const ber_tlv_tag_t asn_DEF_INTEGER_tags[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (2 << 2))
 };
-asn_TYPE_descriptor_t asn_DEF_INTEGER = {
-	"INTEGER",
-	"INTEGER",
+asn_TYPE_operation_t asn_OP_INTEGER = {
 	ASN__PRIMITIVE_TYPE_free,
 	INTEGER_print,
 	asn_generic_no_constraint,
@@ -24,7 +22,7 @@ asn_TYPE_descriptor_t asn_DEF_INTEGER = {
 	INTEGER_encode_der,
 	INTEGER_decode_xer,
 	INTEGER_encode_xer,
-#ifdef	ASN_DISABLE_PER_SUPPORT
+#ifdef ASN_DISABLE_PER_SUPPORT
 	0,
 	0,
 	0,
@@ -34,8 +32,14 @@ asn_TYPE_descriptor_t asn_DEF_INTEGER = {
 	INTEGER_encode_uper,	/* Unaligned PER encoder */
 	INTEGER_decode_aper,
 	INTEGER_encode_aper,
-#endif	/* ASN_DISABLE_PER_SUPPORT */
-	0, /* Use generic outmost tag fetcher */
+#endif /* ASN_DISABLE_PER_SUPPORT */
+	0			/* Use generic outmost tag fetcher */
+};
+asn_TYPE_descriptor_t asn_DEF_INTEGER = {
+	"INTEGER",
+	"INTEGER",
+	&asn_OP_INTEGER,
+	asn_generic_no_constraint,
 	asn_DEF_INTEGER_tags,
 	sizeof(asn_DEF_INTEGER_tags) / sizeof(asn_DEF_INTEGER_tags[0]),
 	asn_DEF_INTEGER_tags,	/* Same as above */

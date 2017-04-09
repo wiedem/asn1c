@@ -64,14 +64,14 @@ check_per_encode_constrained(
 	//assert(8 * enc_len == enc_rval.encoded);
 	assert(0 == memcmp(buf, enc_val, buf_offset));
 
-	asn_DEF_OCTET_STRING.free_struct(&asn_DEF_OCTET_STRING, &st, 1);
+	ASN_STRUCT_FREE_CONTENTS_ONLY(asn_DEF_OCTET_STRING, &st);
 
 	dec_rval = aper_decode(0, &asn_DEF_OCTET_STRING, (void**) &reconstructed_st, enc_val, enc_len, 0, 0);
 	assert(0 == dec_rval.code);
 	//assert(enc_len * 8 == dec_rval.consumed);
 	assert(0 == memcmp(dec_val, reconstructed_st->buf, reconstructed_st->size));
 
-	asn_DEF_OCTET_STRING.free_struct(&asn_DEF_OCTET_STRING, reconstructed_st, 0);
+	ASN_STRUCT_FREE(asn_DEF_OCTET_STRING, reconstructed_st);
 
 }
 

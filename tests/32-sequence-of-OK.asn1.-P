@@ -49,16 +49,8 @@ static asn_SET_OF_specifics_t asn_SPC_Programming_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Programming = {
 	"Programming",
 	"Programming",
-	SEQUENCE_OF_free,
-	SEQUENCE_OF_print,
+	&asn_OP_SEQUENCE_OF,
 	SEQUENCE_OF_constraint,
-	SEQUENCE_OF_decode_ber,
-	SEQUENCE_OF_encode_der,
-	SEQUENCE_OF_decode_xer,
-	SEQUENCE_OF_encode_xer,
-	0, 0,	/* No UPER support, use "-gen-PER" to enable */
-	0, 0,	/* No APER support, use "-gen-PER" to enable */
-	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Programming_tags_1,
 	sizeof(asn_DEF_Programming_tags_1)
 		/sizeof(asn_DEF_Programming_tags_1[0]), /* 1 */
@@ -93,6 +85,8 @@ typedef struct Fault {
 /*** <<< FUNC-DECLS [Fault] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_Fault;
+extern asn_SET_OF_specifics_t asn_SPC_Fault_specs_1;
+extern asn_TYPE_member_t asn_MBR_Fault_1[1];
 
 /*** <<< POST-INCLUDE [Fault] >>> ***/
 
@@ -100,7 +94,7 @@ extern asn_TYPE_descriptor_t asn_DEF_Fault;
 
 /*** <<< STAT-DEFS [Fault] >>> ***/
 
-static asn_TYPE_member_t asn_MBR_Fault_1[] = {
+asn_TYPE_member_t asn_MBR_Fault_1[] = {
 	{ ATF_POINTER, 0, 0,
 		.tag = (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		.tag_mode = 0,
@@ -114,7 +108,7 @@ static asn_TYPE_member_t asn_MBR_Fault_1[] = {
 static const ber_tlv_tag_t asn_DEF_Fault_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (17 << 2))
 };
-static asn_SET_OF_specifics_t asn_SPC_Fault_specs_1 = {
+asn_SET_OF_specifics_t asn_SPC_Fault_specs_1 = {
 	sizeof(struct Fault),
 	offsetof(struct Fault, _asn_ctx),
 	0,	/* XER encoding is XMLDelimitedItemList */
@@ -122,16 +116,8 @@ static asn_SET_OF_specifics_t asn_SPC_Fault_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Fault = {
 	"Fault",
 	"Fault",
-	SET_OF_free,
-	SET_OF_print,
+	&asn_OP_SET_OF,
 	SET_OF_constraint,
-	SET_OF_decode_ber,
-	SET_OF_encode_der,
-	SET_OF_decode_xer,
-	SET_OF_encode_xer,
-	0, 0,	/* No UPER support, use "-gen-PER" to enable */
-	0, 0,	/* No APER support, use "-gen-PER" to enable */
-	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Fault_tags_1,
 	sizeof(asn_DEF_Fault_tags_1)
 		/sizeof(asn_DEF_Fault_tags_1[0]), /* 1 */
@@ -164,13 +150,14 @@ typedef struct Error {
 /*** <<< FUNC-DECLS [Error] >>> ***/
 
 extern asn_TYPE_descriptor_t asn_DEF_Error;
+extern asn_SEQUENCE_specifics_t asn_SPC_Error_specs_1;
 
 /*** <<< STAT-DEFS [Error] >>> ***/
 
 static const ber_tlv_tag_t asn_DEF_Error_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
-static asn_SEQUENCE_specifics_t asn_SPC_Error_specs_1 = {
+asn_SEQUENCE_specifics_t asn_SPC_Error_specs_1 = {
 	sizeof(struct Error),
 	offsetof(struct Error, _asn_ctx),
 	0,	/* No top level tags */
@@ -182,16 +169,8 @@ static asn_SEQUENCE_specifics_t asn_SPC_Error_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Error = {
 	"Error",
 	"Error",
-	SEQUENCE_free,
-	SEQUENCE_print,
+	&asn_OP_SEQUENCE,
 	SEQUENCE_constraint,
-	SEQUENCE_decode_ber,
-	SEQUENCE_encode_der,
-	SEQUENCE_decode_xer,
-	SEQUENCE_encode_xer,
-	0, 0,	/* No UPER support, use "-gen-PER" to enable */
-	0, 0,	/* No APER support, use "-gen-PER" to enable */
-	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Error_tags_1,
 	sizeof(asn_DEF_Error_tags_1)
 		/sizeof(asn_DEF_Error_tags_1[0]), /* 1 */
@@ -264,16 +243,8 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_seqOfMan_3 = {
 	"seqOfMan",
 	"seqOfMan",
-	SEQUENCE_OF_free,
-	SEQUENCE_OF_print,
+	&asn_OP_SEQUENCE_OF,
 	SEQUENCE_OF_constraint,
-	SEQUENCE_OF_decode_ber,
-	SEQUENCE_OF_encode_der,
-	SEQUENCE_OF_decode_xer,
-	SEQUENCE_OF_encode_xer,
-	0, 0,	/* No UPER support, use "-gen-PER" to enable */
-	0, 0,	/* No APER support, use "-gen-PER" to enable */
-	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_seqOfMan_tags_3,
 	sizeof(asn_DEF_seqOfMan_tags_3)
 		/sizeof(asn_DEF_seqOfMan_tags_3[0]), /* 2 */
@@ -325,16 +296,8 @@ static asn_SEQUENCE_specifics_t asn_SPC_SeqWithMandatory_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_SeqWithMandatory = {
 	"SeqWithMandatory",
 	"SeqWithMandatory",
-	SEQUENCE_free,
-	SEQUENCE_print,
+	&asn_OP_SEQUENCE,
 	SEQUENCE_constraint,
-	SEQUENCE_decode_ber,
-	SEQUENCE_encode_der,
-	SEQUENCE_decode_xer,
-	SEQUENCE_encode_xer,
-	0, 0,	/* No UPER support, use "-gen-PER" to enable */
-	0, 0,	/* No APER support, use "-gen-PER" to enable */
-	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_SeqWithMandatory_tags_1,
 	sizeof(asn_DEF_SeqWithMandatory_tags_1)
 		/sizeof(asn_DEF_SeqWithMandatory_tags_1[0]), /* 1 */
@@ -408,16 +371,8 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_seqOfOpt_3 = {
 	"seqOfOpt",
 	"seqOfOpt",
-	SEQUENCE_OF_free,
-	SEQUENCE_OF_print,
+	&asn_OP_SEQUENCE_OF,
 	SEQUENCE_OF_constraint,
-	SEQUENCE_OF_decode_ber,
-	SEQUENCE_OF_encode_der,
-	SEQUENCE_OF_decode_xer,
-	SEQUENCE_OF_encode_xer,
-	0, 0,	/* No UPER support, use "-gen-PER" to enable */
-	0, 0,	/* No APER support, use "-gen-PER" to enable */
-	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_seqOfOpt_tags_3,
 	sizeof(asn_DEF_seqOfOpt_tags_3)
 		/sizeof(asn_DEF_seqOfOpt_tags_3[0]), /* 2 */
@@ -469,16 +424,8 @@ static asn_SEQUENCE_specifics_t asn_SPC_SeqWithOptional_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_SeqWithOptional = {
 	"SeqWithOptional",
 	"SeqWithOptional",
-	SEQUENCE_free,
-	SEQUENCE_print,
+	&asn_OP_SEQUENCE,
 	SEQUENCE_constraint,
-	SEQUENCE_decode_ber,
-	SEQUENCE_encode_der,
-	SEQUENCE_decode_xer,
-	SEQUENCE_encode_xer,
-	0, 0,	/* No UPER support, use "-gen-PER" to enable */
-	0, 0,	/* No APER support, use "-gen-PER" to enable */
-	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_SeqWithOptional_tags_1,
 	sizeof(asn_DEF_SeqWithOptional_tags_1)
 		/sizeof(asn_DEF_SeqWithOptional_tags_1[0]), /* 1 */
@@ -549,70 +496,6 @@ Member_3_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
  * This type is implemented using NativeInteger,
  * so here we adjust the DEF accordingly.
  */
-static void
-Member_3_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
-	td->free_struct    = asn_DEF_NativeInteger.free_struct;
-	td->print_struct   = asn_DEF_NativeInteger.print_struct;
-	td->check_constraints = asn_DEF_NativeInteger.check_constraints;
-	td->ber_decoder    = asn_DEF_NativeInteger.ber_decoder;
-	td->der_encoder    = asn_DEF_NativeInteger.der_encoder;
-	td->xer_decoder    = asn_DEF_NativeInteger.xer_decoder;
-	td->xer_encoder    = asn_DEF_NativeInteger.xer_encoder;
-	td->uper_decoder   = asn_DEF_NativeInteger.uper_decoder;
-	td->uper_encoder   = asn_DEF_NativeInteger.uper_encoder;
-	td->aper_decoder   = asn_DEF_NativeInteger.aper_decoder;
-	td->aper_encoder   = asn_DEF_NativeInteger.aper_encoder;
-	if(!td->per_constraints)
-		td->per_constraints = asn_DEF_NativeInteger.per_constraints;
-	td->elements       = asn_DEF_NativeInteger.elements;
-	td->elements_count = asn_DEF_NativeInteger.elements_count;
-     /* td->specifics      = asn_DEF_NativeInteger.specifics;	// Defined explicitly */
-}
-
-static void
-Member_3_free(asn_TYPE_descriptor_t *td,
-		void *struct_ptr, int contents_only) {
-	Member_3_inherit_TYPE_descriptor(td);
-	td->free_struct(td, struct_ptr, contents_only);
-}
-
-static int
-Member_3_print(asn_TYPE_descriptor_t *td, const void *struct_ptr,
-		int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
-	Member_3_inherit_TYPE_descriptor(td);
-	return td->print_struct(td, struct_ptr, ilevel, cb, app_key);
-}
-
-static asn_dec_rval_t
-Member_3_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const void *bufptr, size_t size, int tag_mode) {
-	Member_3_inherit_TYPE_descriptor(td);
-	return td->ber_decoder(opt_codec_ctx, td, structure, bufptr, size, tag_mode);
-}
-
-static asn_enc_rval_t
-Member_3_encode_der(asn_TYPE_descriptor_t *td,
-		void *structure, int tag_mode, ber_tlv_tag_t tag,
-		asn_app_consume_bytes_f *cb, void *app_key) {
-	Member_3_inherit_TYPE_descriptor(td);
-	return td->der_encoder(td, structure, tag_mode, tag, cb, app_key);
-}
-
-static asn_dec_rval_t
-Member_3_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const char *opt_mname, const void *bufptr, size_t size) {
-	Member_3_inherit_TYPE_descriptor(td);
-	return td->xer_decoder(opt_codec_ctx, td, structure, opt_mname, bufptr, size);
-}
-
-static asn_enc_rval_t
-Member_3_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
-		int ilevel, enum xer_encoder_flags_e flags,
-		asn_app_consume_bytes_f *cb, void *app_key) {
-	Member_3_inherit_TYPE_descriptor(td);
-	return td->xer_encoder(td, structure, ilevel, flags, cb, app_key);
-}
-
 static int
 memb_NativeInteger_constraint_2(asn_TYPE_descriptor_t *td, const void *sptr,
 			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
@@ -653,16 +536,8 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_Member_3 = {
 	"INTEGER",
 	"INTEGER",
-	Member_3_free,
-	Member_3_print,
+	&asn_OP_NativeInteger,
 	Member_3_constraint,
-	Member_3_decode_ber,
-	Member_3_encode_der,
-	Member_3_decode_xer,
-	Member_3_encode_xer,
-	0, 0,	/* No UPER support, use "-gen-PER" to enable */
-	0, 0,	/* No APER support, use "-gen-PER" to enable */
-	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Member_tags_3,
 	sizeof(asn_DEF_Member_tags_3)
 		/sizeof(asn_DEF_Member_tags_3[0]), /* 1 */
@@ -698,16 +573,8 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_vals_2 = {
 	"vals",
 	"vals",
-	SEQUENCE_OF_free,
-	SEQUENCE_OF_print,
+	&asn_OP_SEQUENCE_OF,
 	SEQUENCE_OF_constraint,
-	SEQUENCE_OF_decode_ber,
-	SEQUENCE_OF_encode_der,
-	SEQUENCE_OF_decode_xer,
-	SEQUENCE_OF_encode_xer,
-	0, 0,	/* No UPER support, use "-gen-PER" to enable */
-	0, 0,	/* No APER support, use "-gen-PER" to enable */
-	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_vals_tags_2,
 	sizeof(asn_DEF_vals_tags_2)
 		/sizeof(asn_DEF_vals_tags_2[0]) - 1, /* 1 */
@@ -749,16 +616,8 @@ static asn_SEQUENCE_specifics_t asn_SPC_Issue123_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_Issue123 = {
 	"Issue123",
 	"Issue123",
-	SEQUENCE_free,
-	SEQUENCE_print,
+	&asn_OP_SEQUENCE,
 	SEQUENCE_constraint,
-	SEQUENCE_decode_ber,
-	SEQUENCE_encode_der,
-	SEQUENCE_decode_xer,
-	SEQUENCE_encode_xer,
-	0, 0,	/* No UPER support, use "-gen-PER" to enable */
-	0, 0,	/* No APER support, use "-gen-PER" to enable */
-	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_Issue123_tags_1,
 	sizeof(asn_DEF_Issue123_tags_1)
 		/sizeof(asn_DEF_Issue123_tags_1[0]), /* 1 */
@@ -868,16 +727,8 @@ static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_encoding_5 = {
 	"encoding",
 	"encoding",
-	CHOICE_free,
-	CHOICE_print,
+	&asn_OP_CHOICE,
 	CHOICE_constraint,
-	CHOICE_decode_ber,
-	CHOICE_encode_der,
-	CHOICE_decode_xer,
-	CHOICE_encode_xer,
-	0, 0,	/* No UPER support, use "-gen-PER" to enable */
-	0, 0,	/* No APER support, use "-gen-PER" to enable */
-	CHOICE_outmost_tag,
 	0,	/* No effective tags (pointer) */
 	0,	/* No effective tags (count) */
 	0,	/* No tags (pointer) */
@@ -950,16 +801,8 @@ static asn_SEQUENCE_specifics_t asn_SPC_EXTERNAL_specs_1 = {
 asn_TYPE_descriptor_t asn_DEF_EXTERNAL = {
 	"EXTERNAL",
 	"EXTERNAL",
-	SEQUENCE_free,
-	SEQUENCE_print,
+	&asn_OP_SEQUENCE,
 	SEQUENCE_constraint,
-	SEQUENCE_decode_ber,
-	SEQUENCE_encode_der,
-	SEQUENCE_decode_xer,
-	SEQUENCE_encode_xer,
-	0, 0,	/* No UPER support, use "-gen-PER" to enable */
-	0, 0,	/* No APER support, use "-gen-PER" to enable */
-	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_EXTERNAL_tags_1,
 	sizeof(asn_DEF_EXTERNAL_tags_1)
 		/sizeof(asn_DEF_EXTERNAL_tags_1[0]) - 1, /* 1 */

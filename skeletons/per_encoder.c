@@ -194,7 +194,7 @@ uper_encode_internal(asn_TYPE_descriptor_t *td, asn_per_constraints_t *constrain
 	/*
 	 * Invoke type-specific encoder.
 	 */
-	if(!td || !td->uper_encoder)
+	if(!td || !td->op->uper_encoder)
 		ASN__ENCODE_FAILED;	/* PER is not compiled in */
 
 	po.buffer = po.tmpspace;
@@ -204,7 +204,7 @@ uper_encode_internal(asn_TYPE_descriptor_t *td, asn_per_constraints_t *constrain
 	po.op_key = app_key;
 	po.flushed_bytes = 0;
 
-	er = td->uper_encoder(td, constraints, sptr, &po);
+	er = td->op->uper_encoder(td, constraints, sptr, &po);
 	if(er.encoded != -1) {
 		size_t bits_to_flush;
 
@@ -228,7 +228,7 @@ aper_encode_internal(asn_TYPE_descriptor_t *td, asn_per_constraints_t *constrain
 	/*
 	 * Invoke type-specific encoder.
 	 */
-	if(!td || !td->aper_encoder)
+	if(!td || !td->op->aper_encoder)
 		ASN__ENCODE_FAILED;	 /* PER is not compiled in */
 
 	po.buffer = po.tmpspace;
@@ -238,7 +238,7 @@ aper_encode_internal(asn_TYPE_descriptor_t *td, asn_per_constraints_t *constrain
 	po.op_key = app_key;
 	po.flushed_bytes = 0;
 
-	er = td->aper_encoder(td, constraints, sptr, &po);
+	er = td->op->aper_encoder(td, constraints, sptr, &po);
 	if(er.encoded != -1) {
 		size_t bits_to_flush;
 

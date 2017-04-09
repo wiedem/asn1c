@@ -18,6 +18,7 @@ extern "C" {
 typedef int NULL_t;
 
 extern asn_TYPE_descriptor_t asn_DEF_NULL;
+extern asn_TYPE_operation_t asn_OP_NULL;
 
 asn_struct_print_f NULL_print;
 der_type_encoder_f NULL_encode_der;
@@ -27,6 +28,8 @@ per_type_decoder_f NULL_decode_uper;
 per_type_encoder_f NULL_encode_uper;
 per_type_decoder_f NULL_decode_aper;
 per_type_encoder_f NULL_encode_aper;
+
+#define NULL_constraint  asn_generic_no_constraint
 
 #ifdef __cplusplus
 }
