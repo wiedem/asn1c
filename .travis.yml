@@ -1,14 +1,13 @@
 language: c
 
-os:
-  - linux
+#os:
+#  - linux
 #  - osx
-
 #osx_image: xcode8.3
 
-compiler:
-  - gcc
-  - clang
+#compiler:
+#  - gcc
+#  - clang
 
 env:
   - BUILD=x86_64-linux-gnu
