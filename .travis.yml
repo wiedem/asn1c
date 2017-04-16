@@ -4,8 +4,6 @@ os:
   - linux
   - osx
 
-#dist: trusty
-#sudo: required
 osx_image: xcode8.3
 
 compiler:
@@ -15,11 +13,9 @@ compiler:
 env:
   matrix:
     include:
-      -os: linux
-         BUILD=x86_64-linux-gnu
+      - BUILD=x86_64-linux-gnu
          CFLAGS=-m64 LDFLAGS=-m64
-      -os: linux
-         BUILD=i686-linux-gnu
+      - BUILD=i686-linux-gnu
          CFLAGS=-m32 LDFLAGS=-m32
       -os: osx
          compiler: clang
