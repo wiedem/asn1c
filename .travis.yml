@@ -1,38 +1,16 @@
 language: c
-
-#os:
-#  - linux
-#  - osx
-#osx_image: xcode8.3
-
-#compiler:
-#  - gcc
-#  - clang
-
+compiler:
+  - gcc
+  - clang
 env:
   - BUILD=x86_64-linux-gnu
     CFLAGS=-m64 LDFLAGS=-m64
   - BUILD=i686-linux-gnu
     CFLAGS=-m32 LDFLAGS=-m32
-
- addons:
-   apt:
-     packages:
-     - gcc-multilib
-
- script:
-     - autoreconf -iv
-     - ./configure --enable-Werror
-     - make -j8
-     - make check
-     - make distcheck
-     compiler: clang
-
 addons:
   apt:
     packages:
     - gcc-multilib
-
 script:
     - autoreconf -iv
     - ./configure --enable-Werror
