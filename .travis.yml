@@ -11,16 +11,14 @@ compiler:
   - clang
 
 env:
-  matrix:
-    include:
-      -os: linux BUILD=x86_64-linux-gnu
-         CFLAGS=-m64 LDFLAGS=-m64
-      - BUILD=i686-linux-gnu
-         CFLAGS=-m32 LDFLAGS=-m32
-      -os: osx
-         compiler: clang
-      -os: osx
-         compiler: gcc
+  - BUILD=x86_64-linux-gnu
+    CFLAGS=-m64 LDFLAGS=-m64
+  - BUILD=i686-linux-gnu
+    CFLAGS=-m32 LDFLAGS=-m32
+  -os: osx
+    compiler: clang
+  -os: osx
+    compiler: gcc
 
  addons:
    apt:
