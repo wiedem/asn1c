@@ -15,10 +15,6 @@ env:
     CFLAGS=-m64 LDFLAGS=-m64
   - BUILD=i686-linux-gnu
     CFLAGS=-m32 LDFLAGS=-m32
-  -os: osx
-    compiler: clang
-  -os: osx
-    compiler: gcc
 
  addons:
    apt:
