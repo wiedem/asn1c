@@ -13,7 +13,7 @@ compiler:
 env:
   matrix:
     include:
-      - BUILD=x86_64-linux-gnu
+      -os: linux BUILD=x86_64-linux-gnu
          CFLAGS=-m64 LDFLAGS=-m64
       - BUILD=i686-linux-gnu
          CFLAGS=-m32 LDFLAGS=-m32
