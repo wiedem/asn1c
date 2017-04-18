@@ -1,5 +1,7 @@
 1.0.x:
     * Applied PR#145 from vlm/asn1c to remove comma that caused GCC warnings in pedantic mode.
+    * Surrounded _BSD_SOURCE with ifdef's for Apple to avoid compiler warnings in GeneralizedTime.c
+      and REAL.c in skeletons/ dir.
 
 1.0.0: 2017-Apr-9
     * Merged PR by @AuthenticEshkitKot to add APER and Information Object support.

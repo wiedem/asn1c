@@ -3,7 +3,9 @@
  * Redistribution and modifications are permitted subject to BSD license.
  */
 #define	_ISOC99_SOURCE		/* For ilogb() and quiet NAN */
+#if !defined(__APPLE__)
 #define	_BSD_SOURCE		/* To reintroduce finite(3) */
+#endif /* __APPLE__ Mac does not need _BSD_SOURCE to enable finite(), defined in <math.h> */
 #if	defined(__alpha)
 #include <sys/resource.h>	/* For INFINITY */
 #endif
