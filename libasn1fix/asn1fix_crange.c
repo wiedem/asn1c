@@ -264,6 +264,17 @@ static int _range_fill(asn1p_value_t *val, const asn1cnst_range_t *minmax, asn1c
 		edge->type = ARE_VALUE;
 		edge->value = val->value.v_integer;
 		return 0;
+	case ATV_REAL:
+		if(type != ACT_EL_RANGE && type != ACT_CT_SIZE) {
+			FATAL("Double %f value invalid "
+				"for %s constraint at line %d",
+				val->value.v_double,
+				asn1p_constraint_type2str(type), lineno);
+			return -1;
+		}
+		edge->type = ARE_VALUE;
+		edge->value = val->value.v_double;
+		return 0;
 	case ATV_MIN:
 		if(type != ACT_EL_RANGE && type != ACT_CT_SIZE) {
 			FATAL("MIN invalid for %s constraint at line %d",

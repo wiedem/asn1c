@@ -69,6 +69,8 @@ BEGIN
 	Enum0	::= ENUMERATED { one, two }
 	Enum1	::= ENUMERATED { one, two }	(one)
 
+	Real	::= REAL (1.00..21999.00)
+
 END
 
 
