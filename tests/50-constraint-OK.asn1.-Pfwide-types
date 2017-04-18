@@ -2466,29 +2466,429 @@ asn_TYPE_descriptor_t asn_DEF_Enum1 = {
 };
 
 
-/*** <<< INCLUDES [Real] >>> ***/
+/*** <<< INCLUDES [SequenceReal] >>> ***/
 
 #include <REAL.h>
+#include <constr_SEQUENCE.h>
 
-/*** <<< TYPE-DECLS [Real] >>> ***/
+/*** <<< TYPE-DECLS [SequenceReal] >>> ***/
 
-typedef REAL_t	 Real_t;
+typedef struct SequenceReal {
+	REAL_t	 real;
+	REAL_t	 real_const0;
+	REAL_t	 real_const1;
+	REAL_t	 real_const2;
+	REAL_t	 real_const30;
+	REAL_t	 real_const3;
+	REAL_t	 real_const31;
+	REAL_t	 real_const4;
+	REAL_t	 real_min;
+	REAL_t	 real_max0;
+	REAL_t	 real_max;
+	REAL_t	 real_intc0;
+	REAL_t	 real_intc1;
+	REAL_t	 real_intc2;
+	REAL_t	 real_intc3;
+	REAL_t	 real_intmin;
+	REAL_t	 real_intmax;
+	REAL_t	 real_mix1;
+	REAL_t	 real_mix2;
+	REAL_t	 real_ext;
+	REAL_t	 real_ext1;
+	REAL_t	 real_ext2;
+	REAL_t	 real_ext21;
+	REAL_t	 real_ext3;
+	REAL_t	 real_ext4;
+	REAL_t	 real_ext6;
+	/*
+	 * This type is extensible,
+	 * possible extensions are below.
+	 */
+	
+	/* Context for parsing across buffer boundaries */
+	asn_struct_ctx_t _asn_ctx;
+} SequenceReal_t;
 
-/*** <<< FUNC-DECLS [Real] >>> ***/
+/*** <<< FUNC-DECLS [SequenceReal] >>> ***/
 
-extern asn_TYPE_descriptor_t asn_DEF_Real;
-asn_struct_free_f Real_free;
-asn_struct_print_f Real_print;
-asn_constr_check_f Real_constraint;
-ber_type_decoder_f Real_decode_ber;
-der_type_encoder_f Real_encode_der;
-xer_type_decoder_f Real_decode_xer;
-xer_type_encoder_f Real_encode_xer;
+extern asn_TYPE_descriptor_t asn_DEF_SequenceReal;
 
-/*** <<< CODE [Real] >>> ***/
+/*** <<< CODE [SequenceReal] >>> ***/
 
-int
-Real_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
+static int
+memb_real_const0_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value == 0.000000L)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_const1_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value == 1.000000L)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_const2_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value >= 1.050000L && value <= 21999.950000L)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_const30_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(((value == 0.000000L) || (value == 0.010000L))) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_const3_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(((value == 1.070000L) || (value == 1.080000L))) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_const31_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value >= -1.000000L && value <= 0.000000L)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_const4_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value >= 0.000000L && value <= 1.000000L)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_min_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value <= 0.000000L)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_max0_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value >= 0.000000L)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_max_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value >= 1.000000L)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_intc0_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value == 0LL)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_intc1_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value == 1LL)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_intc2_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	const REAL_t *st = (const REAL_t *)sptr;
 	double value;
@@ -2518,30 +2918,661 @@ Real_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 	}
 }
 
-/*
- * This type is implemented using REAL,
- * so here we adjust the DEF accordingly.
- */
+static int
+memb_real_intc3_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value >= 0LL && value <= 9223372036854775807LL)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
 
-/*** <<< STAT-DEFS [Real] >>> ***/
+static int
+memb_real_intmin_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value <= 1LL)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
 
-static const ber_tlv_tag_t asn_DEF_Real_tags_1[] = {
-	(ASN_TAG_CLASS_UNIVERSAL | (9 << 2))
+static int
+memb_real_intmax_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value >= 1LL)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_mix1_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value >= 1.500000L && value <= 21999LL)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_mix2_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value >= 1LL && value <= 21999.990000L)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_ext_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	
+	if(1 /* No applicable constraints whatsoever */) {
+		/* Nothing is here. See below */
+	}
+	
+	return td->check_constraints(td, sptr, ctfailcb, app_key);
+}
+
+static int
+memb_real_ext1_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value >= 1.100000L && value <= 10.000000L)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_ext2_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(((value >= 1.100000L && value <= 10.000000L) || (value >= 10.010000L && value <= 11.000000L))) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_ext21_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value >= 1.100000L && value <= 11.000000L)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_ext3_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value == 1LL)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_ext4_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value == 1.000000L)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_real_ext6_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const REAL_t *st = (const REAL_t *)sptr;
+	double value;
+	
+	if(!sptr) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if(asn_REAL2double(st, &value)) {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: value too large (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((value >= 1LL && value <= 4LL)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		ASN__CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+
+/*** <<< STAT-DEFS [SequenceReal] >>> ***/
+
+static asn_TYPE_member_t asn_MBR_SequenceReal_1[] = {
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = 0,	/* Defer constraints checking to the member type */
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_const0),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_const0_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-const0"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_const1),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_const1_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-const1"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_const2),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_const2_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-const2"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_const30),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_const30_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-const30"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_const3),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_const3_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-const3"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_const31),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_const31_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-const31"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_const4),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_const4_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-const4"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_min),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_min_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-min"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_max0),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_max0_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-max0"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_max),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_max_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-max"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_intc0),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_intc0_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-intc0"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_intc1),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_intc1_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-intc1"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_intc2),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_intc2_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-intc2"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_intc3),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_intc3_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-intc3"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_intmin),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_intmin_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-intmin"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_intmax),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_intmax_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-intmax"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_mix1),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_mix1_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-mix1"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_mix2),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_mix2_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-mix2"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_ext),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_ext_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-ext"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_ext1),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_ext1_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-ext1"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_ext2),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_ext2_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-ext2"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_ext21),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_ext21_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-ext21"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_ext3),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_ext3_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-ext3"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_ext4),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_ext4_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-ext4"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct SequenceReal, real_ext6),
+		.tag = (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)),
+		.tag_mode = 0,
+		.type = &asn_DEF_REAL,
+		.memb_constraints = memb_real_ext6_constraint_1,
+		.per_constraints = 0,	/* PER is not compiled, use -gen-PER */
+		.default_value = 0,
+		.name = "real-ext6"
+		},
 };
-asn_TYPE_descriptor_t asn_DEF_Real = {
-	"Real",
-	"Real",
-	&asn_OP_REAL,
-	Real_constraint,
-	asn_DEF_Real_tags_1,
-	sizeof(asn_DEF_Real_tags_1)
-		/sizeof(asn_DEF_Real_tags_1[0]), /* 1 */
-	asn_DEF_Real_tags_1,	/* Same as above */
-	sizeof(asn_DEF_Real_tags_1)
-		/sizeof(asn_DEF_Real_tags_1[0]), /* 1 */
+static const ber_tlv_tag_t asn_DEF_SequenceReal_tags_1[] = {
+	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
+};
+static const asn_TYPE_tag2member_t asn_MAP_SequenceReal_tag2el_1[] = {
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 0, 0, 25 }, /* real */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 1, -1, 24 }, /* real-const0 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 2, -2, 23 }, /* real-const1 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 3, -3, 22 }, /* real-const2 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 4, -4, 21 }, /* real-const30 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 5, -5, 20 }, /* real-const3 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 6, -6, 19 }, /* real-const31 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 7, -7, 18 }, /* real-const4 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 8, -8, 17 }, /* real-min */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 9, -9, 16 }, /* real-max0 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 10, -10, 15 }, /* real-max */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 11, -11, 14 }, /* real-intc0 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 12, -12, 13 }, /* real-intc1 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 13, -13, 12 }, /* real-intc2 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 14, -14, 11 }, /* real-intc3 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 15, -15, 10 }, /* real-intmin */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 16, -16, 9 }, /* real-intmax */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 17, -17, 8 }, /* real-mix1 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 18, -18, 7 }, /* real-mix2 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 19, -19, 6 }, /* real-ext */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 20, -20, 5 }, /* real-ext1 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 21, -21, 4 }, /* real-ext2 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 22, -22, 3 }, /* real-ext21 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 23, -23, 2 }, /* real-ext3 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 24, -24, 1 }, /* real-ext4 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (9 << 2)), 25, -25, 0 } /* real-ext6 */
+};
+static asn_SEQUENCE_specifics_t asn_SPC_SequenceReal_specs_1 = {
+	sizeof(struct SequenceReal),
+	offsetof(struct SequenceReal, _asn_ctx),
+	asn_MAP_SequenceReal_tag2el_1,
+	26,	/* Count of tags in the map */
+	0, 0, 0,	/* Optional elements (not needed) */
+	25,	/* Start extensions */
+	27	/* Stop extensions */
+};
+asn_TYPE_descriptor_t asn_DEF_SequenceReal = {
+	"SequenceReal",
+	"SequenceReal",
+	&asn_OP_SEQUENCE,
+	SEQUENCE_constraint,
+	asn_DEF_SequenceReal_tags_1,
+	sizeof(asn_DEF_SequenceReal_tags_1)
+		/sizeof(asn_DEF_SequenceReal_tags_1[0]), /* 1 */
+	asn_DEF_SequenceReal_tags_1,	/* Same as above */
+	sizeof(asn_DEF_SequenceReal_tags_1)
+		/sizeof(asn_DEF_SequenceReal_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
-	0, 0,	/* No members */
-	0	/* No specifics */
+	asn_MBR_SequenceReal_1,
+	26,	/* Elements count */
+	&asn_SPC_SequenceReal_specs_1	/* Additional specs */
 };
 
 

@@ -6,9 +6,11 @@ typedef struct asn1cnst_edge_s {
 		ARE_MIN,
 		ARE_MAX,
 		ARE_VALUE,
+		ARE_DOUBLE, /* The value is in the value_double member. Used for REAL constraints */
 	} type;
 	int lineno;	/* Line where the corresponding token was found */
 	asn1c_integer_t value;	/* Value when type is ARE_VALUE */
+	long double value_double; /* Value when type is ARE_DOUBLE */
 } asn1cnst_edge_t;
 
 typedef struct asn1cnst_range_s {

@@ -9,6 +9,7 @@
 #include <Str4.h>
 #include <Utf8-4.h>
 #include <VisibleIdentifier.h>
+#include <SequenceReal.h>
 
 int
 main(int ac, char **av) {

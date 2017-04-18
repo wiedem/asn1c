@@ -530,15 +530,37 @@ emit_range_comparison_code(arg_t *arg, asn1cnst_range_t *range, const char *varn
 		}
 
 		if(ignore_left) {
-			OUT("%s <= %lldLL", varname, r->right.value);
+			if (r->right.type == ARE_DOUBLE) {
+				OUT("%s <= %LfL", varname, r->right.value_double);
+			} else {
+				OUT("%s <= %lldLL", varname, r->right.value);
+			}
 		} else if(ignore_right) {
-			OUT("%s >= %lldLL", varname, r->left.value);
-		} else if(r->left.value == r->right.value) {
+			if (r->left.type == ARE_DOUBLE) {
+				OUT("%s >= %LfL", varname, r->left.value_double);
+			} else {
+				OUT("%s >= %lldLL", varname, r->left.value);
+			}
+		} else if(r->left.type == ARE_VALUE &&
+				r->right.type == ARE_VALUE &&
+				r->left.value == r->right.value) {
 			OUT("%s == %lldLL", varname, r->right.value);
+		} else if(r->left.type == ARE_DOUBLE &&
+				r->right.type == ARE_DOUBLE &&
+				r->left.value_double == r->right.value_double) {
+			OUT("%s == %LfL", varname, r->right.value_double);
 		} else {
-			OUT("%s >= %lldLL", varname, r->left.value);
+			if (r->left.type == ARE_DOUBLE) {
+				OUT("%s >= %LfL", varname, r->left.value_double);
+			} else {
+				OUT("%s >= %lldLL", varname, r->left.value);
+			}
 			OUT(" && ");
-			OUT("%s <= %lldLL", varname, r->right.value);
+			if (r->right.type == ARE_DOUBLE) {
+				OUT("%s <= %LfL", varname, r->right.value_double);
+			} else {
+				OUT("%s <= %lldLL", varname, r->right.value);
+			}
 		}
 		if(r != range) OUT(")");
 		generated_something = 1;

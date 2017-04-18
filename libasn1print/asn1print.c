@@ -478,6 +478,10 @@ asn1print_crange_value(asn1cnst_edge_t *edge, int as_char) {
 		} else {
 			safe_printf("%" PRIdASN, edge->value);
 		}
+		break;
+	case ARE_DOUBLE:
+		safe_printf("%Lf", edge->value_double);
+		break;
 	}
 	return 0;
 }
@@ -516,7 +520,8 @@ asn1print_constraint_explain_type(asn1p_expr_type_e expr_type, asn1p_constraint_
 		}
 		asn1print_crange_value(&r->left, as_char);
 		if(r->left.type != r->right.type
-		|| r->left.value != r->right.value) {
+		|| r->left.value != r->right.value
+		|| r->left.value_double != r->right.value_double) {
 			safe_printf("..");
 			asn1print_crange_value(&r->right, as_char);
 		}

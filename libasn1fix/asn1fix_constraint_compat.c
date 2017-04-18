@@ -112,8 +112,8 @@ asn1constraint_compatible(asn1p_expr_type_e expr_type,
 
 #define	DECL_RANGE(foo, val1, val2, pv)				\
 	static asn1cnst_range_t range_ ## foo = {		\
-			{ ARE_VALUE, 0, val1 },			\
-			{ ARE_VALUE, 0, val2 },			\
+			{ ARE_VALUE, 0, val1, 0},			\
+			{ ARE_VALUE, 0, val2, 0},			\
 			0, 0, 0, 0, 0, 0, pv }
 
 #define	DECL(foo, val1, val2)		DECL_RANGE(foo, val1, val2, 0)
@@ -155,37 +155,37 @@ asn1constraint_default_alphabet(asn1p_expr_type_e expr_type) {
 			&range_PlusCommaMinusDot, &range_Digits, &range_Z };
 
 	static asn1cnst_range_t range_notPERVisible = {
-			{ ARE_MIN, 0, 0 },
-			{ ARE_MAX, 0, 0 },
+			{ ARE_MIN, 0, 0, 0},
+			{ ARE_MAX, 0, 0, 0},
 			0, 0, 0, 0, 0, 0, 1 };
 	static asn1cnst_range_t range_NumericString = {
-			{ ARE_VALUE, 0, 0x20 },
-			{ ARE_VALUE, 0, 0x39 },
+			{ ARE_VALUE, 0, 0x20, 0},
+			{ ARE_VALUE, 0, 0x39, 0},
 			range_NumericString_array,
 			sizeof(range_NumericString_array)
 				/sizeof(range_NumericString_array[0]),
 			0, 0, 0, 0, 0 };
 	static asn1cnst_range_t range_PrintableString = {
-			{ ARE_VALUE, 0, 0x20 },
-			{ ARE_VALUE, 0, 0x7a },
+			{ ARE_VALUE, 0, 0x20, 0},
+			{ ARE_VALUE, 0, 0x7a, 0},
 			range_PrintableString_array,
 			sizeof(range_PrintableString_array)
 				/sizeof(range_PrintableString_array[0]),
 			0, 0, 0, 0, 0 };
 	static asn1cnst_range_t range_VisibleString = {
-			{ ARE_VALUE, 0, 0x20 },
-			{ ARE_VALUE, 0, 0x7e },
+			{ ARE_VALUE, 0, 0x20, 0},
+			{ ARE_VALUE, 0, 0x7e, 0},
 			0, 0, 0, 0, 0, 0, 0 };
 	static asn1cnst_range_t range_UTCTime = {
-			{ ARE_VALUE, 0, 0x2b },
-			{ ARE_VALUE, 0, 0x5a },
+			{ ARE_VALUE, 0, 0x2b, 0},
+			{ ARE_VALUE, 0, 0x5a, 0},
 			range_UTCTime_array,
 			sizeof(range_UTCTime_array)
 				/sizeof(range_UTCTime_array[0]),
 			0, 0, 0, 0, 1 };
 	static asn1cnst_range_t range_GeneralizedTime = {
-			{ ARE_VALUE, 0, 0x2b },
-			{ ARE_VALUE, 0, 0x5a },
+			{ ARE_VALUE, 0, 0x2b, 0},
+			{ ARE_VALUE, 0, 0x5a, 0},
 			range_GeneralizedTime_array,
 			sizeof(range_GeneralizedTime_array)
 				/sizeof(range_GeneralizedTime_array[0]),
