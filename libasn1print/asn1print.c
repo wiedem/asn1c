@@ -3,6 +3,7 @@
 #include <string.h>
 #include <errno.h>
 #include <assert.h>
+#include <ctype.h>
 
 #include <asn1parser.h>
 #include <asn1fix_export.h>
@@ -474,7 +475,12 @@ asn1print_crange_value(asn1cnst_edge_t *edge, int as_char) {
 	case ARE_MAX: safe_printf("MAX"); break;
 	case ARE_VALUE:
 		if(as_char) {
-			safe_printf("\"%c\"", (unsigned char)edge->value);
+			const unsigned char ch = edge->value;
+			if (isprint(ch)) {
+				safe_printf("\"%c\"", (unsigned char)edge->value);
+			} else {
+				safe_printf("\\x%02x", ch);
+			}
 		} else {
 			safe_printf("%" PRIdASN, edge->value);
 		}
