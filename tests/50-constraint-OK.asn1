@@ -69,7 +69,43 @@ BEGIN
 	Enum0	::= ENUMERATED { one, two }
 	Enum1	::= ENUMERATED { one, two }	(one)
 
-	Real	::= REAL (1.00..21999.00)
+	SequenceReal ::= SEQUENCE {
+		real		REAL,
+
+		real-const0	REAL (0.0),
+		real-const1	REAL (1.0),
+		real-const2	REAL (1.05..21999.95),
+		real-const30 REAL (0.00|0.01),
+		real-const3 REAL (1.07|1.08),
+		real-const31 REAL (-1.0..0.00),
+		real-const4	REAL (0.0..1.0),
+		real-min	REAL (MIN..0.0),
+		real-max0	REAL (0.0..MAX),
+		real-max	REAL (1.0..MAX),
+		--real-exp	REAL (1.1e3),
+		--real-bigr	REAL (1.0..1.79769313486231470e+308),
+
+		real-intc0	REAL (0),
+		real-intc1	REAL (1),
+		--real-intc12	REAL (1|2),
+		real-intc2	REAL (1..21999),
+		real-intc3	REAL (0..9223372036854775807),
+		real-intmin	REAL (MIN..1),
+		real-intmax	REAL (1..MAX),
+
+		real-mix1	REAL (1.50..21999),
+		real-mix2	REAL (1..21999.99),
+
+		real-ext	REAL (...),
+		real-ext1	REAL (1.1..10.00,...),
+		real-ext2	REAL (1.1..10.00,...,10.01..11.00),
+		real-ext21	REAL (1.1..10.00,...,10.00..11.00),
+		real-ext3	REAL (1, ...),
+		real-ext4	REAL (1.0, ...),
+		--real-ext5	REAL (1, ..., 2),
+		real-ext6	REAL (1..2, ..., 3..4),
+		...
+	}
 
 END
 

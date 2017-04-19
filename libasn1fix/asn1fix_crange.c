@@ -1,6 +1,8 @@
 #include "asn1fix_internal.h"
 #include "asn1fix_constraint.h"
 #include "asn1fix_crange.h"
+#include <float.h>
+//#include <math.h>
 
 #undef	FATAL
 #define	FATAL(fmt, args...)	do {			\
@@ -109,6 +111,7 @@ _edge_compare(const asn1cnst_edge_t *el, const asn1cnst_edge_t *er) {
 		case ARE_MIN: return 0;
 		case ARE_MAX: return -1;
 		case ARE_VALUE: return -1;
+		case ARE_DOUBLE: return -1;
 		}
 		break;
 	case ARE_MAX:
@@ -116,6 +119,7 @@ _edge_compare(const asn1cnst_edge_t *el, const asn1cnst_edge_t *er) {
 		case ARE_MIN: return 1;
 		case ARE_MAX: return 0;
 		case ARE_VALUE: return 1;
+		case ARE_DOUBLE: return 1;
 		}
 		break;
 	case ARE_VALUE:
@@ -126,6 +130,30 @@ _edge_compare(const asn1cnst_edge_t *el, const asn1cnst_edge_t *er) {
 			if(el->value < er->value)
 				return -1;
 			if(el->value > er->value)
+				return 1;
+			return 0;
+		case ARE_DOUBLE:
+			if(el->value < er->value_double)
+				return -1;
+			if(el->value > er->value_double)
+				return 1;
+			return 0;
+		}
+		break;
+	case ARE_DOUBLE:
+		switch(er->type) {
+		case ARE_MIN: return 1;
+		case ARE_MAX: return -1;
+		case ARE_VALUE:
+			if(el->value_double < er->value)
+				return -1;
+			if(el->value_double > er->value)
+				return 1;
+			return 0;
+		case ARE_DOUBLE:
+			if(el->value_double < er->value_double)
+				return -1;
+			if(el->value_double > er->value_double)
 				return 1;
 			return 0;
 		}
@@ -158,6 +186,9 @@ _edge_value(const asn1cnst_edge_t *edge) {
 	case ARE_MAX:	strcpy(buf, "MAX"); break;
 	case ARE_VALUE:
 		snprintf(buf, sizeof(buf), "%" PRIdASN, edge->value);
+        break;
+	case ARE_DOUBLE:
+		snprintf(buf, sizeof(buf), "%Lf", edge->value_double);
         break;
     default:
         assert(!"edge->type");
@@ -272,8 +303,8 @@ static int _range_fill(asn1p_value_t *val, const asn1cnst_range_t *minmax, asn1c
 				asn1p_constraint_type2str(type), lineno);
 			return -1;
 		}
-		edge->type = ARE_VALUE;
-		edge->value = val->value.v_double;
+		edge->type = ARE_DOUBLE;
+		edge->value_double = val->value.v_double;
 		return 0;
 	case ATV_MIN:
 		if(type != ACT_EL_RANGE && type != ACT_CT_SIZE) {
@@ -461,6 +492,18 @@ _range_split(asn1cnst_range_t *ra, const asn1cnst_range_t *rb) {
 				break;
 			}
 			nr->right.value--;
+		} else if(nr->right.type == ARE_DOUBLE) {
+			if(nr->right.value_double == DBL_MIN) {
+				/* We've hit the limit here. */
+				break;
+			}
+			//nextafter(0.0, DBL_MAX) and nextafter(0.0, DBL_MIN) returns the same result
+			//and set FE_UNDERFLOW exception
+			//nr->right.value_double = nextafter(nr->right.value_double, DBL_MIN);
+			//With DBL_EPSILON it does not work for some reason
+			const long double temp = nr->right.value_double - FLT_EPSILON;
+			assert(temp != nr->right.value_double);
+			nr->right.value_double = temp;
 		}
 		_range_insert(range, nr);
 		nr = _range_new();
@@ -481,6 +524,18 @@ _range_split(asn1cnst_range_t *ra, const asn1cnst_range_t *rb) {
 				break;
 			}
 			nr->left.value++;
+		} else if(nr->left.type == ARE_DOUBLE) {
+			if(nr->left.value_double == DBL_MAX) {
+				/* We've hit the limit here. */
+				break;
+			}
+			//nextafter(0.0, DBL_MAX) and nextafter(0.0, DBL_MIN) returns the same result
+			//and set FE_UNDERFLOW exception
+			//nr->left.value_double = nextafter(nr->left.value_double, DBL_MAX);
+			//With DBL_EPSILON it does not work for some reason
+			const long double temp = nr->left.value_double + FLT_EPSILON;
+			assert(temp != nr->left.value_double);
+			nr->left.value_double = temp;
 		}
 		_range_insert(range, nr);
 		nr = _range_new();
@@ -774,9 +829,15 @@ asn1constraint_compute_PER_range(asn1p_expr_type_e expr_type, const asn1p_constr
 	 * X.691, #9.3.6
 	 * Constraints on restricter character string types
 	 * which are not known-multiplier are not PER-visible.
+	 * X.691 (08/2015)
+	 * 10.3.7 Constraints on restricted character string types which are not (see Rec. ITU-T X.680 | ISO/IEC 8824-1, clause
+	 * 41) known-multiplier character string types are not PER-visible (see 3.7.16).
+	 * 10.3.14 Constraints applied to real types are not PER-visible.
 	 */
-	if((expr_type & ASN_STRING_NKM_MASK))
+	if((expr_type & ASN_STRING_NKM_MASK) ||
+		(expr_type == ASN_BASIC_REAL) ) {
 		range->not_PER_visible = 1;
+	}
 
 	if(!ct
 	|| (range->not_PER_visible && (cpr_flags & CPR_strict_PER_visibility)))
