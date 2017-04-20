@@ -12,6 +12,7 @@ typedef struct asn1p_ioc_row_s {
 	struct asn1p_ioc_cell_s {
 		struct asn1p_expr_s *field;	/* may never be NULL */
 		struct asn1p_expr_s *value;	/* may be left uninitialized */
+		int new_expr;
 	} *column;
 	int columns;
 	int max_identifier_length;

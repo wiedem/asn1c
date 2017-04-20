@@ -12,6 +12,7 @@ asn1f_check_class_object(arg_t *arg) {
 	asn1p_expr_t *expr = arg->expr;
 	asn1p_expr_t *eclass;
 	asn1p_ioc_row_t *row;
+	int ret;
 
 	if(expr->meta_type != AMT_VALUE
 	|| expr->expr_type != A1TC_REFERENCE
@@ -35,12 +36,16 @@ asn1f_check_class_object(arg_t *arg) {
 	row = asn1p_ioc_row_new(eclass);
 	assert(row);
 
-	return _asn1f_parse_class_object_data(arg, eclass, row,
+	ret = _asn1f_parse_class_object_data(arg, eclass, row,
 		eclass->with_syntax,
 		expr->value->value.string.buf + 1,
 		expr->value->value.string.buf
 			+ expr->value->value.string.size - 1,
 		0, 0);
+
+	asn1p_ioc_row_delete(row);
+
+	return ret;
 }
 
 int
@@ -210,9 +215,10 @@ static int
 _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_ioc_cell_s *cell,
 		uint8_t *buf, const uint8_t *bend) {
 	asn1p_expr_t *expr;
-	asn1p_ref_t *ref;
+	asn1p_ref_t *ref = (asn1p_ref_t *)NULL;
 	int idLength;
 	char *p;
+	int new_expr = 1;
 
 	if((bend - buf) <= 0) {
 		FATAL("Assignment warning: empty string is being assigned into %s for %s at line %d",
@@ -231,6 +237,7 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 			asn1c_integer_t value;
 			if(asn1p_atoi(p, &value)) {
 				FATAL("Value %s at line %d is too large for this compiler! Contact the asn1c author.\n", p, arg->expr->_lineno);
+				free(p);
 				return -1;
 			}
 			expr = asn1p_expr_new(arg->expr->_lineno, arg->expr->module);
@@ -253,9 +260,11 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 		ref = asn1p_ref_new(arg->expr->_lineno);
 		asn1p_ref_add_component(ref, p, RLT_UNKNOWN);
 		assert(ref);
-	
+
+		new_expr = 0;
 		expr = asn1f_lookup_symbol(arg, arg->mod, arg->expr->rhs_pspecs, ref);
 		if(!expr && TQ_FIRST(&cell->field->members)) {
+			new_expr = 1;
 			expr = asn1p_expr_new(arg->expr->_lineno, arg->expr->module);
 			expr->Identifier = p;
 			expr->meta_type = AMT_VALUE;
@@ -273,6 +282,7 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 			FATAL("Cannot find %s referenced by %s at line %d",
 				p, arg->expr->Identifier,
 				arg->expr->_lineno);
+			free(p);
 			return -1;
 		}
 	}
@@ -281,6 +291,11 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 		cell->field->Identifier, p, expr->Identifier);
 
 	cell->value = expr;
+	cell->new_expr = new_expr;
+	if (!new_expr) {
+		asn1p_ref_free(ref);
+		free(p);
+	}
 
 	idLength = strlen(expr->Identifier);
 	if(row->max_identifier_length < idLength)
