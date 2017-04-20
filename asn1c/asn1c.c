@@ -109,6 +109,8 @@ main(int ac, char **av) {
                 asn1_compiler_flags &= ~A1C_LINK_SKELETONS;
             } else if(strcmp(optarg, "link-skeletons") == 0) {
                 asn1_compiler_flags |= A1C_LINK_SKELETONS;
+            } else if(strcmp(optarg, "no-skeletons-copy") == 0) {
+                asn1_compiler_flags |= A1C_NO_SKELETONS_COPY;
             } else {
                 fprintf(stderr, "-f%s: Invalid argument\n", optarg);
                 exit(EX_USAGE);
@@ -472,6 +474,8 @@ usage(const char *av0) {
 "  -fno-include-deps     Do not generate courtesy #includes for dependencies\n"
 "  -funnamed-unions      Enable unnamed unions in structures\n"
 "  -fwide-types          Use INTEGER_t instead of \"long\" by default, etc.\n"
+"  -flink-skeletons      Symlink skeletons support files rather than copy them\n"
+"  -fno-skeletons-copy   Do not copy skeleton files\n"
 "\n"
 
 "  -gen-PER              Generate PER support code\n"

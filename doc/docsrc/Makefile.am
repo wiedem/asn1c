@@ -1,7 +1,7 @@
 
 XELATEX_FLAGS = -halt-on-error -file-line-error
 XELATEX = xelatex
-TEXSRC = '\def\asnver{@VERSION@}\input{asn1c-usage}'
+TEXSRC = '\def\asnver{@VERSION@}\input{$(srcdir)/asn1c-usage}'
 
 regen:
 	$(XELATEX) $(XELATEX_FLAGS) -no-pdf $(TEXSRC)
