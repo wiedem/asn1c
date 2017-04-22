@@ -25,7 +25,5 @@ addons:
 script:
     - autoreconf -iv
     - ./configure --enable-Werror
-    - make -j8
-    - make check
-    - make distcheck
-    - for i in $(find . -name test-suite.log); do echo $i; cat $i; done
+    - DISTCHECK_CONFIGURE_FLAGS="-enable-Werror" make distcheck
+    - if [[ $? != 0 ]]; then for i in $(find . -name test-suite.log); do echo $i; cat $i; done; fi;
