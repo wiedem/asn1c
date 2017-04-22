@@ -319,30 +319,33 @@ asn1f_lookup_symbol_impl(arg_t *arg, asn1p_module_t *mod, asn1p_expr_t *rhs_pspe
 	 */
 	{
 		/* Search inside standard module */
-		static asn1p_oid_t *uioc_oid;
-		if(!uioc_oid) {
-			asn1p_oid_arc_t arcs[] = {
-				{ 1, "iso" },
-				{ 3, "org" },
-				{ 6, "dod" },
-				{ 1, "internet" },
-				{ 4, "private" },
-				{ 1, "enterprise" },
-				{ 9363, "spelio" },
-				{ 1, "software" },
-				{ 5, "asn1c" },
-				{ 3, "standard-modules" },
-				{ 0, "auto-imported" },
-				{ 1, 0 }
-			};
+		asn1p_oid_t *uioc_oid;
+		asn1p_oid_arc_t arcs[] = {
+			{ 1, "iso" },
+			{ 3, "org" },
+			{ 6, "dod" },
+			{ 1, "internet" },
+			{ 4, "private" },
+			{ 1, "enterprise" },
+			{ 9363, "spelio" },
+			{ 1, "software" },
+			{ 5, "asn1c" },
+			{ 3, "standard-modules" },
+			{ 0, "auto-imported" },
+			{ 1, 0 }
+		};
+
+		if(!imports_from) {
 			uioc_oid = asn1p_oid_construct(arcs,
 				sizeof(arcs)/sizeof(arcs[0]));
-		}
-		if(!imports_from && (!mod->module_oid
-		|| asn1p_oid_compare(mod->module_oid, uioc_oid))) {
-			imports_from = asn1f_lookup_module(arg,
-				"ASN1C-UsefulInformationObjectClasses",
-				uioc_oid);
+
+			if(!mod->module_oid
+				|| asn1p_oid_compare(mod->module_oid, uioc_oid))
+				imports_from = asn1f_lookup_module(arg,
+					"ASN1C-UsefulInformationObjectClasses",
+					uioc_oid);
+
+			asn1p_oid_free(uioc_oid);
 			if(imports_from) goto importing;
 		}
 	}

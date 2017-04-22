@@ -267,6 +267,21 @@ asn1p_expr_free(asn1p_expr_t *expr) {
 			asn1p_value_free(expr->marker.default_value);
 		if(expr->with_syntax)
 			asn1p_wsyntx_free(expr->with_syntax);
+		if(expr->specializations.pspec) {
+			int pspec;
+			for(pspec = 0; pspec < expr->specializations.pspecs_count; pspec++) {
+				asn1p_expr_free(expr->specializations.pspec[pspec].rhs_pspecs);
+				asn1p_expr_free(expr->specializations.pspec[pspec].my_clone);
+			}
+			free(expr->specializations.pspec);
+		}
+		if(expr->object_class_matrix.row) {
+			int row;
+			for(row = 0; row < expr->object_class_matrix.rows; row++) {
+				asn1p_ioc_row_delete(expr->object_class_matrix.row[row]);
+			}
+			free(expr->object_class_matrix.row);
+		}
 
 		if(expr->data && expr->data_free)
 			expr->data_free(expr->data);
