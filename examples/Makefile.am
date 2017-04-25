@@ -34,6 +34,7 @@ EXTRA_DIST = \
 	sample.source.TAP3				\
 	sample.source.PKIX1				\
 	sample.source.LTE-RRC				\
+	sample.source.RANAP				\
 	sample.makefile.regen
 
 CLEANFILES = $(ASN1_FILES_1) $(ASN1_FILES_2) $(ASN1_FILES_3)
