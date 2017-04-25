@@ -432,10 +432,16 @@ asn1f_find_terminal_thing(arg_t *arg, asn1p_expr_t *expr, enum ftt_what what) {
 	 */
 	tc = asn1f_lookup_symbol(arg, expr->module, expr->rhs_pspecs, ref);
 	if(tc == NULL) {
-		DEBUG("\tSymbol \"%s\" not found: %s",
-			asn1f_printable_reference(ref),
-			strerror(errno));
-		return NULL;
+		/*
+	 	 * Lookup inside the ref's module and its IMPORTS section.
+	 	 */
+		tc = asn1f_lookup_symbol(arg, ref->module, expr->rhs_pspecs, ref);
+		if(tc == NULL) {
+			DEBUG("\tSymbol \"%s\" not found: %s",
+				asn1f_printable_reference(ref),
+				strerror(errno));
+			return NULL;
+		}
 	}
 
 	/*

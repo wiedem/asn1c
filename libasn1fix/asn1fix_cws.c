@@ -214,7 +214,7 @@ _asn1f_parse_class_object_data(arg_t *arg, asn1p_expr_t *eclass,
 static int
 _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_ioc_cell_s *cell,
 		uint8_t *buf, const uint8_t *bend) {
-	asn1p_expr_t *expr;
+	asn1p_expr_t *expr = (asn1p_expr_t *)NULL;
 	asn1p_ref_t *ref = (asn1p_ref_t *)NULL;
 	int idLength;
 	char *p;
@@ -257,7 +257,7 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 			return 1;
 		}
 	} else {
-		ref = asn1p_ref_new(arg->expr->_lineno);
+		ref = asn1p_ref_new(arg->expr->_lineno, arg->expr->module);
 		asn1p_ref_add_component(ref, p, RLT_UNKNOWN);
 		assert(ref);
 
@@ -292,7 +292,7 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 
 	cell->value = expr;
 	cell->new_expr = new_expr;
-	if (!new_expr) {
+	if(!new_expr) {
 		asn1p_ref_free(ref);
 		free(p);
 	}

@@ -48,7 +48,7 @@ static asn1p_module_t *currentModule;
 #define	CONSTRAINT_INSERT(root, constr_type, arg1, arg2) do {		\
 		if(arg1->type != constr_type) {				\
 			int __ret;					\
-			root = asn1p_constraint_new(yylineno);		\
+			root = asn1p_constraint_new(yylineno, currentModule);	\
 			checkmem(root);					\
 			root->type = constr_type;			\
 			__ret = asn1p_constraint_insert(root,		\
@@ -871,21 +871,21 @@ ParameterArgumentName:
 	}
 	| TypeRefName ':' Identifier {
 		int ret;
-		$$.governor = asn1p_ref_new(yylineno);
+		$$.governor = asn1p_ref_new(yylineno, currentModule);
 		ret = asn1p_ref_add_component($$.governor, $1, 0);
 		checkmem(ret == 0);
 		$$.argument = $3;
 	}
 	| TypeRefName ':' TypeRefName {
 		int ret;
-		$$.governor = asn1p_ref_new(yylineno);
+		$$.governor = asn1p_ref_new(yylineno, currentModule);
 		ret = asn1p_ref_add_component($$.governor, $1, 0);
 		checkmem(ret == 0);
 		$$.argument = $3;
 	}
 	| BasicTypeId ':' Identifier {
 		int ret;
-		$$.governor = asn1p_ref_new(yylineno);
+		$$.governor = asn1p_ref_new(yylineno, currentModule);
 		ret = asn1p_ref_add_component($$.governor,
 			ASN_EXPR_TYPE2STR($1), 1);
 		checkmem(ret == 0);
@@ -893,7 +893,7 @@ ParameterArgumentName:
 	}
 	| BasicTypeId ':' TypeRefName {
 		int ret;
-		$$.governor = asn1p_ref_new(yylineno);
+		$$.governor = asn1p_ref_new(yylineno, currentModule);
 		ret = asn1p_ref_add_component($$.governor,
 			ASN_EXPR_TYPE2STR($1), 1);
 		checkmem(ret == 0);
@@ -932,7 +932,7 @@ ActualParameter:
 		$$->Identifier = $1;
 		$$->expr_type = A1TC_REFERENCE;
 		$$->meta_type = AMT_VALUE;
-		ref = asn1p_ref_new(yylineno);
+		ref = asn1p_ref_new(yylineno, currentModule);
 		asn1p_ref_add_component(ref, $1, RLT_lowercase);
 		$$->value = asn1p_value_fromref(ref, 0);
 	}
@@ -973,7 +973,7 @@ ComponentTypeLists:
 		asn1p_expr_add($$, $3);
 	}
 	| ComponentTypeLists ',' TOK_VBracketLeft ComponentTypeLists TOK_VBracketRight {
-        $$ = $1;
+		$$ = $1;
 		asn1p_expr_add_many($$, $4);
 	}
 	;
@@ -1311,7 +1311,7 @@ TypeDeclarationSet:
 		int ret;
 		$$ = NEW_EXPR();
 		checkmem($$);
-		$$->reference = asn1p_ref_new(yylineno);
+		$$->reference = asn1p_ref_new(yylineno, currentModule);
 		ret = asn1p_ref_add_component($$->reference,
 			$4, RLT_lowercase);
 		checkmem(ret == 0);
@@ -1335,7 +1335,7 @@ TypeDeclarationSet:
 ComplexTypeReference:
 	TOK_typereference {
 		int ret;
-		$$ = asn1p_ref_new(yylineno);
+		$$ = asn1p_ref_new(yylineno, currentModule);
 		checkmem($$);
 		ret = asn1p_ref_add_component($$, $1, RLT_UNKNOWN);
 		checkmem(ret == 0);
@@ -1343,7 +1343,7 @@ ComplexTypeReference:
 	}
 	| TOK_typereference '.' TypeRefName {
 		int ret;
-		$$ = asn1p_ref_new(yylineno);
+		$$ = asn1p_ref_new(yylineno, currentModule);
 		checkmem($$);
 		ret = asn1p_ref_add_component($$, $1, RLT_UNKNOWN);
 		checkmem(ret == 0);
@@ -1353,7 +1353,7 @@ ComplexTypeReference:
 	}
 	| ObjectClassReference '.' TypeRefName {
 		int ret;
-		$$ = asn1p_ref_new(yylineno);
+		$$ = asn1p_ref_new(yylineno, currentModule);
 		checkmem($$);
 		ret = asn1p_ref_add_component($$, $1, RLT_UNKNOWN);
 		checkmem(ret == 0);
@@ -1363,7 +1363,7 @@ ComplexTypeReference:
 	}
 	| TOK_typereference '.' Identifier {
 		int ret;
-		$$ = asn1p_ref_new(yylineno);
+		$$ = asn1p_ref_new(yylineno, currentModule);
 		checkmem($$);
 		ret = asn1p_ref_add_component($$, $1, RLT_UNKNOWN);
 		checkmem(ret == 0);
@@ -1373,7 +1373,7 @@ ComplexTypeReference:
 	}
 	| ObjectClassReference {
 		int ret;
-		$$ = asn1p_ref_new(yylineno);
+		$$ = asn1p_ref_new(yylineno, currentModule);
 		checkmem($$);
 		ret = asn1p_ref_add_component($$, $1, RLT_CAPITALS);
 		free($1);
@@ -1403,7 +1403,7 @@ ComplexTypeReference:
 ComplexTypeReferenceAmpList:
 	ComplexTypeReferenceElement {
 		int ret;
-		$$ = asn1p_ref_new(yylineno);
+		$$ = asn1p_ref_new(yylineno, currentModule);
 		checkmem($$);
 		ret = asn1p_ref_add_component($$, $1.name, $1.lex_type);
 		free($1.name);
@@ -1437,7 +1437,7 @@ PrimitiveFieldReference:
 FieldName:
 	/* "&Type1" */
 	TOK_typefieldreference {
-		$$ = asn1p_ref_new(yylineno);
+		$$ = asn1p_ref_new(yylineno, currentModule);
 		asn1p_ref_add_component($$, $1, RLT_AmpUppercase);
 	}
 	| FieldName '.' TOK_typefieldreference {
@@ -1452,12 +1452,12 @@ FieldName:
 
 DefinedObjectClass:
 	TOK_capitalreference {
-		$$ = asn1p_ref_new(yylineno);
+		$$ = asn1p_ref_new(yylineno, currentModule);
 		asn1p_ref_add_component($$, $1, RLT_CAPITALS);
 	}
 /*
 	| TypeRefName '.' TOK_capitalreference {
-		$$ = asn1p_ref_new(yylineno);
+		$$ = asn1p_ref_new(yylineno, currentModule);
 		asn1p_ref_add_component($$, $1, RLT_AmpUppercase);
 		asn1p_ref_add_component($$, $3, RLT_CAPITALS);
 	}
@@ -1533,7 +1533,7 @@ DefinedValue:
 	Identifier {
 		asn1p_ref_t *ref;
 		int ret;
-		ref = asn1p_ref_new(yylineno);
+		ref = asn1p_ref_new(yylineno, currentModule);
 		checkmem(ref);
 		ret = asn1p_ref_add_component(ref, $1, RLT_lowercase);
 		checkmem(ret == 0);
@@ -1544,7 +1544,7 @@ DefinedValue:
 	| TypeRefName '.' Identifier {
 		asn1p_ref_t *ref;
 		int ret;
-		ref = asn1p_ref_new(yylineno);
+		ref = asn1p_ref_new(yylineno, currentModule);
 		checkmem(ref);
 		ret = asn1p_ref_add_component(ref, $1, RLT_UNKNOWN);
 		checkmem(ret == 0);
@@ -1723,7 +1723,7 @@ ConstraintSpecs:
 
 ElementSetSpecs:
 	TOK_ThreeDots  {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		$$->type = ACT_EL_EXT;
 	}
 	| ElementSetSpec {
@@ -1731,13 +1731,13 @@ ElementSetSpecs:
 	}
 	| ElementSetSpec ',' TOK_ThreeDots {
 		asn1p_constraint_t *ct;
-		ct = asn1p_constraint_new(yylineno);
+		ct = asn1p_constraint_new(yylineno, currentModule);
 		ct->type = ACT_EL_EXT;
 		CONSTRAINT_INSERT($$, ACT_CA_CSV, $1, ct);
 	}
 	| ElementSetSpec ',' TOK_ThreeDots ',' ElementSetSpec {
 		asn1p_constraint_t *ct;
-		ct = asn1p_constraint_new(yylineno);
+		ct = asn1p_constraint_new(yylineno, currentModule);
 		ct->type = ACT_EL_EXT;
 		CONSTRAINT_INSERT($$, ACT_CA_CSV, $1, ct);
 		ct = $$;
@@ -1777,7 +1777,7 @@ IntersectionElements:
 ConstraintSubtypeElement:
 	ConstraintSpec '(' ElementSetSpecs ')' {
 		int ret;
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = $1;
 		ret = asn1p_constraint_insert($$, $3);
@@ -1785,33 +1785,33 @@ ConstraintSubtypeElement:
 	}
 	| '(' ElementSetSpecs ')' {
 		int ret;
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = ACT_CA_SET;
 		ret = asn1p_constraint_insert($$, $2);
 		checkmem(ret == 0);
 	}
 	| SingleValue {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = ACT_EL_VALUE;
 		$$->value = $1;
 	}
 	| ContainedSubtype {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = ACT_EL_TYPE;
 		$$->containedSubtype = $1;
 	}
 	| SingleValue ConstraintRangeSpec SingleValue {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = $2;
 		$$->range_start = $1;
 		$$->range_stop = $3;
 	}
 	| TOK_MIN ConstraintRangeSpec SingleValue {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = $2;
 		$$->range_start = asn1p_value_fromint(-123);
@@ -1819,7 +1819,7 @@ ConstraintSubtypeElement:
 		$$->range_start->type = ATV_MIN;
 	}
 	| SingleValue ConstraintRangeSpec TOK_MAX {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = $2;
 		$$->range_start = $1;
@@ -1827,7 +1827,7 @@ ConstraintSubtypeElement:
 		$$->range_stop->type = ATV_MAX;
 	}
 	| TOK_MIN ConstraintRangeSpec TOK_MAX {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = $2;
 		$$->range_start = asn1p_value_fromint(-123);
@@ -1842,7 +1842,7 @@ ConstraintSubtypeElement:
 		$$ = $1;
 	}
 	| '{' { asn1p_lexer_hack_push_opaque_state(); } Opaque /* '}' */ {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = ACT_EL_VALUE;
 		$$->value = asn1p_value_frombuf($3.buf, $3.len, 0);
@@ -1852,15 +1852,15 @@ ConstraintSubtypeElement:
 
 PatternConstraint:
 	TOK_PATTERN TOK_cstring {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		$$->type = ACT_CT_PATTERN;
 		$$->value = asn1p_value_frombuf($2.buf, $2.len, 0);
 	}
 	| TOK_PATTERN Identifier {
 		asn1p_ref_t *ref;
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		$$->type = ACT_CT_PATTERN;
-		ref = asn1p_ref_new(yylineno);
+		ref = asn1p_ref_new(yylineno, currentModule);
 		asn1p_ref_add_component(ref, $2, RLT_lowercase);
 		$$->value = asn1p_value_fromref(ref, 0);
 	}
@@ -1892,7 +1892,7 @@ SingleValue:
 	| Identifier {
 		asn1p_ref_t *ref;
 		int ret;
-		ref = asn1p_ref_new(yylineno);
+		ref = asn1p_ref_new(yylineno, currentModule);
 		checkmem(ref);
 		ret = asn1p_ref_add_component(ref, $1, RLT_lowercase);
 		checkmem(ret == 0);
@@ -1917,7 +1917,7 @@ ContainedSubtype:
 	TypeRefName {
 		asn1p_ref_t *ref;
 		int ret;
-		ref = asn1p_ref_new(yylineno);
+		ref = asn1p_ref_new(yylineno, currentModule);
 		checkmem(ref);
 		ret = asn1p_ref_add_component(ref, $1, RLT_UNKNOWN);
 		checkmem(ret == 0);
@@ -1947,13 +1947,13 @@ WithComponentsList:
 
 WithComponentsElement:
 	TOK_ThreeDots {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = ACT_EL_EXT;
 		$$->value = asn1p_value_frombuf("...", 3, 1);
 	}
 	| Identifier optConstraints optPresenceConstraint {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = ACT_EL_VALUE;
 		$$->value = asn1p_value_frombuf($1, strlen($1), 0);
@@ -1993,7 +1993,7 @@ GeneralConstraint:
 UserDefinedConstraint:
 	TOK_CONSTRAINED TOK_BY '{'
 		{ asn1p_lexer_hack_push_opaque_state(); } Opaque /* '}' */ {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = ACT_CT_CTDBY;
 		$$->value = asn1p_value_frombuf($5.buf, $5.len, 0);
@@ -2004,7 +2004,7 @@ UserDefinedConstraint:
 
 ContentsConstraint:
 	TOK_CONTAINING Type {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		$$->type = ACT_CT_CTNG;
 		$$->value = asn1p_value_fromtype($2);
 	}
@@ -2030,12 +2030,12 @@ TableConstraint:
  */
 SimpleTableConstraint:
 	'{' TypeRefName '}' {
-		asn1p_ref_t *ref = asn1p_ref_new(yylineno);
+		asn1p_ref_t *ref = asn1p_ref_new(yylineno, currentModule);
 		asn1p_constraint_t *ct;
 		int ret;
 		ret = asn1p_ref_add_component(ref, $2, 0);
 		checkmem(ret == 0);
-		ct = asn1p_constraint_new(yylineno);
+		ct = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		ct->type = ACT_EL_VALUE;
 		ct->value = asn1p_value_fromref(ref, 0);
@@ -2051,14 +2051,14 @@ ComponentRelationConstraint:
 
 AtNotationList:
 	AtNotationElement {
-		$$ = asn1p_constraint_new(yylineno);
+		$$ = asn1p_constraint_new(yylineno, currentModule);
 		checkmem($$);
 		$$->type = ACT_EL_VALUE;
 		$$->value = asn1p_value_fromref($1, 0);
 	}
 	| AtNotationList ',' AtNotationElement {
 		asn1p_constraint_t *ct;
-		ct = asn1p_constraint_new(yylineno);
+		ct = asn1p_constraint_new(yylineno, currentModule);
 		checkmem(ct);
 		ct->type = ACT_EL_VALUE;
 		ct->value = asn1p_value_fromref($3, 0);
@@ -2075,7 +2075,7 @@ AtNotationElement:
 		int ret;
 		*p = '@';
 		strcpy(p + 1, $2);
-		$$ = asn1p_ref_new(yylineno);
+		$$ = asn1p_ref_new(yylineno, currentModule);
 		ret = asn1p_ref_add_component($$, p, 0);
 		checkmem(ret == 0);
 		free(p);
@@ -2087,7 +2087,7 @@ AtNotationElement:
 		p[0] = '@';
 		p[1] = '.';
 		strcpy(p + 2, $3);
-		$$ = asn1p_ref_new(yylineno);
+		$$ = asn1p_ref_new(yylineno, currentModule);
 		ret = asn1p_ref_add_component($$, p, 0);
 		checkmem(ret == 0);
 		free(p);
