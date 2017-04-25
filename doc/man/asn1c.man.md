@@ -109,6 +109,12 @@ and other encoding rules.
 :   Use the unbounded size data types (`INTEGER_t`, `ENUMERATED_t`, `REAL_t`)
     by default, instead of using the native machine's data types (long, double).
 
+-flink-skeletons
+:   Symlink skeletons support files rather than copy them.
+
+-fno-skeletons-copy
+:   Do not copy skeletons support files.
+
 ## Codecs Generation Options
 
 -gen-PER

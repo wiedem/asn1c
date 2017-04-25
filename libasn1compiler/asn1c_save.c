@@ -128,7 +128,8 @@ asn1c_save_compiled_output(arg_t *arg, const char *datadir,
 			assert(strlen(fname) < (sizeof(buf) / 2));
 			strcpy(dir_end, fname);
 
-			if(asn1c_copy_over(arg, buf) == -1) {
+			if(!(arg->flags & A1C_NO_SKELETONS_COPY) &&
+				asn1c_copy_over(arg, buf) == -1) {
 				safe_fprintf(mkf, ">>>ABORTED<<<");
 				fclose(mkf);
 				return -1;
