@@ -500,6 +500,16 @@ asn1f_check_duplicate(arg_t *arg) {
 				  arg->expr->Identifier))
 				continue;
 
+			/* resolve clash of Identifier in different modules */
+			int oid_exist = (tmparg.expr->module->module_oid && arg->expr->module->module_oid);
+			if ((!oid_exist && strcmp(tmparg.expr->module->ModuleName, arg->expr->module->ModuleName)) ||
+				(oid_exist && !asn1p_oid_compare(tmparg.expr->module->module_oid, arg->expr->module->module_oid))) {
+
+				tmparg.expr->_mark |= TM_NAMECLASH;
+				arg->expr->_mark |= TM_NAMECLASH;
+				continue;
+			}
+
 			diff_files = strcmp(arg->mod->source_file_name,
 					tmparg.mod->source_file_name) ? 1 : 0;
 
