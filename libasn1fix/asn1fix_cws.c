@@ -219,6 +219,8 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 	int idLength;
 	char *p;
 	int new_expr = 1;
+	uint8_t *p_dot;
+	asn1p_module_t *ext_module = (asn1p_module_t *)NULL;
 
 	if((bend - buf) <= 0) {
 		FATAL("Assignment warning: empty string is being assigned into %s for %s at line %d",
@@ -227,10 +229,22 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 		return -1;
 	}
 
-	p = malloc(bend - buf + 1);
-	assert(p);
-	memcpy(p, buf, bend - buf);
-	p[bend - buf] = '\0';
+	p_dot = memchr(buf, '.', bend - buf);
+	if (p_dot) {
+		/* parse Module.xxxx */
+		*p_dot = '\0';
+		p = malloc(bend - p_dot);
+		assert(p);
+		memcpy(p, p_dot + 1, bend - p_dot - 1);
+		p[bend - p_dot - 1] = '\0';
+
+		ext_module = asn1f_lookup_module(arg, (const char *)buf, 0);
+	} else {
+		p = malloc(bend - buf + 1);
+		assert(p);
+		memcpy(p, buf, bend - buf);
+		p[bend - buf] = '\0';
+	}
 
 	if(!isalpha(*p)) {
 		if(isdigit(*p)) {
@@ -262,7 +276,7 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 		assert(ref);
 
 		new_expr = 0;
-		expr = asn1f_lookup_symbol(arg, arg->mod, arg->expr->rhs_pspecs, ref);
+		expr = asn1f_lookup_symbol(arg, ext_module ? ext_module : arg->mod, arg->expr->rhs_pspecs, ref);
 		if(!expr && TQ_FIRST(&cell->field->members)) {
 			new_expr = 1;
 			expr = asn1p_expr_new(arg->expr->_lineno, arg->expr->module);
