@@ -1914,6 +1914,11 @@ BitStringValue:
 	;
 
 ContainedSubtype:
+	ComplexTypeReference {
+		$$ = asn1p_value_fromref($1, 0);
+		checkmem($$);
+	}
+/*
 	TypeRefName {
 		asn1p_ref_t *ref;
 		int ret;
@@ -1925,6 +1930,7 @@ ContainedSubtype:
 		checkmem($$);
 		free($1);
 	}
+*/
 	;
 
 InnerTypeConstraint:
