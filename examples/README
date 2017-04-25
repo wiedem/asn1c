@@ -32,6 +32,9 @@ This directory contains a few examples.
    Application Part decoder for RANAP version 14.0.0. Read the README file in 
    that directory.
 
+9. The ./sample.source.RANAP directory contains the 3GPP S1 Application Protocol
+   decoder for S1AP version 14.2.0. Read the README file in that directory.
+
 The crfc2asn1.pl script can be used to extract ASN.1 data from RFC texts.
 For instance, it is used to extract X.509, MEGACO, and LDAPv3 ASN.1 modules
 from the corresponding RFC texts (rfc3280.txt, rfc3525.txt, rfc4211.txt).
