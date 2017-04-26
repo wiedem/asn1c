@@ -3,6 +3,9 @@ matrix:
   include:
   - os: osx
     compiler: clang
+    env: codecov=true
+    install:
+      - brew install lcov
   - os: linux
     compiler: clang
     env: BUILD=x86_64-linux-gnu CFLAGS=-m64 LDFLAGS=-m64
@@ -21,6 +24,10 @@ matrix:
     dist: trusty
     compiler: gcc
     env: BUILD=x86_64-linux-gnu CFLAGS=-m64 LDFLAGS=-m64 codecov=true
+  - os: linux
+    dist: trusty
+    compiler: clang
+    env: BUILD=x86_64-linux-gnu CFLAGS=-m64 LDFLAGS=-m64 codecov=true
 
 addons:
   apt:
@@ -35,7 +42,8 @@ script:
     - if [[ $? != 0 ]]; then for i in $(find . -name test-suite.log); do echo $i; cat $i; done; fi;
     - >
       if [[ $codecov ]]; then
-        ./configure --enable-Werror --enable-code-coverage;
+        ./configure --enable-code-coverage;
+        make clean;
         make check-code-coverage;
         bash <(curl -s https://codecov.io/bash) -Z -X gcov;
       fi
