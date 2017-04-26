@@ -26,18 +26,19 @@ install:
 - cd ${TRAVIS_BUILD_DIR}
 # install latest LCOV from GitHub
 - git clone https://github.com/linux-test-project/lcov.git
-#- wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.11.orig.tar.gz
-#- tar xf lcov_1.11.orig.tar.gz
 - cd lcov 
 - sudo make install
 #- sudo make -C lcov-1.11/ install
 ## install lcov to coveralls conversion + upload tool
 - gem install coveralls-lcov
+- cd ..
+- rm -rf lcov
+- ls -alf /usr/local/lib/libg*cov* /opt/local/lib/libg*cov* 
 
 script:
 - cd ${TRAVIS_BUILD_DIR}
 - autoreconf -iv
-- "./configure --enable-Werror --enable-code-coverage"
+- "./configure --enable-Werror"
 - make -j 8 && make check > check_output.txt
 - DISTCHECK_CONFIGURE_FLAGS="-enable-Werror" make distcheck
 - if [[ $? != 0 ]]; then for i in $(find . -name test-suite.log); do echo $i; cat
