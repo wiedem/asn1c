@@ -33,7 +33,6 @@ install:
 - gem install coveralls-lcov
 - cd ..
 - rm -rf lcov
-- "ls -l /usr/local/lib/libg*cov* /opt/local/lib/libg*cov*"
 
 script:
 - cd ${TRAVIS_BUILD_DIR}
