@@ -1,3 +1,4 @@
+sudo: required
 language: c
 matrix:
   include:
@@ -19,15 +20,19 @@ addons:
   apt:
     packages:
     - gcc-multilib
+    - lcov
 
-#install:
-#- cd ${TRAVIS_BUILD_DIR}
-## install latest LCOV (1.9 was failing for me) [1]
+install:
+- cd ${TRAVIS_BUILD_DIR}
+# install latest LCOV from GitHub
+- git clone https://github.com/linux-test-project/lcov.git
 #- wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.11.orig.tar.gz
 #- tar xf lcov_1.11.orig.tar.gz
+- cd lcov 
+- sudo make install
 #- sudo make -C lcov-1.11/ install
 ## install lcov to coveralls conversion + upload tool
-#- gem install coveralls-lcov
+- gem install coveralls-lcov
 
 script:
 - autoreconf -iv
