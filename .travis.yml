@@ -1,3 +1,4 @@
+dist: trusty
 sudo: required
 language: c
 matrix:
@@ -38,7 +39,8 @@ script:
 - cd ${TRAVIS_BUILD_DIR}
 - autoreconf -iv
 - "./configure --enable-Werror"
-- make -j 8 && make check > check_output.txt
+- make -j 8 && make check > check_output.txt 2>&1
+- make clean
 - DISTCHECK_CONFIGURE_FLAGS="-enable-Werror" make distcheck
 - if [[ $? != 0 ]]; then for i in $(find . -name test-suite.log); do echo $i; cat
   $i; done; fi;
