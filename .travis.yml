@@ -1,29 +1,30 @@
 language: c
-
 matrix:
   include:
-    - os: osx
-      compiler: clang
-    - os: linux
-      compiler: clang
-      env: BUILD=x86_64-linux-gnu CFLAGS=-m64 LDFLAGS=-m64
-    - os: linux
-      compiler: clang
-      env: BUILD=i686-linux-gnu CFLAGS=-m32 LDFLAGS=-m32
-    - os: linux
-      compiler: gcc
-      env: BUILD=x86_64-linux-gnu CFLAGS=-m64 LDFLAGS=-m64
-    - os: linux
-      compiler: gcc
-      env: BUILD=i686-linux-gnu CFLAGS=-m32 LDFLAGS=-m32
-
+  - os: osx
+    compiler: clang
+  - os: linux
+    compiler: clang
+    env: BUILD=x86_64-linux-gnu CFLAGS=-m64 LDFLAGS=-m64
+  - os: linux
+    compiler: clang
+    env: BUILD=i686-linux-gnu CFLAGS=-m32 LDFLAGS=-m32
+  - os: linux
+    compiler: gcc
+    env: BUILD=x86_64-linux-gnu CFLAGS=-m64 LDFLAGS=-m64
+  - os: linux
+    compiler: gcc
+    env: BUILD=i686-linux-gnu CFLAGS=-m32 LDFLAGS=-m32
 addons:
   apt:
     packages:
     - gcc-multilib
-
 script:
-    - autoreconf -iv
-    - ./configure --enable-Werror
-    - DISTCHECK_CONFIGURE_FLAGS="-enable-Werror" make distcheck
-    - if [[ $? != 0 ]]; then for i in $(find . -name test-suite.log); do echo $i; cat $i; done; fi;
+- autoreconf -iv
+- "./configure --enable-Werror"
+- DISTCHECK_CONFIGURE_FLAGS="-enable-Werror" make distcheck
+- if [[ $? != 0 ]]; then for i in $(find . -name test-suite.log); do echo $i; cat
+  $i; done; fi;
+env:
+  matrix:
+    secure: n6Vq07f7DZZVXch4VMR7NCwE3TgskWuNUx/JbuPoaFaVgKD51oafafpSVtEBui3YSJ39kxo23SB1stS+3gjRr8yP4SUnanftw5ELFyIsnCBPQhSGQEXxuo8g9PCxCNfSUb3e4vZzrKQCuHC3LRQcNojYfmIumZJsN5A/o2534ktCJjtkwGY0B5cprVmSjwy5XCcwNNyDEQLGBN5Z5tIHrtp7RZ00hDVSfMj9k7q6hQNlmLE3JA7Jj19wZgwfO/rsW04LzwffyQxluA9xPykWhnGCne9GKCq3JfnMp29+UnPrZqdNbY26RoPrPoD0DkMLnbd1QTJjugE1YhzMHtZtT03RDKU9uk92ayJ0aU1I9ksWZT/Ng76uvv2Z83U6lNtwG94vjNNenpPiZSMe1iwSu0Sttxsy9Uh/0QaKMZ8NixWnCi4bYtq/kAFQWBOIQRR6NhsLI/HCcdQFB14ToWVuk0fUMNFA1eR+TafQurRYeRLuwNoSjNCnEgbEl7pqHeDQf3Rkp1/zrHfrDbsmKXUdbhWmOoB1B5Lz6CXJ4DZeAxDlAmlC0v0QV2Dgk5a3ldpZei53DKV58ChHuTBmLobzdAO58x7M6Y7zrtyFyYKah57RoNeD4oLWi3QDzCjE+IQhkg0CD/1eoMhJ92lLKcRX2hTWD72NEpaBgrtHS4MPDag=
