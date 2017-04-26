@@ -15,6 +15,9 @@ check_PROGRAMS = \
 	check-PER-INTEGER \
 	check-PER-OCTET_STRING
 
+#Filter out the coverage options from CFLAGS as we don't need
+#code coverage data for the tests executables
+CFLAGS = $(filter-out $(CODE_COVERAGE_CFLAGS), @CFLAGS@)
 AM_CPPFLAGS = -I$(top_srcdir)/skeletons $(TESTSUITE_CFLAGS)
 AM_LDFLAGS = $(top_builddir)/skeletons/libasn1cskeletons.la
 LDADD = -lm

@@ -45,11 +45,6 @@
 #   (`make check`) and build a code coverage report detailing the code which
 #   was touched, then print the URI for the report.
 #
-#   In earlier versions of this macro, CODE_COVERAGE_LDFLAGS was defined
-#   instead of CODE_COVERAGE_LIBS. They are both still defined, but use of
-#   CODE_COVERAGE_LIBS is preferred for clarity; CODE_COVERAGE_LDFLAGS is
-#   deprecated. They have the same value.
-#
 #   This code was derived from Makefile.decl in GLib, originally licenced
 #   under LGPLv2.1+.
 #
@@ -123,18 +118,19 @@ AC_DEFUN([AX_CODE_COVERAGE],[
 		])
 
 		dnl Build the code coverage flags
-		dnl Define CODE_COVERAGE_LDFLAGS for backwards compatibility
 		CODE_COVERAGE_CPPFLAGS="-DNDEBUG"
 		AX_CHECK_COMPILE_FLAG([-coverage], [
 			CODE_COVERAGE_CFLAGS="-O0 -g -coverage"
 			CODE_COVERAGE_CXXFLAGS="-O0 -g -coverage"
+			CODE_COVERAGE_LDFLAGS="-coverage"
 			CODE_COVERAGE_LIBS=""
 		], [
 			CODE_COVERAGE_CFLAGS="-O0 -g -fprofile-arcs -ftest-coverage"
 			CODE_COVERAGE_CXXFLAGS="-O0 -g -fprofile-arcs -ftest-coverage"
 			CODE_COVERAGE_LIBS="-lgcov"
+			dnl Define CODE_COVERAGE_LDFLAGS for backwards compatibility
+			CODE_COVERAGE_LDFLAGS="$CODE_COVERAGE_LIBS"
 		])
-		CODE_COVERAGE_LDFLAGS="$CODE_COVERAGE_LIBS"
 
 		AC_SUBST([CODE_COVERAGE_CPPFLAGS])
 		AC_SUBST([CODE_COVERAGE_CFLAGS])
