@@ -35,6 +35,7 @@ install:
 - gem install coveralls-lcov
 
 script:
+- cd ${TRAVIS_BUILD_DIR}
 - autoreconf -iv
 - "./configure --enable-Werror --enable-code-coverage"
 - make -j 8 && make check > check_output.txt
