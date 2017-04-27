@@ -23,11 +23,19 @@ matrix:
   - os: linux
     dist: trusty
     compiler: gcc
-    env: BUILD=x86_64-linux-gnu CFLAGS=-m64 LDFLAGS=-m64 codecov=true
+    env: codecov=true BUILD=x86_64-linux-gnu CFLAGS=-m64 LDFLAGS=-m64
   - os: linux
     dist: trusty
     compiler: clang
-    env: BUILD=x86_64-linux-gnu CFLAGS=-m64 LDFLAGS=-m64 codecov=true
+    env: codecov=true GCOV=llvm-cov-3.5
+    addons:
+      apt:
+        packages:
+          - llvm-3.5
+    install:
+      - wget https://github.com/linux-test-project/lcov/releases/download/v1.13/lcov-1.13.tar.gz
+      - tar -xzf lcov-1.13.tar.gz
+      - export PATH=`pwd`/lcov-1.13/bin/:$PATH
 
 addons:
   apt:
@@ -39,11 +47,10 @@ script:
     - autoreconf -iv
     - ./configure --enable-Werror
     - DISTCHECK_CONFIGURE_FLAGS="-enable-Werror" make distcheck
-    - if [[ $? != 0 ]]; then for i in $(find . -name test-suite.log); do echo $i; cat $i; done; fi;
     - >
       if [[ $codecov ]]; then
         ./configure --enable-code-coverage;
         make clean;
         make check-code-coverage;
-        bash <(curl -s https://codecov.io/bash) -Z -X gcov;
+        bash <(curl -s https://codecov.io/bash) -X gcov;
       fi
