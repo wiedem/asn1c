@@ -57,13 +57,18 @@ COMMON_FLAGS= -I. -I${abs_top_srcdir}/skeletons
 CFLAGS = \${COMMON_FLAGS} ${CFLAGS:-} -g -O0
 CPPFLAGS = -DSRCDIR=../${srcdir}
 CXXFLAGS = \${COMMON_FLAGS} ${CXXFLAGS}
+LDFLAGS = ${LDFLAGS:-}
 
 CC ?= ${CC}
 
-all: check-executable
-check-executable: compiled-module *.c*
+OBJS=\$(patsubst %.c,%.o,\$(wildcard *.c))
+
+all: compiled-module
+	\$(MAKE) check-executable
+
+check-executable: \$(OBJS)
 	@rm -f *.core
-	\$(CC) \$(CPPFLAGS) \$(CFLAGS) -o check-executable *.c* -L${abs_top_builddir}/skeletons/.libs -lasn1cskeletons -lm
+	\$(CC) \$(CPPFLAGS) \$(CFLAGS) \$(LDFLAGS) -o check-executable \$(OBJS) -L${abs_top_builddir}/skeletons/.libs -lasn1cskeletons -lm
 
 # Compile the corresponding .asn1 spec.
 compiled-module: ${asn_module} ${abs_top_builddir}/asn1c/asn1c
@@ -74,7 +79,8 @@ compiled-module: ${asn_module} ${abs_top_builddir}/asn1c/asn1c
 	rm -f converter-sample.c
 	@touch compiled-module
 
-check-succeeded: check-executable
+check-succeeded: compiled-module
+	\$(MAKE) check-executable
 	@rm -f check-succeeded
 	./check-executable
 	@touch check-succeeded
