@@ -254,9 +254,9 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 				p
 			);
 	} else {
-		free(p);
-		free(pp);
 		WARNING("asn1c only be able to parse TypeFieldSpec and FixedTypeValueFieldSpec. Failed when parsing %s at line %d\n", p, arg->expr->_lineno);
+		free(p);  /* bad idea freeing object you refer to later! */
+		free(pp);
 		return -1;
 	}
 	DEBUG("ASN.1 :\n\n%s\n", pp);
@@ -303,12 +303,10 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 		if (asn1f_value_resolve(arg, expr, 0)) {
 			expr->reference = 0;
 			asn1p_expr_free(expr);
-			free(p);
 			FATAL("Cannot find %s referenced by %s at line %d",
 				p, arg->expr->Identifier,
 				arg->expr->_lineno);
-//			asn1p_ref_free(ref);
-			free(p);
+			free(p); /* freeing must happen *after* p was used in FATAL() */
 			return -1;
 		}
 	}
