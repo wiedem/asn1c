@@ -45,7 +45,8 @@ ASN_MODULE_SOURCES=	\
 	AbandonRequest.c	\
 	ExtendedRequest.c	\
 	ExtendedResponse.c	\
-	IntermediateResponse.c
+	IntermediateResponse.c	\
+	EXTERNAL.c
 
 ASN_MODULE_HEADERS=	\
 	LDAPMessage.h	\
@@ -94,18 +95,27 @@ ASN_MODULE_HEADERS=	\
 	AbandonRequest.h	\
 	ExtendedRequest.h	\
 	ExtendedResponse.h	\
-	IntermediateResponse.h
+	IntermediateResponse.h	\
+	EXTERNAL.h
 
+ASN_MODULE_HEADERS+=ANY.h
+ASN_MODULE_SOURCES+=ANY.c
 ASN_MODULE_HEADERS+=BOOLEAN.h
 ASN_MODULE_SOURCES+=BOOLEAN.c
 ASN_MODULE_HEADERS+=INTEGER.h
 ASN_MODULE_HEADERS+=NativeEnumerated.h
+ASN_MODULE_HEADERS+=GraphicString.h
+ASN_MODULE_SOURCES+=GraphicString.c
 ASN_MODULE_SOURCES+=INTEGER.c
 ASN_MODULE_HEADERS+=NULL.h
 ASN_MODULE_SOURCES+=NULL.c
 ASN_MODULE_SOURCES+=NativeEnumerated.c
 ASN_MODULE_HEADERS+=NativeInteger.h
 ASN_MODULE_SOURCES+=NativeInteger.c
+ASN_MODULE_HEADERS+=OBJECT_IDENTIFIER.h
+ASN_MODULE_SOURCES+=OBJECT_IDENTIFIER.c
+ASN_MODULE_HEADERS+=ObjectDescriptor.h
+ASN_MODULE_SOURCES+=ObjectDescriptor.c
 ASN_MODULE_HEADERS+=asn_SEQUENCE_OF.h
 ASN_MODULE_SOURCES+=asn_SEQUENCE_OF.c
 ASN_MODULE_HEADERS+=asn_SET_OF.h
@@ -163,7 +173,7 @@ libsomething_la_SOURCES=$(ASN_MODULE_SOURCES) $(ASN_MODULE_HEADERS)
 # This file may be used as an input for make(3)
 # Remove the lines below to convert it into a pure .am file
 TARGET = ldap3dump
-CFLAGS += -DASN_CONVERTER_TITLE="Lightweight Directory Access Protocol V3 decoder" -DHAVE_CONFIG_H -DJUNKTEST -DPDU=LDAPMessage -I.
+CFLAGS += -DASN_CONVERTER_TITLE="Lightweight Directory Access Protocol V3 decoder" -DHAVE_CONFIG_H -DJUNKTEST -D_DEFAULT_SOURCE  -DPDU=LDAPMessage -I.
 OBJS=${ASN_MODULE_SOURCES:.c=.o} ${ASN_CONVERTER_SOURCES:.c=.o}
 
 all: LDAPMessage.c $(TARGET)
@@ -198,6 +208,7 @@ regen-makefile:
 	ASN1MODULES="../rfc4511-Lightweight-Directory-Access-Protocol-V3.asn1" \
 	ASN1PDU=LDAPMessage \
 	PROGNAME=ldap3dump \
+	CFLAGS="" \
 	../sample.makefile.regen
 
 check: ${TARGET} check-ber check-xer check-per
