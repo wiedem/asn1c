@@ -1752,7 +1752,8 @@ ASN_MODULE_SOURCES=	\
 	AS-Config-NB.c	\
 	AS-Context-NB.c	\
 	ReestablishmentInfo-NB.c	\
-	RRM-Config-NB.c
+	RRM-Config-NB.c	\
+	EXTERNAL.c
 
 ASN_MODULE_HEADERS=	\
 	BCCH-BCH-Message.h	\
@@ -3508,18 +3509,27 @@ ASN_MODULE_HEADERS=	\
 	AS-Config-NB.h	\
 	AS-Context-NB.h	\
 	ReestablishmentInfo-NB.h	\
-	RRM-Config-NB.h
+	RRM-Config-NB.h	\
+	EXTERNAL.h
 
+ASN_MODULE_HEADERS+=ANY.h
+ASN_MODULE_SOURCES+=ANY.c
 ASN_MODULE_HEADERS+=BOOLEAN.h
 ASN_MODULE_SOURCES+=BOOLEAN.c
 ASN_MODULE_HEADERS+=INTEGER.h
 ASN_MODULE_HEADERS+=NativeEnumerated.h
+ASN_MODULE_HEADERS+=GraphicString.h
+ASN_MODULE_SOURCES+=GraphicString.c
 ASN_MODULE_SOURCES+=INTEGER.c
 ASN_MODULE_HEADERS+=NULL.h
 ASN_MODULE_SOURCES+=NULL.c
 ASN_MODULE_SOURCES+=NativeEnumerated.c
 ASN_MODULE_HEADERS+=NativeInteger.h
 ASN_MODULE_SOURCES+=NativeInteger.c
+ASN_MODULE_HEADERS+=OBJECT_IDENTIFIER.h
+ASN_MODULE_SOURCES+=OBJECT_IDENTIFIER.c
+ASN_MODULE_HEADERS+=ObjectDescriptor.h
+ASN_MODULE_SOURCES+=ObjectDescriptor.c
 ASN_MODULE_HEADERS+=asn_SEQUENCE_OF.h
 ASN_MODULE_SOURCES+=asn_SEQUENCE_OF.c
 ASN_MODULE_HEADERS+=asn_SET_OF.h
@@ -3578,7 +3588,7 @@ libsomething_la_SOURCES=$(ASN_MODULE_SOURCES) $(ASN_MODULE_HEADERS)
 # This file may be used as an input for make(3)
 # Remove the lines below to convert it into a pure .am file
 TARGET = lte-rrc-dump
-CFLAGS += -DJUNKTEST -DPDU=DL_DCCH_Message -DASN_PDU_COLLECTION -I.
+CFLAGS += -DHAVE_CONFIG_H -DJUNKTEST -D_DEFAULT_SOURCE  -DPDU=DL_DCCH_Message -DASN_PDU_COLLECTION -I.
 OBJS=${ASN_MODULE_SOURCES:.c=.o} ${ASN_CONVERTER_SOURCES:.c=.o}
 
 all: DL-DCCH-Message.c $(TARGET)
@@ -3612,6 +3622,7 @@ regen-makefile:
 	ASN1MODULES="../lte-rrc-14.2.1.asn1" \
 	ASN1PDU=DL-DCCH-Message \
 	PROGNAME=lte-rrc-dump \
+	CFLAGS="" \
 	../sample.makefile.regen
 
 check: ${TARGET} check-ber check-xer check-per

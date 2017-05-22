@@ -124,7 +124,8 @@ ASN_MODULE_SOURCES=	\
 	CRLReason.c	\
 	CertificateIssuer.c	\
 	HoldInstructionCode.c	\
-	InvalidityDate.c
+	InvalidityDate.c	\
+	EXTERNAL.c
 
 ASN_MODULE_HEADERS=	\
 	Attribute.h	\
@@ -252,7 +253,8 @@ ASN_MODULE_HEADERS=	\
 	CRLReason.h	\
 	CertificateIssuer.h	\
 	HoldInstructionCode.h	\
-	InvalidityDate.h
+	InvalidityDate.h	\
+	EXTERNAL.h
 
 ASN_MODULE_HEADERS+=ANY.h
 ASN_MODULE_SOURCES+=ANY.c
@@ -267,6 +269,8 @@ ASN_MODULE_HEADERS+=INTEGER.h
 ASN_MODULE_HEADERS+=NativeEnumerated.h
 ASN_MODULE_HEADERS+=GeneralizedTime.h
 ASN_MODULE_SOURCES+=GeneralizedTime.c
+ASN_MODULE_HEADERS+=GraphicString.h
+ASN_MODULE_SOURCES+=GraphicString.c
 ASN_MODULE_HEADERS+=IA5String.h
 ASN_MODULE_SOURCES+=IA5String.c
 ASN_MODULE_SOURCES+=INTEGER.c
@@ -277,6 +281,8 @@ ASN_MODULE_HEADERS+=NumericString.h
 ASN_MODULE_SOURCES+=NumericString.c
 ASN_MODULE_HEADERS+=OBJECT_IDENTIFIER.h
 ASN_MODULE_SOURCES+=OBJECT_IDENTIFIER.c
+ASN_MODULE_HEADERS+=ObjectDescriptor.h
+ASN_MODULE_SOURCES+=ObjectDescriptor.c
 ASN_MODULE_HEADERS+=PrintableString.h
 ASN_MODULE_SOURCES+=PrintableString.c
 ASN_MODULE_HEADERS+=TeletexString.h
@@ -347,7 +353,7 @@ libsomething_la_SOURCES=$(ASN_MODULE_SOURCES) $(ASN_MODULE_HEADERS)
 # This file may be used as an input for make(3)
 # Remove the lines below to convert it into a pure .am file
 TARGET = x509dump
-CFLAGS += -DHAVE_CONFIG_H -DJUNKTEST -DPDU=Certificate -I.
+CFLAGS += -DHAVE_CONFIG_H -DJUNKTEST -D_DEFAULT_SOURCE  -DPDU=Certificate -I.
 OBJS=${ASN_MODULE_SOURCES:.c=.o} ${ASN_CONVERTER_SOURCES:.c=.o}
 
 all: Certificate.c $(TARGET)
@@ -381,6 +387,7 @@ regen-makefile:
 	ASN1MODULES="../rfc3280-*.asn1" \
 	ASN1PDU=Certificate \
 	PROGNAME=x509dump \
+	CFLAGS="" \
 	../sample.makefile.regen
 
 check: ${TARGET} check-ber check-xer check-per

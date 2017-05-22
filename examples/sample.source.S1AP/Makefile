@@ -70,7 +70,6 @@ ASN_MODULE_SOURCES=	\
 	UplinkNASTransport.c	\
 	NASNonDeliveryIndication.c	\
 	RerouteNASRequest.c	\
-	S1-Message.c	\
 	NASDeliveryIndication.c	\
 	Reset.c	\
 	ResetType.c	\
@@ -633,7 +632,6 @@ ASN_MODULE_HEADERS=	\
 	UplinkNASTransport.h	\
 	NASNonDeliveryIndication.h	\
 	RerouteNASRequest.h	\
-	S1-Message.h	\
 	NASDeliveryIndication.h	\
 	Reset.h	\
 	ResetType.h	\
@@ -1202,7 +1200,7 @@ libsomething_la_SOURCES=$(ASN_MODULE_SOURCES) $(ASN_MODULE_HEADERS)
 # This file may be used as an input for make(3)
 # Remove the lines below to convert it into a pure .am file
 TARGET = s1ap-dump
-CFLAGS += -DJUNKTEST  -DPDU=S1AP_PDU -DASN_PDU_COLLECTION -I.
+CFLAGS += -DJUNKTEST -D_DEFAULT_SOURCE  -DPDU=S1AP_PDU -DASN_PDU_COLLECTION -I.
 OBJS=${ASN_MODULE_SOURCES:.c=.o} ${ASN_CONVERTER_SOURCES:.c=.o}
 
 all: S1AP-PDU.c $(TARGET)

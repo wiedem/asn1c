@@ -165,7 +165,6 @@ ASN_MODULE_SOURCES=	\
 	UeRegistrationQueryRequest.c	\
 	UeRegistrationQueryResponse.c	\
 	RerouteNASRequest.c	\
-	RANAP-Message.c	\
 	AccuracyFulfilmentIndicator.c	\
 	Additional-CSPS-coordination-information.c	\
 	Additional-PositioningDataSet.c	\
@@ -771,7 +770,6 @@ ASN_MODULE_HEADERS=	\
 	UeRegistrationQueryRequest.h	\
 	UeRegistrationQueryResponse.h	\
 	RerouteNASRequest.h	\
-	RANAP-Message.h	\
 	AccuracyFulfilmentIndicator.h	\
 	Additional-CSPS-coordination-information.h	\
 	Additional-PositioningDataSet.h	\
@@ -1286,7 +1284,7 @@ libsomething_la_SOURCES=$(ASN_MODULE_SOURCES) $(ASN_MODULE_HEADERS)
 # This file may be used as an input for make(3)
 # Remove the lines below to convert it into a pure .am file
 TARGET = ranap-dump
-CFLAGS += -DJUNKTEST  -DPDU=RANAP_PDU -DASN_PDU_COLLECTION -I.
+CFLAGS += -DJUNKTEST -D_DEFAULT_SOURCE  -DPDU=RANAP_PDU -DASN_PDU_COLLECTION -I.
 OBJS=${ASN_MODULE_SOURCES:.c=.o} ${ASN_CONVERTER_SOURCES:.c=.o}
 
 all: RANAP-PDU.c $(TARGET)

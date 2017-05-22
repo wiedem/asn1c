@@ -287,7 +287,6 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 			expr->reference->module = arg->expr->module;
 			expr->reference->_lineno = arg->expr->_lineno;
 			expr->Identifier = strdup(expr->reference->components[expr->reference->comp_count - 1].name);
-			free(p);
 		} else {
 			expr->Identifier = p;
 		}
@@ -320,6 +319,9 @@ _asn1f_assign_cell_value(arg_t *arg, struct asn1p_ioc_row_s *row, struct asn1p_i
 	idLength = strlen(expr->Identifier);
 	if(row->max_identifier_length < idLength)
 		row->max_identifier_length = idLength;
+
+	if(expr->Identifier != p)
+		free(p);
 
 	return 0;
 }
