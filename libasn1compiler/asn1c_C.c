@@ -2028,9 +2028,18 @@ emit_member_PER_constraints(arg_t *arg, asn1p_expr_t *expr, const char *pfx) {
 		return 0;
 	}
 
+	if(expr->_type_referenced) {
+		REDIR(OT_FUNC_DECLS);
+
+		OUT("extern asn_per_constraints_t "
+			"asn_PER_%s_%s_constr_%d;\n",
+			pfx, MKID(expr), expr->_type_unique_index);
+	}
+
 	REDIR(OT_CTDEFS);
 
-	OUT("static asn_per_constraints_t "
+	if(!(expr->_type_referenced)) OUT("static ");
+	OUT("asn_per_constraints_t "
 		"asn_PER_%s_%s_constr_%d GCC_NOTUSED = {\n",
 		pfx, MKID(expr), expr->_type_unique_index);
 
@@ -2445,7 +2454,15 @@ emit_member_table(arg_t *arg, asn1p_expr_t *expr) {
 				MKID(expr),
 				expr->_type_unique_index);
 		} else {
-			OUT("0,\t/* No PER visible constraints */\n");
+			asn1p_expr_t *tc;
+
+			tc = asn1f_find_ancestor_type_with_PER_constraint_ex(arg->asn, expr);
+
+			if(tc && tc->constraints)
+				OUT("&asn_PER_type_%s_constr_%d,\n",
+					MKID(tc), tc->_type_unique_index);
+			else
+				OUT("0,\t/* No PER visible constraints */\n");
 		}
 	} else {
 		OUT("0,\t/* PER is not compiled, use -gen-PER */\n");
@@ -2635,7 +2652,16 @@ do {				\
 				OUT("&asn_PER_type_%s_constr_%d,\n",
 					p, expr->_type_unique_index);
 			} else {
-				OUT("0,\t/* No PER visible constraints */\n");
+				asn1p_expr_t *tc;
+
+				tc = asn1f_find_ancestor_type_with_PER_constraint_ex(arg->asn, expr);
+				if(tc && (tc->constraints
+						|| tc->expr_type == ASN_BASIC_ENUMERATED
+						|| tc->expr_type == ASN_CONSTR_CHOICE))
+					OUT("&asn_PER_type_%s_constr_%d,\n",
+						MKID(tc), tc->_type_unique_index);
+				else
+					OUT("0,\t/* No PER visible constraints */\n");
 			}
 		} else {
 			OUT("0,\t/* No PER visible constraints */\n");

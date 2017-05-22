@@ -61,6 +61,7 @@ typedef Int1_t	 Int2_t;
 
 /*** <<< FUNC-DECLS [Int2] >>> ***/
 
+extern asn_per_constraints_t asn_PER_type_Int2_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_Int2;
 asn_struct_free_f Int2_free;
 asn_struct_print_f Int2_print;
@@ -108,7 +109,7 @@ Int2_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 
 /*** <<< CTDEFS [Int2] >>> ***/
 
-static asn_per_constraints_t asn_PER_type_Int2_constr_1 GCC_NOTUSED = {
+asn_per_constraints_t asn_PER_type_Int2_constr_1 GCC_NOTUSED = {
 	{ APC_SEMI_CONSTRAINED,	-1, -1,  0l,  0l }	/* (0..MAX) */,
 	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
 	0, 0	/* No PER value map */
@@ -146,6 +147,7 @@ typedef Int2_t	 Int3_t;
 
 /*** <<< FUNC-DECLS [Int3] >>> ***/
 
+extern asn_per_constraints_t asn_PER_type_Int3_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_Int3;
 asn_struct_free_f Int3_free;
 asn_struct_print_f Int3_print;
@@ -193,7 +195,7 @@ Int3_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 
 /*** <<< CTDEFS [Int3] >>> ***/
 
-static asn_per_constraints_t asn_PER_type_Int3_constr_1 GCC_NOTUSED = {
+asn_per_constraints_t asn_PER_type_Int3_constr_1 GCC_NOTUSED = {
 	{ APC_CONSTRAINED,	 4,  4,  0l,  10l }	/* (0..10) */,
 	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
 	0, 0	/* No PER value map */
@@ -231,6 +233,7 @@ typedef Int3_t	 Int4_t;
 
 /*** <<< FUNC-DECLS [Int4] >>> ***/
 
+extern asn_per_constraints_t asn_PER_type_Int4_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_Int4;
 asn_struct_free_f Int4_free;
 asn_struct_print_f Int4_print;
@@ -278,7 +281,7 @@ Int4_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 
 /*** <<< CTDEFS [Int4] >>> ***/
 
-static asn_per_constraints_t asn_PER_type_Int4_constr_1 GCC_NOTUSED = {
+asn_per_constraints_t asn_PER_type_Int4_constr_1 GCC_NOTUSED = {
 	{ APC_CONSTRAINED | APC_EXTENSIBLE,  4,  4,  1l,  10l }	/* (1..10,...) */,
 	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
 	0, 0	/* No PER value map */
@@ -316,6 +319,7 @@ typedef Int4_t	 Int5_t;
 
 /*** <<< FUNC-DECLS [Int5] >>> ***/
 
+extern asn_per_constraints_t asn_PER_type_Int5_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_Int5;
 asn_struct_free_f Int5_free;
 asn_struct_print_f Int5_print;
@@ -363,7 +367,7 @@ Int5_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 
 /*** <<< CTDEFS [Int5] >>> ***/
 
-static asn_per_constraints_t asn_PER_type_Int5_constr_1 GCC_NOTUSED = {
+asn_per_constraints_t asn_PER_type_Int5_constr_1 GCC_NOTUSED = {
 	{ APC_CONSTRAINED,	 0,  0,  5l,  5l }	/* (5..5) */,
 	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
 	0, 0	/* No PER value map */
@@ -538,6 +542,7 @@ typedef Str1_t	 Str2_t;
 
 /*** <<< FUNC-DECLS [Str2] >>> ***/
 
+extern asn_per_constraints_t asn_PER_type_Str2_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_Str2;
 asn_struct_free_f Str2_free;
 asn_struct_print_f Str2_print;
@@ -603,7 +608,7 @@ Str2_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 
 /*** <<< CTDEFS [Str2] >>> ***/
 
-static asn_per_constraints_t asn_PER_type_Str2_constr_1 GCC_NOTUSED = {
+asn_per_constraints_t asn_PER_type_Str2_constr_1 GCC_NOTUSED = {
 	{ APC_CONSTRAINED,	 7,  7,  0l,  127l }	/* (0..127) */,
 	{ APC_CONSTRAINED,	 5,  5,  0l,  30l }	/* (SIZE(0..30)) */,
 	0, 0	/* No PER character map necessary */
@@ -869,6 +874,7 @@ typedef IA5String_t	 PER_Visible_t;
 
 /*** <<< FUNC-DECLS [PER-Visible] >>> ***/
 
+extern asn_per_constraints_t asn_PER_type_PER_Visible_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_PER_Visible;
 asn_struct_free_f PER_Visible_free;
 asn_struct_print_f PER_Visible_print;
@@ -931,7 +937,7 @@ PER_Visible_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 
 /*** <<< CTDEFS [PER-Visible] >>> ***/
 
-static asn_per_constraints_t asn_PER_type_PER_Visible_constr_1 GCC_NOTUSED = {
+asn_per_constraints_t asn_PER_type_PER_Visible_constr_1 GCC_NOTUSED = {
 	{ APC_CONSTRAINED,	 3,  3,  65l,  70l }	/* (65..70) */,
 	{ APC_SEMI_CONSTRAINED,	-1, -1,  0l,  0l }	/* (SIZE(0..MAX)) */,
 	0, 0	/* No PER character map necessary */
@@ -1891,6 +1897,7 @@ typedef Utf8_1_t	 Utf8_2_t;
 
 /*** <<< FUNC-DECLS [Utf8-2] >>> ***/
 
+extern asn_per_constraints_t asn_PER_type_Utf8_2_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_Utf8_2;
 asn_struct_free_f Utf8_2_free;
 asn_struct_print_f Utf8_2_print;
@@ -1945,7 +1952,7 @@ Utf8_2_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 
 /*** <<< CTDEFS [Utf8-2] >>> ***/
 
-static asn_per_constraints_t asn_PER_type_Utf8_2_constr_1 GCC_NOTUSED = {
+asn_per_constraints_t asn_PER_type_Utf8_2_constr_1 GCC_NOTUSED = {
 	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
 	{ APC_UNCONSTRAINED,	-1, -1,  0,  0 },
 	0, 0	/* No PER value map */
@@ -2133,7 +2140,7 @@ asn_TYPE_descriptor_t asn_DEF_VisibleIdentifier = {
 	asn_DEF_VisibleIdentifier_tags_1,	/* Same as above */
 	sizeof(asn_DEF_VisibleIdentifier_tags_1)
 		/sizeof(asn_DEF_VisibleIdentifier_tags_1[0]), /* 1 */
-	0,	/* No PER visible constraints */
+	&asn_PER_type_Identifier_constr_1,
 	0, 0,	/* No members */
 	0	/* No specifics */
 };
@@ -2385,7 +2392,7 @@ asn_TYPE_member_t asn_MBR_Sequence_1[] = {
 		.tag_mode = +1,	/* EXPLICIT tag at current level */
 		.type = &asn_DEF_Int4,
 		.memb_constraints = 0,	/* Defer constraints checking to the member type */
-		.per_constraints = 0,	/* No PER visible constraints */
+		.per_constraints = &asn_PER_type_Int4_constr_1,
 		.default_value = 0,
 		.name = "int4"
 		},
@@ -3845,6 +3852,7 @@ typedef VisibleString_t	 Identifier_t;
 
 /*** <<< FUNC-DECLS [Identifier] >>> ***/
 
+extern asn_per_constraints_t asn_PER_type_Identifier_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_Identifier;
 asn_struct_free_f Identifier_free;
 asn_struct_print_f Identifier_print;
@@ -3939,7 +3947,7 @@ static int asn_PER_MAP_Identifier_1_c2v(unsigned int code) {
 
 /*** <<< CTDEFS [Identifier] >>> ***/
 
-static asn_per_constraints_t asn_PER_type_Identifier_constr_1 GCC_NOTUSED = {
+asn_per_constraints_t asn_PER_type_Identifier_constr_1 GCC_NOTUSED = {
 	{ APC_CONSTRAINED,	 6,  6,  36l,  122l }	/* (36..122) */,
 	{ APC_CONSTRAINED,	 5,  5,  1l,  32l }	/* (SIZE(1..32)) */,
 	asn_PER_MAP_Identifier_1_v2c,	/* Value to PER code map */
