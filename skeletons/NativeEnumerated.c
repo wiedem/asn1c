@@ -168,6 +168,16 @@ NativeEnumerated_decode_aper(asn_codec_ctx_t *opt_codec_ctx,
 		if(inext) ct = 0;
 	}
 
+	/* Deal with APER padding */
+	if(ct && ct->upper_bound >= 255) {
+	  int padding = 0;
+	  padding = (8 - (pd->moved % 8)) % 8;
+	  ASN_DEBUG("For NativeEnumerated %s,offset= %d Padding bits = %d", td->name, pd->moved, padding);
+	  ASN_DEBUG("For NativeEnumerated %s, upper bound = %lld", td->name, ct->upper_bound);
+	  if(padding > 0)
+            per_get_few_bits(pd, padding);
+	}
+	 
 	if(ct && ct->range_bits >= 0) {
 		value = per_get_few_bits(pd, ct->range_bits);
 		if(value < 0) ASN__DECODE_STARVED;

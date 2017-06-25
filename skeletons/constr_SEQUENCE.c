@@ -1312,6 +1312,13 @@ SEQUENCE_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 			memb_ptr2 = &memb_ptr;
 		}
 
+		/*Get Padding*/
+		int padding = 0;
+		padding = (8 - (pd->moved % 8)) % 8;
+		if(padding > 0)
+		  ASN_DEBUG("For element %s,offset= %d Padding bits = %d", td->name, pd->moved, padding);
+		per_get_few_bits(pd, padding);
+	    
 		/* Deal with optionality */
 		if(elm->optional) {
 			int present = per_get_few_bits(&opmd, 1);

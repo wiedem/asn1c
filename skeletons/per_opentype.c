@@ -160,6 +160,84 @@ uper_open_type_get_simple(asn_codec_ctx_t *ctx, asn_TYPE_descriptor_t *td,
 	return rv;
 }
 
+static asn_dec_rval_t
+aper_open_type_get_simple(asn_codec_ctx_t *ctx, asn_TYPE_descriptor_t *td,
+	asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
+	asn_dec_rval_t rv;
+	ssize_t chunk_bytes;
+	int repeat;
+	uint8_t *buf = 0;
+	size_t bufLen = 0;
+	size_t bufSize = 0;
+	asn_per_data_t spd;
+	size_t padding;
+
+	ASN__STACK_OVERFLOW_CHECK(ctx);
+
+	ASN_DEBUG("Getting open type %s...", td->name);
+
+	do {
+	        chunk_bytes = aper_get_length(pd, -1, -1, &repeat);
+		if(chunk_bytes < 0) {
+			FREEMEM(buf);
+			ASN__DECODE_STARVED;
+		}
+		if(bufLen + chunk_bytes > bufSize) {
+			void *ptr;
+			bufSize = chunk_bytes + (bufSize << 2);
+			ptr = REALLOC(buf, bufSize);
+			if(!ptr) {
+				FREEMEM(buf);
+				ASN__DECODE_FAILED;
+			}
+			buf = ptr;
+		}
+		if(per_get_many_bits(pd, buf + bufLen, 0, chunk_bytes << 3)) {
+			FREEMEM(buf);
+			ASN__DECODE_STARVED;
+		}
+		bufLen += chunk_bytes;
+	} while(repeat);
+
+	ASN_DEBUG("Getting open type %s encoded in %ld bytes", td->name,
+		(long)bufLen);
+
+	memset(&spd, 0, sizeof(spd));
+	spd.buffer = buf;
+	spd.nbits = bufLen << 3;
+
+	ASN_DEBUG_INDENT_ADD(+4);
+	rv = td->op->aper_decoder(ctx, td, constraints, sptr, &spd);
+	ASN_DEBUG_INDENT_ADD(-4);
+
+	if(rv.code == RC_OK) {
+		/* Check padding validity */
+		padding = spd.nbits - spd.nboff;
+                if ((padding < 8 ||
+		/* X.691#10.1.3 */
+		(spd.nboff == 0 && spd.nbits == 8 && spd.buffer == buf)) &&
+                    per_get_few_bits(&spd, padding) == 0) {
+			/* Everything is cool */
+			FREEMEM(buf);
+			return rv;
+		}
+		FREEMEM(buf);
+		if(padding >= 8) {
+			ASN_DEBUG("Too large padding %d in open type", (int)padding);
+			ASN__DECODE_FAILED;
+		} else {
+			ASN_DEBUG("Non-zero padding");
+			ASN__DECODE_FAILED;
+		}
+	} else {
+		FREEMEM(buf);
+		/* rv.code could be RC_WMORE, nonsense in this context */
+		rv.code = RC_FAIL; /* Noone would give us more */
+	}
+
+	return rv;
+}
+
 static asn_dec_rval_t GCC_NOTUSED
 uper_open_type_get_complex(asn_codec_ctx_t *ctx, asn_TYPE_descriptor_t *td,
 	asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
@@ -286,6 +364,28 @@ uper_open_type_skip(asn_codec_ctx_t *ctx, asn_per_data_t *pd) {
 	s_td.op->uper_decoder = uper_sot_suck;
 
 	rv = uper_open_type_get(ctx, &s_td, 0, 0, pd);
+	if(rv.code != RC_OK)
+		return -1;
+	else
+		return 0;
+}
+
+asn_dec_rval_t
+aper_open_type_get(asn_codec_ctx_t *ctx, asn_TYPE_descriptor_t *td,
+	asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
+
+	return aper_open_type_get_simple(ctx, td, constraints, sptr, pd);
+}
+
+int
+aper_open_type_skip(asn_codec_ctx_t *ctx, asn_per_data_t *pd) {
+	asn_TYPE_descriptor_t s_td;
+	asn_dec_rval_t rv;
+
+	s_td.name = "<unknown extension>";
+	s_td.op->aper_decoder = uper_sot_suck;
+
+	rv = aper_open_type_get(ctx, &s_td, 0, 0, pd);
 	if(rv.code != RC_OK)
 		return -1;
 	else
