@@ -2576,17 +2576,27 @@ do {				\
 
 #if 1
 		OUT("&asn_OP_%s,\n", p2);
-		if (!expr->combined_constraints)
-			FUNCREF2(constraint);
-		else
-			FUNCREF(constraint);
+		if (arg->flags & A1C_NO_CONSTRAINTS)
+ 			OUT("0,\t/* No check because of -fno-constraints */\n");
+  		else
+ 		{
+ 			if (!expr->combined_constraints)
+ 				FUNCREF2(constraint);
+ 			else
+ 				FUNCREF(constraint);
+ 		}
 #else
 		FUNCREF2(free);
 		FUNCREF2(print);
-		if (!expr->combined_constraints)
-			FUNCREF2(constraint);
-		else
-			FUNCREF(constraint);
+      		if (arg->flags & A1C_NO_CONSTRAINTS)
+ 			OUT("0,\t/* No check because of -fno-constraints */\n");
+  		else
+  		{
+ 			if (!expr->combined_constraints)
+ 				FUNCREF2(constraint);
+ 			else
+ 				FUNCREF(constraint);
+ 		}
 		FUNCREF2(decode_ber);
 		FUNCREF2(encode_der);
 		FUNCREF2(decode_xer);
