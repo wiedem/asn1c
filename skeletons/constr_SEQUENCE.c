@@ -1317,8 +1317,19 @@ SEQUENCE_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 		padding = (8 - (pd->moved % 8)) % 8;
 		if(padding > 0)
 		  ASN_DEBUG("For element %s,offset= %d Padding bits = %d", td->name, pd->moved, padding);
+#if 0 /* old way of removing padding */
 		per_get_few_bits(pd, padding);
-	    
+#else /* Experimental fix proposed by @mhanna123 */
+		if(edx != (td->elements_count-1))
+		  per_get_few_bits(pd, padding);
+		else {
+		  if(specs->roms_count && (padding > 0))
+		    ASN_DEBUG(">>>>> not skipping padding of %d bits for element:%d out of %d", padding, edx, td->elements_count);
+		  else
+		    per_get_few_bits(pd, padding);
+		}
+#endif /* dealing with padding */
+		
 		/* Deal with optionality */
 		if(elm->optional) {
 			int present = per_get_few_bits(&opmd, 1);
