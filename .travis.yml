@@ -46,7 +46,7 @@ addons:
 script:
     - autoreconf -iv
     - ./configure --enable-Werror
-    - DISTCHECK_CONFIGURE_FLAGS="-enable-Werror -Wno-unused-parameter" make distcheck
+    - DISTCHECK_CONFIGURE_FLAGS="-enable-Werror -Wno-error=unused-parameter" make distcheck
     - >
       if [[ $codecov ]]; then
         ./configure --enable-code-coverage;
