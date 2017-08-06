@@ -573,6 +573,8 @@ SET_encode_der(asn_TYPE_descriptor_t *td,
 	ASN__ENCODED_OK(er);
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 asn_enc_rval_t
 SET_encode_uper(asn_TYPE_descriptor_t *td,
 				asn_per_constraints_t *constraints,
@@ -594,6 +596,7 @@ SET_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 	}
 	ASN__DECODE_FAILED;
 }
+#pragma GCC diagnostic pop
 
 asn_enc_rval_t
 SET_encode_aper(asn_TYPE_descriptor_t *td,
@@ -761,6 +764,8 @@ SET_encode_aper(asn_TYPE_descriptor_t *td,
 	ASN__ENCODED_OK(er);
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 asn_dec_rval_t
 SET_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 		asn_per_constraints_t *constraints,
@@ -772,6 +777,7 @@ SET_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 	}
 	ASN__DECODE_FAILED;
 }
+#pragma GCC diagnostic pop
 
 #undef	XER_ADVANCE
 #define	XER_ADVANCE(num_bytes)	do {			\
