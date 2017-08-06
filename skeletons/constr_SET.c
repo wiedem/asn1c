@@ -761,6 +761,18 @@ SET_encode_aper(asn_TYPE_descriptor_t *td,
 	ASN__ENCODED_OK(er);
 }
 
+asn_dec_rval_t
+SET_decode_aper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
+		asn_per_constraints_t *constraints,
+		void **sptr, asn_per_data_t *pd)
+{
+	int useless_test = (opt_codec_ctx && constraints && sptr && pd);
+	if (useless_test) {
+		useless_test = 0;
+	}
+	ASN__DECODE_FAILED;
+}
+
 #undef	XER_ADVANCE
 #define	XER_ADVANCE(num_bytes)	do {			\
 		size_t num = num_bytes;			\
@@ -1192,10 +1204,10 @@ asn_TYPE_operation_t asn_OP_SET = {
 	0,	/* SET_decode_aper */
 	0,	/* SET_encode_aper */
 #else
-	SET_decode_uper,
-	0,	/* SET_encode_uper */
-	0,	/* SET_decode_aper */
-	0,	/* SET_encode_aper */
+	SET_decode_uper, /* SET_decode_uper */
+	SET_encode_uper, /* SET_encode_uper */
+	SET_decode_aper, /* SET_decode_aper */
+	SET_encode_aper, /* SET_encode_aper */
 #endif /* ASN_DISABLE_PER_SUPPORT */
 	0	/* Use generic outmost tag fetcher */
 };
