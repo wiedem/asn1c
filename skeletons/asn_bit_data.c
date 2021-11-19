@@ -168,7 +168,7 @@ asn_get_many_bits(asn_bit_data_t *pd, uint8_t *dst, int alright, int nbits) {
 			value = asn_get_few_bits(pd, nbits);
 			if(value < 0) return -1;
 			if(nbits & 7) {	/* implies left alignment */
-				value <<= 8 - (nbits & 7),
+                value <<= 8 - (nbits & 7);
 				nbits += 8 - (nbits & 7);
 				if(nbits > 24)
 					*dst++ = value >> 24;
@@ -242,29 +242,29 @@ asn_put_few_bits(asn_bit_outp_t *po, uint32_t bits, int obits) {
 		buf[0], (int)(omsk&0xff),
 		(int)(buf[0] & omsk));
 
-	if(off <= 8)	/* Completely within 1 byte */
-		po->nboff = off,
-		bits <<= (8 - off),
+    if(off <= 8) {	/* Completely within 1 byte */
+        po->nboff = off;
+        bits <<= (8 - off);
 		buf[0] = (buf[0] & omsk) | bits;
-	else if(off <= 16)
-		po->nboff = off,
-		bits <<= (16 - off),
-		buf[0] = (buf[0] & omsk) | (bits >> 8),
+    } else if(off <= 16) {
+        po->nboff = off;
+        bits <<= (16 - off);
+        buf[0] = (buf[0] & omsk) | (bits >> 8);
 		buf[1] = bits;
-	else if(off <= 24)
-		po->nboff = off,
-		bits <<= (24 - off),
-		buf[0] = (buf[0] & omsk) | (bits >> 16),
-		buf[1] = bits >> 8,
+    } else if(off <= 24) {
+        po->nboff = off;
+        bits <<= (24 - off);
+        buf[0] = (buf[0] & omsk) | (bits >> 16);
+        buf[1] = bits >> 8;
 		buf[2] = bits;
-	else if(off <= 31)
-		po->nboff = off,
-		bits <<= (32 - off),
-		buf[0] = (buf[0] & omsk) | (bits >> 24),
-		buf[1] = bits >> 16,
-		buf[2] = bits >> 8,
+    } else if(off <= 31) {
+        po->nboff = off;
+        bits <<= (32 - off);
+        buf[0] = (buf[0] & omsk) | (bits >> 24);
+        buf[1] = bits >> 16;
+        buf[2] = bits >> 8;
 		buf[3] = bits;
-	else {
+    } else {
 		if(asn_put_few_bits(po, bits >> (obits - 24), 24)) return -1;
 		if(asn_put_few_bits(po, bits, obits - 24)) return -1;
 	}

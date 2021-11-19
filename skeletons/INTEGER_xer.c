@@ -92,7 +92,7 @@ INTEGER__xer_body_decode(const asn_TYPE_descriptor_t *td, void *sptr,
     const asn_INTEGER_specifics_t *specs =
         (const asn_INTEGER_specifics_t *)td->specifics;
     INTEGER_t *st = (INTEGER_t *)sptr;
-    intmax_t dec_value;
+    intmax_t dec_value = 0;
     intmax_t hex_value = 0;
     const char *lp;
     const char *lstart = (const char *)chunk_buf;

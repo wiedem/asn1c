@@ -425,10 +425,13 @@ OCTET_STRING__convert_entrefs(void *sptr, const void *chunk_buf,
             int base;
 
             if(len == 2 /* "&#" */) goto want_more;
-            if(p[2] == 0x78 /* 'x' */)
-                pval = p + 3, base = 16;
-            else
-                pval = p + 2, base = 10;
+            if(p[2] == 0x78 /* 'x' */) {
+                pval = p + 3;
+                base = 16;
+            } else {
+                pval = p + 2;
+                base = 10;
+            }
             len = OS__strtoent(base, pval, p + len, &val);
             if(len == -1) {
                 /* Invalid charset. Just copy verbatim. */
