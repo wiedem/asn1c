@@ -32,7 +32,7 @@ CHOICE_random_fill(const asn_TYPE_descriptor_t *td, void **sptr,
         }
     }
 
-    present = asn_random_between(1, td->elements_count);
+    present = (unsigned)asn_random_between(1, td->elements_count);
     elm = &td->elements[present - 1];
 
     if(elm->flags & ATF_POINTER) {

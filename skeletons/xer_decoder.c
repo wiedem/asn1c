@@ -106,7 +106,9 @@ xer_next_token(int *stateContext, const void *buffer, size_t size, pxer_chunk_ty
 #define	RANGLE	0x3e	/* '>' */
 
 xer_check_tag_e
-xer_check_tag(const void *buf_ptr, int size, const char *need_tag) {
+xer_check_tag(const void *buf_ptr, ssize_t size, const char *need_tag) {
+    assert(size >= 0);
+
 	const char *buf = (const char *)buf_ptr;
 	const char *end;
 	xer_check_tag_e ct = XCT_OPENING;

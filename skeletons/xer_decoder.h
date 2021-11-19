@@ -84,7 +84,7 @@ ssize_t xer_next_token(int *stateContext,
 	XCT_UNKNOWN_CL	= 6,	/* Unexpected </closing> tag */
 	XCT_UNKNOWN_BO	= 7	/* Unexpected <modified/> tag */
   } xer_check_tag_e;
-xer_check_tag_e xer_check_tag(const void *buf_ptr, int size,
+xer_check_tag_e xer_check_tag(const void *buf_ptr, ssize_t size,
 		const char *need_tag);
 
 /*

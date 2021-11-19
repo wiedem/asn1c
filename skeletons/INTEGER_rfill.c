@@ -36,7 +36,7 @@ INTEGER_random_fill(const asn_TYPE_descriptor_t *td, void **sptr,
         if(specs->strict_enumeration) {
             find_inside_map = emap_len > 0;
         } else {
-            find_inside_map = emap_len ? asn_random_between(0, 1) : 0;
+            find_inside_map = emap_len ? (int)asn_random_between(0, 1) : 0;
         }
     } else {
         emap = 0;

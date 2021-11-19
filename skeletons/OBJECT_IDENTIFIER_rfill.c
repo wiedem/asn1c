@@ -23,7 +23,7 @@ OBJECT_IDENTIFIER__biased_random_arc(asn_oid_arc_t upper_bound) {
         }
         /* Fall through */
     case 1:
-        return asn_random_between(0, upper_bound);
+        return (asn_oid_arc_t)asn_random_between(0, upper_bound);
     case 2:
     default:
         return upper_bound;
@@ -52,7 +52,7 @@ OBJECT_IDENTIFIER_random_fill(const asn_TYPE_descriptor_t *td, void **sptr,
         st = CALLOC(1, sizeof(*st));
     }
 
-    arcs[0] = asn_random_between(0, 2);
+    arcs[0] = (asn_oid_arc_t)asn_random_between(0, 2);
     arcs[1] = OBJECT_IDENTIFIER__biased_random_arc(
         arcs[0] <= 1 ? 39 : (ASN_OID_ARC_MAX - 80));
     for(i = 2; i < arcs_len; i++) {

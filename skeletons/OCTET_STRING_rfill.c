@@ -10,7 +10,7 @@
  * Biased function for randomizing character values around their limits.
  */
 static uint32_t
-OCTET_STRING__random_char(unsigned long lb, unsigned long ub) {
+OCTET_STRING__random_char(uint32_t lb, uint32_t ub) {
     assert(lb <= ub);
     switch(asn_random_between(0, 16)) {
     case 0:
@@ -24,7 +24,7 @@ OCTET_STRING__random_char(unsigned long lb, unsigned long ub) {
     case 3:
         return ub;
     default:
-        return asn_random_between(lb, ub);
+        return (uint32_t)asn_random_between(lb, ub);
     }
 }
 
@@ -39,8 +39,8 @@ OCTET_STRING_random_fill(const asn_TYPE_descriptor_t *td, void **sptr,
     asn_random_fill_result_t result_failed = {ARFILL_FAILED, 0};
     asn_random_fill_result_t result_skipped = {ARFILL_SKIPPED, 0};
     unsigned int unit_bytes = 1;
-    unsigned long clb = 0;  /* Lower bound on char */
-    unsigned long cub = 255;  /* Higher bound on char value */
+    uint32_t clb = 0;  /* Lower bound on char */
+    uint32_t cub = 255;  /* Higher bound on char value */
     uint8_t *buf;
     uint8_t *bend;
     uint8_t *b;

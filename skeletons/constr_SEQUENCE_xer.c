@@ -298,7 +298,7 @@ SEQUENCE_encode_xer(const asn_TYPE_descriptor_t *td, const void *sptr,
         asn_TYPE_member_t *elm = &td->elements[edx];
         const void *memb_ptr;
         const char *mname = elm->name;
-        unsigned int mlen = strlen(mname);
+        size_t mlen = strlen(mname);
 
         if(elm->flags & ATF_POINTER) {
             memb_ptr =

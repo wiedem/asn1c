@@ -27,7 +27,7 @@ INTEGER_encode_der(const asn_TYPE_descriptor_t *td, const void *sptr,
     if(st->buf) {
         uint8_t *buf = st->buf;
         uint8_t *end1 = buf + st->size - 1;
-        int shift;
+        size_t shift;
 
         /* Compute the number of superfluous leading bytes */
         for(; buf < end1; buf++) {

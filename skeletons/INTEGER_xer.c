@@ -70,7 +70,7 @@ INTEGER_map_enum2value(const asn_INTEGER_specifics_t *specs, const char *lstart,
 }
 
 static int
-INTEGER_st_prealloc(INTEGER_t *st, int min_size) {
+INTEGER_st_prealloc(INTEGER_t *st, size_t min_size) {
     void *p = MALLOC(min_size + 1);
     if(p) {
         void *b = st->buf;
