@@ -120,8 +120,8 @@ static const struct OCTET_STRING__xer_escape_table_s {
 };
 
 static int
-OS__check_escaped_control_char(const void *buf, int size) {
-    size_t i;
+OS__check_escaped_control_char(const void *buf, size_t size) {
+    int i;
     /*
      * Inefficient algorithm which translates the escape sequences
      * defined above into characters. Returns -1 if not found.
@@ -345,14 +345,17 @@ static ssize_t OCTET_STRING__convert_binary(void *sptr, const void *chunk_buf, s
 /*
  * Something like strtod(), but with stricter rules.
  */
-static int
+static ssize_t
 OS__strtoent(int base, const char *buf, const char *end, int32_t *ret_value) {
-	const int32_t last_unicode_codepoint = 0x10ffff;
-	int32_t val = 0;
-	const char *p;
+    assert(end >= buf);
+    assert(base == 10 || base == 16);
 
-	for(p = buf; p < end; p++) {
-		int ch = *p;
+    const int32_t last_unicode_codepoint = 0x10ffff;
+    int32_t val = 0;
+    const char *p;
+
+    for(p = buf; p < end; p++) {
+        int ch = *p;
 
         switch(ch) {
         case 0x30: case 0x31: case 0x32: case 0x33: case 0x34:  /*01234*/
@@ -367,9 +370,12 @@ OS__strtoent(int base, const char *buf, const char *end, int32_t *ret_value) {
         case 0x64: case 0x65: case 0x66:  /* def */
             val = val * base + (ch - 0x61 + 10);
             break;
-        case 0x3b:  /* ';' */
+        case 0x3b: {  /* ';' */
+            size_t len = (p - buf) + 1;
+            if((ssize_t)len < 0) return -1;
             *ret_value = val;
-            return (p - buf) + 1;
+            return (ssize_t)len;
+        }
         default:
             return -1;  /* Character set error */
         }
@@ -380,8 +386,10 @@ OS__strtoent(int base, const char *buf, const char *end, int32_t *ret_value) {
         }
     }
 
+    size_t len = (p - buf);
+    if((ssize_t)len < 0) return -1;
     *ret_value = -1;
-    return (p - buf);
+    return len;
 }
 
 /*
@@ -407,7 +415,7 @@ OCTET_STRING__convert_entrefs(void *sptr, const void *chunk_buf,
      */
     for(; p < pend; p++) {
         int ch = *(const unsigned char *)p;
-        int len;  /* Length of the rest of the chunk */
+        ssize_t len;  /* Length of the rest of the chunk */
 
         if(ch != 0x26 /* '&' */) {
             *buf++ = ch;
